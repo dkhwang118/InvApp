@@ -2,7 +2,9 @@
 # 101819 - DKH
 
 import sqlite3 as sqlite
-from PyQt5.QtWidgets import QApplication, QLabel
+from PyQt5 import QtCore, QtGui, QtWidgets, uic
+from PyQt5.QtCore import Qt
+
 
 
 
@@ -12,10 +14,11 @@ from PyQt5.QtWidgets import QApplication, QLabel
 #   Qt Initialization
 ############################################
 
-args = [] # command-line args to application
+# command-line args to application
+args = []
 
 # init Qt App w/ args
-app = QApplication(args)
+app = QtWidgets.QApplication(args)
 
 # set Qt app style to 'Fusion'
 app.setStyle('Fusion')
@@ -25,14 +28,26 @@ app.setStyle('Fusion')
 #   Define Qt Widgets
 ###################################################################
 
+UxWelcomeLabel = QtWidgets.QLabel('Welcome')
 
 
+# UiMainWindow - Main GUI Window for application
+class UiMainWindow(QtWidgets.QMainWindow):
+    def __init__(self):
+        # init itself
+        QtWidgets.QMainWindow.__init__(self)
+
+        # declare starting "Central Widget" => starting widget should be QLabel "Welcome"
+        self.setCentralWidget(UxWelcomeLabel)
 
 
 ##############################################
 #   Qt Runtime
 ##############################################
 
+
+mainWindow = UiMainWindow()
+mainWindow.show()
 app.exec_()
 
 
