@@ -9,22 +9,23 @@
 
 import sys
 from PyQt5.QtWidgets import QApplication
-from model.model import Model
-from controllers.main_ctrl import MainController
-from views.main_view import MainView
+from Model.model_main import Model
+from Controller.controller_main import MainController
+from Views.view_main import MainView
 
 ############################################
 #   Qt Initialization
 ############################################
 
 # command-line args to application
-args = []
+#args = []
 
 # init Qt App w/ args
-app = QApplication(args)
+#app = QApplication(args)
 
 # set Qt app style to 'Fusion'
-app.setStyle('Fusion')
+#app.setStyle('Fusion')
+
 
 # main application class that connects the MVC framework
 class App(QApplication):
