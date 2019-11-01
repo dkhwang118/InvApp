@@ -27,7 +27,13 @@ class MainView(QMainWindow):
         # connect widgets to controller
         #self._ui.spinBox_amount.valueChanged.connect(self._main_controller.change_amount)
         #self._ui.pushButton_reset.clicked.connect(lambda: self._main_controller.change_amount(0))
-        #self._ui.ux_pButton_orders.clicked.connect()
+        self._ui.ux_pButton_orders.clicked.connect(self._main_controller.buttonClick_order)
+
+        # hide widgets which are invisible on start (e.g. newOrders pButton)
+        self._ui.ux_pButton_newOrder.setHidden(1)
+        self._ui.ux_pButton_searchEditOrders.setHidden(1)
+
+
 
         # listen for model event signals
         #self._model.amount_changed.connect(self.on_amount_changed)
@@ -36,6 +42,11 @@ class MainView(QMainWindow):
 
         # set a default value
         #self._main_controller.change_amount(42)
+
+    @pyqtSlot()
+    def on_buttonClick_orders(self):
+        self._ui.ux_pButton_newOrder.show()
+        self._ui.ux_pButton_searchEditOrders.show()
 
     # @pyqtSlot(int)
     # def on_amount_changed(self, value):

@@ -16,6 +16,14 @@ class MainController(QObject):
 
         self._model = model
 
+    def define_view(self, qObj):
+        self._mainView = qObj
+
+
+    @pyqtSlot()
+    def buttonClick_order(self):
+        self._mainView.on_buttonClick_orders()
+
     @pyqtSlot(int)
     def change_amount(self, value):
         self._model.amount = value
