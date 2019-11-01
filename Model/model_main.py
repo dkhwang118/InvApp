@@ -11,6 +11,9 @@ from PyQt5.QtCore import QObject, pyqtSignal
 
 
 class Model(QObject):
+
+
+    # define signals dependent on changes in model
     amount_changed = pyqtSignal(int)
     even_odd_changed = pyqtSignal(str)
     enable_reset_changed = pyqtSignal(bool)

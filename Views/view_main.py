@@ -5,7 +5,7 @@
 #   Edited by: David K. Hwang
 #
 #
-#   pyuic5 main_view.ui -o ..\views\main_view_ui.py to convert .ui to .py
+#   pyuic5 view_main_ui.ui -o ..\views\view_main_ui.py to convert .ui to .py
 #
 ############################################################################
 
@@ -25,9 +25,9 @@ class MainView(QMainWindow):
         self._ui.setupUi(self) # init self
 
         # connect widgets to controller
-        self._ui.spinBox_amount.valueChanged.connect(self._main_controller.change_amount)
-        self._ui.pushButton_reset.clicked.connect(lambda: self._main_controller.change_amount(0))
-        self._ui.ux_pButton_orders.clicked.connect()
+        #self._ui.spinBox_amount.valueChanged.connect(self._main_controller.change_amount)
+        #self._ui.pushButton_reset.clicked.connect(lambda: self._main_controller.change_amount(0))
+        #self._ui.ux_pButton_orders.clicked.connect()
 
         # listen for model event signals
         #self._model.amount_changed.connect(self.on_amount_changed)

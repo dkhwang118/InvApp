@@ -11,6 +11,8 @@ import sys
 from PyQt5.QtWidgets import QApplication
 from Model.model_main import Model
 from Controller.controller_main import MainController
+from Views.view_main_ui import Ui_MainWindow_mainView
+from pathlib import Path
 from Views.view_main import MainView
 
 ############################################
