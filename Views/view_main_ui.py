@@ -19,9 +19,15 @@ class Ui_MainWindow_mainView(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(MainWindow_mainView.sizePolicy().hasHeightForWidth())
         MainWindow_mainView.setSizePolicy(sizePolicy)
+
+
+
         #self.centralWidget = QtWidgets.QStackedWidget(MainWindow_mainView)
         self.centralwidget = QtWidgets.QWidget(MainWindow_mainView)
         self.centralwidget.setObjectName("centralwidget")
+
+
+
         self.verticalLayoutWidget = QtWidgets.QWidget(self.centralwidget)
         self.verticalLayoutWidget.setGeometry(QtCore.QRect(-1, 0, 131, 721))
         self.verticalLayoutWidget.setObjectName("verticalLayoutWidget")
