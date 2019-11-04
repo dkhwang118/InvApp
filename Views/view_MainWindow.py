@@ -112,17 +112,19 @@ class Ui_MainWindow_mainView(object):
         self.ux_pButton_newOrder.setObjectName("ux_pButton_newOrder")
 
 
-        # init stacked layout widget
+        # init stacked layout widget; this is the top-level widget that holds the various
+        #                               pages that change with button clicks
         self.stackedLayoutWidget = QtWidgets.QStackedWidget(self.centralwidget)
         self.stackedLayoutWidget.setGeometry(QtCore.QRect(290, 0, 911, 721))
-        self.stackedLayoutWidget.setObjectName("welcomeLayoutWidget")
+        self.stackedLayoutWidget.setObjectName("stackedLayoutWidget")
 
-        # init welcome window widget
+        # init welcome window widget; widget that represents the welcome window (first window)
         self.welcomeLayoutWidget = QtWidgets.QWidget(self.stackedLayoutWidget)
         self.welcomeLayoutWidget.setGeometry(QtCore.QRect(290, 0, 911, 721))
         self.welcomeLayoutWidget.setObjectName("welcomeLayoutWidget")
 
-        self.ui_layout_welcomePage = QtWidgets.QGridLayout()
+        # init layout for welcome window
+        self.ui_layout_welcomePage = QtWidgets.QGridLayout(self.welcomeLayoutWidget)
         self.ui_layout_welcomePage.setGeometry(QtCore.QRect(290, 0, 911, 721))
         self.ui_layout_welcomePage.setContentsMargins(0, 0, 0, 0)
         self.ui_layout_welcomePage.setObjectName("ui_layout_welcomePage")
@@ -134,10 +136,10 @@ class Ui_MainWindow_mainView(object):
         self.ux_label_welcome.setObjectName("ux_label_welcome")
         self.ui_layout_welcomePage.addWidget(self.ux_label_welcome, 0, 0, 1, 1)
 
-
-
+        # attach/set welcomePage layout to welcomePage widget
         self.welcomeLayoutWidget.setLayout(self.ui_layout_welcomePage)
 
+        # add welcomePage widget to top-level StackedWidget
         self.stackedLayoutWidget.addWidget(self.welcomeLayoutWidget)
 
 
