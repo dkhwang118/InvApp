@@ -5,14 +5,16 @@
 #   Edited by: David K. Hwang
 #
 #
-#   pyuic5 view_main_ui.ui -o ..\views\view_main_ui.py to convert .ui to .py
+#   pyuic5 Views\view_main_ui.ui -o Views\view_main_ui.py
+#
+#   to convert .ui to .py
 #
 ############################################################################
 
 
 from PyQt5.QtWidgets import QMainWindow
 from PyQt5.QtCore import pyqtSlot
-from Views.view_main_ui import Ui_MainWindow_mainView
+from Views.view_main_ui_v2 import Ui_MainWindow_mainView
 
 
 class MainView(QMainWindow):

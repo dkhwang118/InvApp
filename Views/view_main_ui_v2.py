@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'view_main_ui.ui'
+# Form implementation generated from reading ui file 'Views\view_main_ui_v2base.ui'
 #
 # Created by: PyQt5 UI code generator 5.13.1
 #
@@ -12,7 +12,9 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 class Ui_MainWindow_mainView(object):
     def setupUi(self, main_view):
-        main_view.setObjectName("MainWindow_mainView")
+
+        # init main window
+        main_view.setObjectName("main_view")
         main_view.resize(1200, 720)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
@@ -20,22 +22,23 @@ class Ui_MainWindow_mainView(object):
         sizePolicy.setHeightForWidth(main_view.sizePolicy().hasHeightForWidth())
         main_view.setSizePolicy(sizePolicy)
 
-
-
-        #self.centralWidget = QtWidgets.QStackedWidget(MainWindow_mainView)
+        # init top-level QWidget in main window
         self.centralwidget = QtWidgets.QWidget(main_view)
         self.centralwidget.setObjectName("centralwidget")
 
-
-
+        # init QWidget holding the left-most vertical layout
         self.verticalLayoutWidget = QtWidgets.QWidget(self.centralwidget)
         self.verticalLayoutWidget.setGeometry(QtCore.QRect(-1, 0, 131, 721))
         self.verticalLayoutWidget.setObjectName("verticalLayoutWidget")
+
+        # init left-most vertical layout (holds left buttons)
         self.ui_vLayout_viewMain = QtWidgets.QVBoxLayout(self.verticalLayoutWidget)
         self.ui_vLayout_viewMain.setSizeConstraint(QtWidgets.QLayout.SetMaximumSize)
         self.ui_vLayout_viewMain.setContentsMargins(0, 0, 0, 0)
         self.ui_vLayout_viewMain.setSpacing(0)
         self.ui_vLayout_viewMain.setObjectName("ui_vLayout_viewMain")
+
+        # init buttons within ui_vLayout_viewMain
         self.ux_pButton_orders = QtWidgets.QPushButton(self.verticalLayoutWidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
@@ -85,18 +88,10 @@ class Ui_MainWindow_mainView(object):
         self.ux_pButton_settings.setSizePolicy(sizePolicy)
         self.ux_pButton_settings.setObjectName("ux_pButton_settings")
         self.ui_vLayout_viewMain.addWidget(self.ux_pButton_settings)
-        self.ux_label_welcome = QtWidgets.QLabel(self.centralwidget)
-        self.ux_label_welcome.setGeometry(QtCore.QRect(510, 270, 231, 151))
-        font = QtGui.QFont()
-        font.setPointSize(20)
-        font.setBold(True)
-        font.setUnderline(False)
-        font.setWeight(75)
-        self.ux_label_welcome.setFont(font)
-        self.ux_label_welcome.setAlignment(QtCore.Qt.AlignCenter)
-        self.ux_label_welcome.setObjectName("ux_label_welcome")
+
+        # init 2nd level buttons (e.g. New Orders)
         self.ux_pButton_searchEditOrders = QtWidgets.QPushButton(self.centralwidget)
-        self.ux_pButton_searchEditOrders.setGeometry(QtCore.QRect(130, 60, 158, 61))
+        self.ux_pButton_searchEditOrders.setGeometry(QtCore.QRect(130, 60, 161, 61))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -104,52 +99,59 @@ class Ui_MainWindow_mainView(object):
         self.ux_pButton_searchEditOrders.setSizePolicy(sizePolicy)
         self.ux_pButton_searchEditOrders.setObjectName("ux_pButton_searchEditOrders")
         self.ux_pButton_newOrder = QtWidgets.QPushButton(self.centralwidget)
-        self.ux_pButton_newOrder.setGeometry(QtCore.QRect(130, 0, 158, 61))
+        self.ux_pButton_newOrder.setGeometry(QtCore.QRect(130, 0, 161, 61))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.ux_pButton_newOrder.sizePolicy().hasHeightForWidth())
         self.ux_pButton_newOrder.setSizePolicy(sizePolicy)
         self.ux_pButton_newOrder.setObjectName("ux_pButton_newOrder")
-        self.gridLayoutWidget = QtWidgets.QWidget(self.centralwidget)
-        self.gridLayoutWidget.setGeometry(QtCore.QRect(310, 30, 651, 661))
-        self.gridLayoutWidget.setObjectName("gridLayoutWidget")
-        self.ui_layout_newOrder = QtWidgets.QGridLayout(self.gridLayoutWidget)
-        self.ui_layout_newOrder.setContentsMargins(0, 0, 0, 0)
-        self.ui_layout_newOrder.setObjectName("ui_layout_newOrder")
-        self.ux_label_deliveryDate = QtWidgets.QLabel(self.gridLayoutWidget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.ux_label_deliveryDate.sizePolicy().hasHeightForWidth())
-        self.ux_label_deliveryDate.setSizePolicy(sizePolicy)
-        self.ux_label_deliveryDate.setObjectName("ux_label_deliveryDate")
-        self.ui_layout_newOrder.addWidget(self.ux_label_deliveryDate, 2, 0, 1, 1)
-        self.ux_label_clientName = QtWidgets.QLabel(self.gridLayoutWidget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.ux_label_clientName.sizePolicy().hasHeightForWidth())
-        self.ux_label_clientName.setSizePolicy(sizePolicy)
-        self.ux_label_clientName.setObjectName("ux_label_clientName")
-        self.ui_layout_newOrder.addWidget(self.ux_label_clientName, 1, 0, 1, 1)
-        self.lineEdit_2 = QtWidgets.QLineEdit(self.gridLayoutWidget)
-        self.lineEdit_2.setObjectName("lineEdit_2")
-        self.ui_layout_newOrder.addWidget(self.lineEdit_2, 2, 1, 1, 1)
-        self.ux_lineEdit_clientName = QtWidgets.QLineEdit(self.gridLayoutWidget)
-        self.ux_lineEdit_clientName.setObjectName("ux_lineEdit_clientName")
-        self.ui_layout_newOrder.addWidget(self.ux_lineEdit_clientName, 1, 1, 1, 1)
-        self.lineEdit = QtWidgets.QLineEdit(self.gridLayoutWidget)
-        self.lineEdit.setObjectName("lineEdit")
-        self.ui_layout_newOrder.addWidget(self.lineEdit, 0, 1, 1, 1)
-        self.ux_label_orderNumber = QtWidgets.QLabel(self.gridLayoutWidget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.ux_label_orderNumber.sizePolicy().hasHeightForWidth())
-        self.ux_label_orderNumber.setSizePolicy(sizePolicy)
-        self.ux_label_orderNumber.setObjectName("ux_label_orderNumber")
-        self.ui_layout_newOrder.addWidget(self.ux_label_orderNumber, 0, 0, 1, 1)
+
+
+        # init stacked layout widget
+        self.stackedLayoutWidget = QtWidgets.QStackedWidget(self.centralwidget)
+        self.stackedLayoutWidget.setGeometry(QtCore.QRect(290, 0, 911, 721))
+        self.stackedLayoutWidget.setObjectName("welcomeLayoutWidget")
+
+        # init welcome window widget
+        self.welcomeLayoutWidget = QtWidgets.QWidget(self.stackedLayoutWidget)
+        self.welcomeLayoutWidget.setGeometry(QtCore.QRect(290, 0, 911, 721))
+        self.welcomeLayoutWidget.setObjectName("welcomeLayoutWidget")
+
+        self.ui_layout_welcomePage = QtWidgets.QGridLayout()
+        self.ui_layout_welcomePage.setGeometry(QtCore.QRect(290, 0, 911, 721))
+        self.ui_layout_welcomePage.setContentsMargins(0, 0, 0, 0)
+        self.ui_layout_welcomePage.setObjectName("ui_layout_welcomePage")
+        self.ux_label_welcome = QtWidgets.QLabel(self.welcomeLayoutWidget)
+        font = QtGui.QFont()
+        font.setPointSize(24)
+        self.ux_label_welcome.setFont(font)
+        self.ux_label_welcome.setAlignment(QtCore.Qt.AlignCenter)
+        self.ux_label_welcome.setObjectName("ux_label_welcome")
+        self.ui_layout_welcomePage.addWidget(self.ux_label_welcome, 0, 0, 1, 1)
+
+
+
+        self.welcomeLayoutWidget.setLayout(self.ui_layout_welcomePage)
+
+        self.stackedLayoutWidget.addWidget(self.welcomeLayoutWidget)
+
+
+        # # init welcome window widget
+        # self.welcomeLayoutWidget = QtWidgets.QWidget(self.centralwidget)
+        # self.welcomeLayoutWidget.setGeometry(QtCore.QRect(290, 0, 911, 721))
+        # self.welcomeLayoutWidget.setObjectName("welcomeLayoutWidget")
+        # self.ui_layout_dynamicMainView = QtWidgets.QGridLayout(self.welcomeLayoutWidget)
+        # self.ui_layout_dynamicMainView.setContentsMargins(0, 0, 0, 0)
+        # self.ui_layout_dynamicMainView.setObjectName("ui_layout_dynamicMainView")
+        # self.ux_label_welcome = QtWidgets.QLabel(self.welcomeLayoutWidget)
+        # font = QtGui.QFont()
+        # font.setPointSize(24)
+        # self.ux_label_welcome.setFont(font)
+        # self.ux_label_welcome.setAlignment(QtCore.Qt.AlignCenter)
+        # self.ux_label_welcome.setObjectName("ux_label_welcome")
+        # self.ui_layout_dynamicMainView.addWidget(self.ux_label_welcome, 0, 0, 1, 1)
+
         main_view.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(main_view)
@@ -157,16 +159,13 @@ class Ui_MainWindow_mainView(object):
 
     def retranslateUi(self, MainWindow_mainView):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow_mainView.setWindowTitle(_translate("MainWindow_mainView", "MainWindow"))
-        self.ux_pButton_orders.setText(_translate("MainWindow_mainView", "Orders"))
-        self.ux_pButton_clients.setText(_translate("MainWindow_mainView", "Clients"))
-        self.ux_pButton_products.setText(_translate("MainWindow_mainView", "Products"))
-        self.ux_pButton_invoicing.setText(_translate("MainWindow_mainView", "Invoicing"))
-        self.ux_pButton_statistics.setText(_translate("MainWindow_mainView", "Statistics"))
-        self.ux_pButton_settings.setText(_translate("MainWindow_mainView", "Settings"))
-        self.ux_label_welcome.setText(_translate("MainWindow_mainView", "Welcome!"))
-        self.ux_pButton_searchEditOrders.setText(_translate("MainWindow_mainView", "Search/Edit Orders"))
-        self.ux_pButton_newOrder.setText(_translate("MainWindow_mainView", "New Order"))
-        self.ux_label_deliveryDate.setText(_translate("MainWindow_mainView", "Delivery Date:"))
-        self.ux_label_clientName.setText(_translate("MainWindow_mainView", "Client Name:"))
-        self.ux_label_orderNumber.setText(_translate("MainWindow_mainView", "Facture/Order #:"))
+        MainWindow_mainView.setWindowTitle(_translate("main_view", "MainWindow"))
+        self.ux_pButton_orders.setText(_translate("main_view", "Orders"))
+        self.ux_pButton_clients.setText(_translate("main_view", "Clients"))
+        self.ux_pButton_products.setText(_translate("main_view", "Products"))
+        self.ux_pButton_invoicing.setText(_translate("main_view", "Invoicing"))
+        self.ux_pButton_statistics.setText(_translate("main_view", "Statistics"))
+        self.ux_pButton_settings.setText(_translate("main_view", "Settings"))
+        self.ux_pButton_searchEditOrders.setText(_translate("main_view", "Search/Edit Orders"))
+        self.ux_pButton_newOrder.setText(_translate("main_view", "New Order"))
+        self.ux_label_welcome.setText(_translate("main_view", "Welcome!"))
