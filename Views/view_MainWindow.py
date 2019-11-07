@@ -118,49 +118,12 @@ class Ui_MainWindow_mainView(object):
         self.stackedLayoutWidget.setGeometry(QtCore.QRect(310, 20, 871, 681))
         self.stackedLayoutWidget.setObjectName("stackedLayoutWidget")
 
-        # init welcome window widget; widget that represents the welcome window (first window)
-        self.welcomeLayoutWidget = QtWidgets.QWidget(self.stackedLayoutWidget)
-        self.welcomeLayoutWidget.setGeometry(QtCore.QRect(290, 0, 911, 721))
-        self.welcomeLayoutWidget.setObjectName("welcomeLayoutWidget")
+        # init all layout widgets to be displayed in the stackedLayoutWidget box
+        self.ui_welcome(self.stackedLayoutWidget)
+        self.ui_newOrder(self.stackedLayoutWidget)
 
-        # init layout for welcome window
-        self.ui_layout_welcomePage = QtWidgets.QGridLayout(self.welcomeLayoutWidget)
-        self.ui_layout_welcomePage.setGeometry(QtCore.QRect(290, 0, 911, 721))
-        self.ui_layout_welcomePage.setContentsMargins(0, 0, 0, 0)
-        self.ui_layout_welcomePage.setObjectName("ui_layout_welcomePage")
-        self.ux_label_welcome = QtWidgets.QLabel(self.welcomeLayoutWidget)
-        font = QtGui.QFont()
-        font.setPointSize(24)
-        self.ux_label_welcome.setFont(font)
-        self.ux_label_welcome.setAlignment(QtCore.Qt.AlignCenter)
-        self.ux_label_welcome.setObjectName("ux_label_welcome")
-        self.ui_layout_welcomePage.addWidget(self.ux_label_welcome, 0, 0, 1, 1)
-
-        # attach/set welcomePage layout to welcomePage widget
-        self.welcomeLayoutWidget.setLayout(self.ui_layout_welcomePage)
-
-        # add welcomePage widget to top-level StackedWidget
-        self.stackedLayoutWidget.addWidget(self.welcomeLayoutWidget)
-
-        # init newOrder layout widget and attach to top-level
-        newOrderLayout = self.ui_newOrder(self.stackedLayoutWidget)
-        self.stackedLayoutWidget.addWidget(newOrderLayout)
-        self.stackedLayoutWidget.setCurrentWidget(newOrderLayout)
-
-        # # init welcome window widget
-        # self.welcomeLayoutWidget = QtWidgets.QWidget(self.centralwidget)
-        # self.welcomeLayoutWidget.setGeometry(QtCore.QRect(290, 0, 911, 721))
-        # self.welcomeLayoutWidget.setObjectName("welcomeLayoutWidget")
-        # self.ui_layout_dynamicMainView = QtWidgets.QGridLayout(self.welcomeLayoutWidget)
-        # self.ui_layout_dynamicMainView.setContentsMargins(0, 0, 0, 0)
-        # self.ui_layout_dynamicMainView.setObjectName("ui_layout_dynamicMainView")
-        # self.ux_label_welcome = QtWidgets.QLabel(self.welcomeLayoutWidget)
-        # font = QtGui.QFont()
-        # font.setPointSize(24)
-        # self.ux_label_welcome.setFont(font)
-        # self.ux_label_welcome.setAlignment(QtCore.Qt.AlignCenter)
-        # self.ux_label_welcome.setObjectName("ux_label_welcome")
-        # self.ui_layout_dynamicMainView.addWidget(self.ux_label_welcome, 0, 0, 1, 1)
+        # set first shown widget (welcome)
+        self.stackedLayoutWidget.setCurrentWidget(self.widget_welcomeLayout)
 
         main_view.setCentralWidget(self.centralwidget)
 
@@ -200,19 +163,44 @@ class Ui_MainWindow_mainView(object):
         self.ux_pButton_addProdToOrd.setText(_translate("main_view", "Add Product To Order"))
         self.ux_label_selectProd.setText(_translate("main_view", "Select Products for Current Order:"))
 
+    # init welcome window widget
+    def ui_welcome(self, stackedLayoutWidget):
+        # init welcome window widget; widget that represents the welcome window (first window)
+        self.widget_welcomeLayout = QtWidgets.QWidget(self.stackedLayoutWidget)
+        self.widget_welcomeLayout.setGeometry(QtCore.QRect(290, 0, 911, 721))
+        self.widget_welcomeLayout.setObjectName("welcomeLayoutWidget")
+
+        # init layout for welcome window
+        self.ui_layout_welcomePage = QtWidgets.QGridLayout(self.widget_welcomeLayout)
+        self.ui_layout_welcomePage.setGeometry(QtCore.QRect(290, 0, 911, 721))
+        self.ui_layout_welcomePage.setContentsMargins(0, 0, 0, 0)
+        self.ui_layout_welcomePage.setObjectName("ui_layout_welcomePage")
+        self.ux_label_welcome = QtWidgets.QLabel(self.widget_welcomeLayout)
+        font = QtGui.QFont()
+        font.setPointSize(24)
+        self.ux_label_welcome.setFont(font)
+        self.ux_label_welcome.setAlignment(QtCore.Qt.AlignCenter)
+        self.ux_label_welcome.setObjectName("ux_label_welcome")
+        self.ui_layout_welcomePage.addWidget(self.ux_label_welcome, 0, 0, 1, 1)
+
+        # attach/set welcomePage layout to welcomePage widget
+        self.widget_welcomeLayout.setLayout(self.ui_layout_welcomePage)
+        self.stackedLayoutWidget.addWidget(self.widget_welcomeLayout)
+
+
     def ui_newOrder(self, stackedLayoutWidget):
-        self.gridLayoutWidget = QtWidgets.QWidget(stackedLayoutWidget)
-        self.gridLayoutWidget.setGeometry(QtCore.QRect(310, 20, 871, 681)) #110, 70, 1023, 721
-        self.gridLayoutWidget.setObjectName("gridLayoutWidget")
+        self.widget_newOrderLayout = QtWidgets.QWidget(stackedLayoutWidget)
+        self.widget_newOrderLayout.setGeometry(QtCore.QRect(310, 20, 871, 681)) #110, 70, 1023, 721
+        self.widget_newOrderLayout.setObjectName("gridLayoutWidget")
         self.ui_layout_newOrder = QtWidgets.QGridLayout()
         self.ui_layout_newOrder.setSizeConstraint(QtWidgets.QLayout.SetDefaultConstraint)
         self.ui_layout_newOrder.setSpacing(6)
         self.ui_layout_newOrder.setObjectName("ui_layout_newOrder")
-        self.ux_pButton_revAndComp = QtWidgets.QPushButton(self.gridLayoutWidget)
+        self.ux_pButton_revAndComp = QtWidgets.QPushButton(self.widget_newOrderLayout)
         self.ux_pButton_revAndComp.setMinimumSize(QtCore.QSize(0, 50))
         self.ux_pButton_revAndComp.setObjectName("ux_pButton_revAndComp")
         self.ui_layout_newOrder.addWidget(self.ux_pButton_revAndComp, 15, 4, 1, 1)
-        self.ux_pButton_addProdToOrd = QtWidgets.QPushButton(self.gridLayoutWidget)
+        self.ux_pButton_addProdToOrd = QtWidgets.QPushButton(self.widget_newOrderLayout)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -221,7 +209,7 @@ class Ui_MainWindow_mainView(object):
         self.ux_pButton_addProdToOrd.setMinimumSize(QtCore.QSize(280, 0))
         self.ux_pButton_addProdToOrd.setObjectName("ux_pButton_addProdToOrd")
         self.ui_layout_newOrder.addWidget(self.ux_pButton_addProdToOrd, 13, 0, 1, 1)
-        self.ux_tableWidget_curProducts = QtWidgets.QTableWidget(self.gridLayoutWidget)
+        self.ux_tableWidget_curProducts = QtWidgets.QTableWidget(self.widget_newOrderLayout)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.MinimumExpanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -240,7 +228,7 @@ class Ui_MainWindow_mainView(object):
         self.ux_tableWidget_curProducts.horizontalHeader().setDefaultSectionSize(140)
         self.ux_tableWidget_curProducts.verticalHeader().setVisible(False)
         self.ui_layout_newOrder.addWidget(self.ux_tableWidget_curProducts, 12, 0, 1, 1)
-        self.ux_label_deliveryDate = QtWidgets.QLabel(self.gridLayoutWidget)
+        self.ux_label_deliveryDate = QtWidgets.QLabel(self.widget_newOrderLayout)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -252,7 +240,7 @@ class Ui_MainWindow_mainView(object):
         self.ux_label_deliveryDate.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.ux_label_deliveryDate.setObjectName("ux_label_deliveryDate")
         self.ui_layout_newOrder.addWidget(self.ux_label_deliveryDate, 4, 0, 1, 1)
-        self.ux_label_clientName = QtWidgets.QLabel(self.gridLayoutWidget)
+        self.ux_label_clientName = QtWidgets.QLabel(self.widget_newOrderLayout)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -266,7 +254,7 @@ class Ui_MainWindow_mainView(object):
         self.ui_layout_newOrder.addWidget(self.ux_label_clientName, 1, 0, 1, 1)
         spacerItem = QtWidgets.QSpacerItem(20, 10, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
         self.ui_layout_newOrder.addItem(spacerItem, 5, 2, 1, 1)
-        self.ux_label_orderNumber = QtWidgets.QLabel(self.gridLayoutWidget)
+        self.ux_label_orderNumber = QtWidgets.QLabel(self.widget_newOrderLayout)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -278,7 +266,7 @@ class Ui_MainWindow_mainView(object):
         self.ux_label_orderNumber.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.ux_label_orderNumber.setObjectName("ux_label_orderNumber")
         self.ui_layout_newOrder.addWidget(self.ux_label_orderNumber, 0, 0, 1, 1)
-        self.ux_label_selectProd = QtWidgets.QLabel(self.gridLayoutWidget)
+        self.ux_label_selectProd = QtWidgets.QLabel(self.widget_newOrderLayout)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -292,7 +280,7 @@ class Ui_MainWindow_mainView(object):
         self.ui_layout_newOrder.addWidget(self.ux_label_selectProd, 11, 0, 1, 1)
         spacerItem1 = QtWidgets.QSpacerItem(20, 10, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
         self.ui_layout_newOrder.addItem(spacerItem1, 14, 4, 1, 1)
-        self.ux_tableWidget_orderProducts = QtWidgets.QTableWidget(self.gridLayoutWidget)
+        self.ux_tableWidget_orderProducts = QtWidgets.QTableWidget(self.widget_newOrderLayout)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding,
                                            QtWidgets.QSizePolicy.MinimumExpanding)
         sizePolicy.setHorizontalStretch(0)
@@ -313,7 +301,7 @@ class Ui_MainWindow_mainView(object):
         self.ux_tableWidget_orderProducts.setHorizontalHeaderItem(3, item)
         self.ux_tableWidget_orderProducts.horizontalHeader().setDefaultSectionSize(120)
         self.ui_layout_newOrder.addWidget(self.ux_tableWidget_orderProducts, 12, 2, 1, 3)
-        self.ux_label_prodInCurOrder = QtWidgets.QLabel(self.gridLayoutWidget)
+        self.ux_label_prodInCurOrder = QtWidgets.QLabel(self.widget_newOrderLayout)
         font = QtGui.QFont()
         font.setPointSize(12)
         self.ux_label_prodInCurOrder.setFont(font)
@@ -322,7 +310,7 @@ class Ui_MainWindow_mainView(object):
         self.ui_layout_newOrder.addWidget(self.ux_label_prodInCurOrder, 11, 2, 1, 3)
         spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
         self.ui_layout_newOrder.addItem(spacerItem2, 12, 1, 1, 1)
-        self.ux_lineEdit_deliveryDate = QtWidgets.QLineEdit(self.gridLayoutWidget)
+        self.ux_lineEdit_deliveryDate = QtWidgets.QLineEdit(self.widget_newOrderLayout)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -331,7 +319,7 @@ class Ui_MainWindow_mainView(object):
         self.ux_lineEdit_deliveryDate.setMinimumSize(QtCore.QSize(200, 0))
         self.ux_lineEdit_deliveryDate.setObjectName("ux_lineEdit_deliveryDate")
         self.ui_layout_newOrder.addWidget(self.ux_lineEdit_deliveryDate, 4, 1, 1, 2)
-        self.ux_comboBox_clientName = QtWidgets.QComboBox(self.gridLayoutWidget)
+        self.ux_comboBox_clientName = QtWidgets.QComboBox(self.widget_newOrderLayout)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -340,7 +328,7 @@ class Ui_MainWindow_mainView(object):
         self.ux_comboBox_clientName.setMinimumSize(QtCore.QSize(200, 0))
         self.ux_comboBox_clientName.setObjectName("ux_comboBox_clientName")
         self.ui_layout_newOrder.addWidget(self.ux_comboBox_clientName, 1, 1, 1, 2)
-        self.ux_lineEdit_orderNumber = QtWidgets.QLineEdit(self.gridLayoutWidget)
+        self.ux_lineEdit_orderNumber = QtWidgets.QLineEdit(self.widget_newOrderLayout)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -349,10 +337,12 @@ class Ui_MainWindow_mainView(object):
         self.ux_lineEdit_orderNumber.setMinimumSize(QtCore.QSize(200, 0))
         self.ux_lineEdit_orderNumber.setObjectName("ux_lineEdit_orderNumber")
         self.ui_layout_newOrder.addWidget(self.ux_lineEdit_orderNumber, 0, 1, 1, 2)
-        self.ux_pButton_compOrder = QtWidgets.QPushButton(self.gridLayoutWidget)
+        self.ux_pButton_compOrder = QtWidgets.QPushButton(self.widget_newOrderLayout)
         self.ux_pButton_compOrder.setObjectName("ux_pButton_compOrder")
         self.ui_layout_newOrder.addWidget(self.ux_pButton_compOrder, 13, 2, 1, 3)
 
-        self.gridLayoutWidget.setLayout(self.ui_layout_newOrder)
+        self.widget_newOrderLayout.setLayout(self.ui_layout_newOrder)
+        self.stackedLayoutWidget.addWidget(self.widget_newOrderLayout)
 
-        return self.gridLayoutWidget
+    def showLayout_newOrder(self):
+        self.stackedLayoutWidget.setCurrentWidget(self.widget_newOrderLayout)

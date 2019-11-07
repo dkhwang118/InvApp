@@ -18,6 +18,18 @@ class Model(QObject):
     even_odd_changed = pyqtSignal(str)
     enable_reset_changed = pyqtSignal(bool)
 
+    # define page-change signal
+    mainView_changed = pyqtSignal(int)
+
+    @property
+    def currentView(self):
+        return self._currentView
+
+    @currentView.setter
+    def currentView(self, value):
+        self._currentView = value
+        self.mainView_changed.emit(value)
+
     @property
     def amount(self):
         return self._amount
@@ -47,6 +59,8 @@ class Model(QObject):
 
     def __init__(self):
         super().__init__()
+
+        self._currentView = 0
 
         self._amount = 0
         self._even_odd = ''

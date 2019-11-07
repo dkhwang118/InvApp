@@ -29,7 +29,12 @@ class MainView(QMainWindow):
         # connect widgets to controller
         #self._ui.spinBox_amount.valueChanged.connect(self._main_controller.change_amount)
         #self._ui.pushButton_reset.clicked.connect(lambda: self._main_controller.change_amount(0))
+
+        # order button click
         self._ui.ux_pButton_orders.clicked.connect(self._main_controller.buttonClick_order)
+
+        # new order button click
+        self._ui.ux_pButton_newOrder.clicked.connect(lambda: self._main_controller.change_mainView(1))
 
         # hide widgets which are invisible on start (e.g. newOrders pButton)
         self._ui.ux_pButton_newOrder.setHidden(1)
@@ -42,6 +47,9 @@ class MainView(QMainWindow):
         #self._model.even_odd_changed.connect(self.on_even_odd_changed)
         #self._model.enable_reset_changed.connect(self.on_enable_reset_changed)
 
+
+        self._model.mainView_changed.connect(self.on_mainView_changed)
+
         # set a default value
         #self._main_controller.change_amount(42)
 
@@ -49,6 +57,13 @@ class MainView(QMainWindow):
     def on_buttonClick_orders(self):
         self._ui.ux_pButton_newOrder.show()
         self._ui.ux_pButton_searchEditOrders.show()
+
+    @pyqtSlot(int)
+    def on_mainView_changed(self, value):
+        if (value == 0): self._ui.stackedLayoutWidget.setCurrentWidget(self._ui.widget_welcomeLayout)
+        elif (value == 1): self._ui.stackedLayoutWidget.setCurrentWidget(self._ui.widget_newOrderLayout)
+
+
 
     # @pyqtSlot(int)
     # def on_amount_changed(self, value):
