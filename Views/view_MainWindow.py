@@ -113,7 +113,6 @@ class Ui_MainWindow_mainView(object):
         self.ux_pButton_newOrder.setSizePolicy(sizePolicy)
         self.ux_pButton_newOrder.setObjectName("ux_pButton_newOrder")
 
-
         # init stacked layout widget; this is the top-level widget that holds the various
         #                               pages that change with button clicks
         self.stackedLayoutWidget = QtWidgets.QStackedWidget(self.centralwidget)

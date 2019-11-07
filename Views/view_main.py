@@ -29,23 +29,16 @@ class MainView(QMainWindow):
         # connect widgets to controller
         #self._ui.spinBox_amount.valueChanged.connect(self._main_controller.change_amount)
         #self._ui.pushButton_reset.clicked.connect(lambda: self._main_controller.change_amount(0))
-
-        # order button click
         self._ui.ux_pButton_orders.clicked.connect(self._main_controller.buttonClick_order)
-
-        # new order button click
         self._ui.ux_pButton_newOrder.clicked.connect(lambda: self._main_controller.change_mainView(1))
 
         # hide widgets which are invisible on start (e.g. newOrders pButton)
         self.hide_secondLvlMenu_widgets()
 
-
         # listen for model event signals
         #self._model.amount_changed.connect(self.on_amount_changed)
         #self._model.even_odd_changed.connect(self.on_even_odd_changed)
         #self._model.enable_reset_changed.connect(self.on_enable_reset_changed)
-
-
         self._model.mainView_changed.connect(self.on_mainView_changed)
 
         # set a default value

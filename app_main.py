@@ -14,6 +14,7 @@ from Controller.controller_main import MainController
 from Views.view_main_ui import Ui_MainWindow_mainView
 from pathlib import Path
 from Views.view_main import MainView
+from Crypto.PublicKey import RSA
 
 ############################################
 #   Qt Initialization
