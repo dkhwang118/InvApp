@@ -55,8 +55,12 @@ class MainView(QMainWindow):
 
     @pyqtSlot()
     def on_buttonClick_orders(self):
-        self._ui.ux_pButton_newOrder.show()
-        self._ui.ux_pButton_searchEditOrders.show()
+        if (self._ui.ux_pButton_newOrder.isHidden()):
+            self._ui.ux_pButton_newOrder.show()
+            self._ui.ux_pButton_searchEditOrders.show()
+        else:
+            self._ui.ux_pButton_newOrder.hide()
+            self._ui.ux_pButton_searchEditOrders.hide()
 
     @pyqtSlot(int)
     def on_mainView_changed(self, value):
