@@ -1,48 +1,34 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'Views\view_main_ui_v2base.ui'
+# Form implementation generated from reading ui file 'Views\view_main_ui_v3_newOrd.ui'
 #
 # Created by: PyQt5 UI code generator 5.13.1
 #
-#
-#   core concept credit for dynamic pages using QStacked objects: nathancy @ https://stackoverflow.com/a/55911336
-#
-#
-#######################################################################################################
+# WARNING! All changes made in this file will be lost!
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
 class Ui_MainWindow_mainView(object):
-    def setupUi(self, main_view):
-
-        # init main window
-        main_view.setObjectName("main_view")
-        main_view.resize(1200, 720)
+    def setupUi(self, MainWindow_mainView):
+        MainWindow_mainView.setObjectName("MainWindow_mainView")
+        MainWindow_mainView.resize(1200, 720)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(main_view.sizePolicy().hasHeightForWidth())
-        main_view.setSizePolicy(sizePolicy)
-
-        # init top-level QWidget in main window
-        self.centralwidget = QtWidgets.QWidget(main_view)
+        sizePolicy.setHeightForWidth(MainWindow_mainView.sizePolicy().hasHeightForWidth())
+        MainWindow_mainView.setSizePolicy(sizePolicy)
+        self.centralwidget = QtWidgets.QWidget(MainWindow_mainView)
         self.centralwidget.setObjectName("centralwidget")
-
-        # init QWidget holding the left-most vertical layout
         self.verticalLayoutWidget = QtWidgets.QWidget(self.centralwidget)
         self.verticalLayoutWidget.setGeometry(QtCore.QRect(-1, 0, 131, 721))
         self.verticalLayoutWidget.setObjectName("verticalLayoutWidget")
-
-        # init left-most vertical layout (holds left buttons)
         self.ui_vLayout_viewMain = QtWidgets.QVBoxLayout(self.verticalLayoutWidget)
         self.ui_vLayout_viewMain.setSizeConstraint(QtWidgets.QLayout.SetMaximumSize)
         self.ui_vLayout_viewMain.setContentsMargins(0, 0, 0, 0)
         self.ui_vLayout_viewMain.setSpacing(0)
         self.ui_vLayout_viewMain.setObjectName("ui_vLayout_viewMain")
-
-        # init buttons within ui_vLayout_viewMain
         self.ux_pButton_orders = QtWidgets.QPushButton(self.verticalLayoutWidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
@@ -92,8 +78,6 @@ class Ui_MainWindow_mainView(object):
         self.ux_pButton_settings.setSizePolicy(sizePolicy)
         self.ux_pButton_settings.setObjectName("ux_pButton_settings")
         self.ui_vLayout_viewMain.addWidget(self.ux_pButton_settings)
-
-        # init 2nd level buttons (e.g. New Orders)
         self.ux_pButton_searchEditOrders = QtWidgets.QPushButton(self.centralwidget)
         self.ux_pButton_searchEditOrders.setGeometry(QtCore.QRect(130, 60, 161, 61))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
@@ -110,102 +94,14 @@ class Ui_MainWindow_mainView(object):
         sizePolicy.setHeightForWidth(self.ux_pButton_newOrder.sizePolicy().hasHeightForWidth())
         self.ux_pButton_newOrder.setSizePolicy(sizePolicy)
         self.ux_pButton_newOrder.setObjectName("ux_pButton_newOrder")
-
-
-        # init stacked layout widget; this is the top-level widget that holds the various
-        #                               pages that change with button clicks
-        self.stackedLayoutWidget = QtWidgets.QStackedWidget(self.centralwidget)
-        self.stackedLayoutWidget.setGeometry(QtCore.QRect(310, 20, 871, 681))
-        self.stackedLayoutWidget.setObjectName("stackedLayoutWidget")
-
-        # init welcome window widget; widget that represents the welcome window (first window)
-        self.welcomeLayoutWidget = QtWidgets.QWidget(self.stackedLayoutWidget)
-        self.welcomeLayoutWidget.setGeometry(QtCore.QRect(290, 0, 911, 721))
-        self.welcomeLayoutWidget.setObjectName("welcomeLayoutWidget")
-
-        # init layout for welcome window
-        self.ui_layout_welcomePage = QtWidgets.QGridLayout(self.welcomeLayoutWidget)
-        self.ui_layout_welcomePage.setGeometry(QtCore.QRect(290, 0, 911, 721))
-        self.ui_layout_welcomePage.setContentsMargins(0, 0, 0, 0)
-        self.ui_layout_welcomePage.setObjectName("ui_layout_welcomePage")
-        self.ux_label_welcome = QtWidgets.QLabel(self.welcomeLayoutWidget)
-        font = QtGui.QFont()
-        font.setPointSize(24)
-        self.ux_label_welcome.setFont(font)
-        self.ux_label_welcome.setAlignment(QtCore.Qt.AlignCenter)
-        self.ux_label_welcome.setObjectName("ux_label_welcome")
-        self.ui_layout_welcomePage.addWidget(self.ux_label_welcome, 0, 0, 1, 1)
-
-        # attach/set welcomePage layout to welcomePage widget
-        self.welcomeLayoutWidget.setLayout(self.ui_layout_welcomePage)
-
-        # add welcomePage widget to top-level StackedWidget
-        self.stackedLayoutWidget.addWidget(self.welcomeLayoutWidget)
-
-        # init newOrder layout widget and attach to top-level
-        newOrderLayout = self.ui_newOrder(self.stackedLayoutWidget)
-        self.stackedLayoutWidget.addWidget(newOrderLayout)
-        self.stackedLayoutWidget.setCurrentWidget(newOrderLayout)
-
-        # # init welcome window widget
-        # self.welcomeLayoutWidget = QtWidgets.QWidget(self.centralwidget)
-        # self.welcomeLayoutWidget.setGeometry(QtCore.QRect(290, 0, 911, 721))
-        # self.welcomeLayoutWidget.setObjectName("welcomeLayoutWidget")
-        # self.ui_layout_dynamicMainView = QtWidgets.QGridLayout(self.welcomeLayoutWidget)
-        # self.ui_layout_dynamicMainView.setContentsMargins(0, 0, 0, 0)
-        # self.ui_layout_dynamicMainView.setObjectName("ui_layout_dynamicMainView")
-        # self.ux_label_welcome = QtWidgets.QLabel(self.welcomeLayoutWidget)
-        # font = QtGui.QFont()
-        # font.setPointSize(24)
-        # self.ux_label_welcome.setFont(font)
-        # self.ux_label_welcome.setAlignment(QtCore.Qt.AlignCenter)
-        # self.ux_label_welcome.setObjectName("ux_label_welcome")
-        # self.ui_layout_dynamicMainView.addWidget(self.ux_label_welcome, 0, 0, 1, 1)
-
-        main_view.setCentralWidget(self.centralwidget)
-
-        self.retranslateUi(main_view)
-        QtCore.QMetaObject.connectSlotsByName(main_view)
-
-    def retranslateUi(self, MainWindow_mainView):
-        _translate = QtCore.QCoreApplication.translate
-        MainWindow_mainView.setWindowTitle(_translate("main_view", "MainWindow"))
-        self.ux_pButton_orders.setText(_translate("main_view", "Orders"))
-        self.ux_pButton_clients.setText(_translate("main_view", "Clients"))
-        self.ux_pButton_products.setText(_translate("main_view", "Products"))
-        self.ux_pButton_invoicing.setText(_translate("main_view", "Invoicing"))
-        self.ux_pButton_statistics.setText(_translate("main_view", "Statistics"))
-        self.ux_pButton_settings.setText(_translate("main_view", "Settings"))
-        self.ux_pButton_searchEditOrders.setText(_translate("main_view", "Search/Edit Orders"))
-        self.ux_pButton_newOrder.setText(_translate("main_view", "New Order"))
-        self.ux_label_welcome.setText(_translate("main_view", "Welcome!"))
-        self.ux_label_clientName.setText(_translate("main_view", "Client Name:"))
-        self.ux_label_deliveryDate.setText(_translate("main_view", "Delivery Date:"))
-        self.ux_label_orderNumber.setText(_translate("main_view", "Facture/Order #:"))
-        self.ux_label_prodInCurOrder.setText(_translate("main_view", "Products in Current Order:"))
-        item = self.ux_tableWidget_curProducts.horizontalHeaderItem(0)
-        item.setText(_translate("main_view", "Product Name"))
-        item = self.ux_tableWidget_curProducts.horizontalHeaderItem(1)
-        item.setText(_translate("main_view", "Price-Per-Unit"))
-        item = self.ux_tableWidget_orderProducts.horizontalHeaderItem(0)
-        item.setText(_translate("main_view", "Product Name"))
-        item = self.ux_tableWidget_orderProducts.horizontalHeaderItem(1)
-        item.setText(_translate("main_view", "New Column"))
-        item = self.ux_tableWidget_orderProducts.horizontalHeaderItem(2)
-        item.setText(_translate("main_view", "Unit Amount"))
-        item = self.ux_tableWidget_orderProducts.horizontalHeaderItem(3)
-        item.setText(_translate("main_view", "Total Cost"))
-        self.ux_pButton_compOrder.setText(_translate("main_view", "Remove Product From Order"))
-        self.ux_pButton_revAndComp.setText(_translate("main_view", "Review and Complete Order"))
-        self.ux_pButton_addProdToOrd.setText(_translate("main_view", "Add Product To Order"))
-        self.ux_label_selectProd.setText(_translate("main_view", "Select Products for Current Order:"))
-
-    def ui_newOrder(self, stackedLayoutWidget):
-        self.gridLayoutWidget = QtWidgets.QWidget(stackedLayoutWidget)
-        self.gridLayoutWidget.setGeometry(QtCore.QRect(310, 20, 871, 681)) #110, 70, 1023, 721
+        self.gridLayoutWidget = QtWidgets.QWidget(self.centralwidget)
+        self.gridLayoutWidget.setGeometry(QtCore.QRect(310, 20, 871, 681))
         self.gridLayoutWidget.setObjectName("gridLayoutWidget")
+        self.ui_layout_dynamicMainView = QtWidgets.QGridLayout(self.gridLayoutWidget)
+        self.ui_layout_dynamicMainView.setContentsMargins(0, 0, 0, 0)
+        self.ui_layout_dynamicMainView.setObjectName("ui_layout_dynamicMainView")
         self.ui_layout_newOrder = QtWidgets.QGridLayout()
-        self.ui_layout_newOrder.setSizeConstraint(QtWidgets.QLayout.SetDefaultConstraint)
+        self.ui_layout_newOrder.setSizeConstraint(QtWidgets.QLayout.SetFixedSize)
         self.ui_layout_newOrder.setSpacing(6)
         self.ui_layout_newOrder.setObjectName("ui_layout_newOrder")
         self.ux_pButton_revAndComp = QtWidgets.QPushButton(self.gridLayoutWidget)
@@ -249,7 +145,7 @@ class Ui_MainWindow_mainView(object):
         font = QtGui.QFont()
         font.setPointSize(12)
         self.ux_label_deliveryDate.setFont(font)
-        self.ux_label_deliveryDate.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
+        self.ux_label_deliveryDate.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.ux_label_deliveryDate.setObjectName("ux_label_deliveryDate")
         self.ui_layout_newOrder.addWidget(self.ux_label_deliveryDate, 4, 0, 1, 1)
         self.ux_label_clientName = QtWidgets.QLabel(self.gridLayoutWidget)
@@ -261,7 +157,7 @@ class Ui_MainWindow_mainView(object):
         font = QtGui.QFont()
         font.setPointSize(12)
         self.ux_label_clientName.setFont(font)
-        self.ux_label_clientName.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
+        self.ux_label_clientName.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.ux_label_clientName.setObjectName("ux_label_clientName")
         self.ui_layout_newOrder.addWidget(self.ux_label_clientName, 1, 0, 1, 1)
         spacerItem = QtWidgets.QSpacerItem(20, 10, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
@@ -275,7 +171,7 @@ class Ui_MainWindow_mainView(object):
         font = QtGui.QFont()
         font.setPointSize(12)
         self.ux_label_orderNumber.setFont(font)
-        self.ux_label_orderNumber.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
+        self.ux_label_orderNumber.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.ux_label_orderNumber.setObjectName("ux_label_orderNumber")
         self.ui_layout_newOrder.addWidget(self.ux_label_orderNumber, 0, 0, 1, 1)
         self.ux_label_selectProd = QtWidgets.QLabel(self.gridLayoutWidget)
@@ -293,8 +189,7 @@ class Ui_MainWindow_mainView(object):
         spacerItem1 = QtWidgets.QSpacerItem(20, 10, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
         self.ui_layout_newOrder.addItem(spacerItem1, 14, 4, 1, 1)
         self.ux_tableWidget_orderProducts = QtWidgets.QTableWidget(self.gridLayoutWidget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding,
-                                           QtWidgets.QSizePolicy.MinimumExpanding)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.MinimumExpanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.ux_tableWidget_orderProducts.sizePolicy().hasHeightForWidth())
@@ -352,7 +247,40 @@ class Ui_MainWindow_mainView(object):
         self.ux_pButton_compOrder = QtWidgets.QPushButton(self.gridLayoutWidget)
         self.ux_pButton_compOrder.setObjectName("ux_pButton_compOrder")
         self.ui_layout_newOrder.addWidget(self.ux_pButton_compOrder, 13, 2, 1, 3)
+        self.ui_layout_dynamicMainView.addLayout(self.ui_layout_newOrder, 0, 0, 1, 1)
+        MainWindow_mainView.setCentralWidget(self.centralwidget)
 
-        self.gridLayoutWidget.setLayout(self.ui_layout_newOrder)
+        self.retranslateUi(MainWindow_mainView)
+        QtCore.QMetaObject.connectSlotsByName(MainWindow_mainView)
 
-        return self.gridLayoutWidget
+    def retranslateUi(self, MainWindow_mainView):
+        _translate = QtCore.QCoreApplication.translate
+        MainWindow_mainView.setWindowTitle(_translate("MainWindow_mainView", "MainWindow"))
+        self.ux_pButton_orders.setText(_translate("MainWindow_mainView", "Orders"))
+        self.ux_pButton_clients.setText(_translate("MainWindow_mainView", "Clients"))
+        self.ux_pButton_products.setText(_translate("MainWindow_mainView", "Products"))
+        self.ux_pButton_invoicing.setText(_translate("MainWindow_mainView", "Invoicing"))
+        self.ux_pButton_statistics.setText(_translate("MainWindow_mainView", "Statistics"))
+        self.ux_pButton_settings.setText(_translate("MainWindow_mainView", "Settings"))
+        self.ux_pButton_searchEditOrders.setText(_translate("MainWindow_mainView", "Search/Edit Orders"))
+        self.ux_pButton_newOrder.setText(_translate("MainWindow_mainView", "New Order"))
+        self.ux_pButton_revAndComp.setText(_translate("MainWindow_mainView", "Review and Complete Order"))
+        self.ux_pButton_addProdToOrd.setText(_translate("MainWindow_mainView", "Add Product To Order"))
+        item = self.ux_tableWidget_curProducts.horizontalHeaderItem(0)
+        item.setText(_translate("MainWindow_mainView", "Product Name"))
+        item = self.ux_tableWidget_curProducts.horizontalHeaderItem(1)
+        item.setText(_translate("MainWindow_mainView", "Price-Per-Unit"))
+        self.ux_label_deliveryDate.setText(_translate("MainWindow_mainView", "Delivery Date:"))
+        self.ux_label_clientName.setText(_translate("MainWindow_mainView", "Client Name:"))
+        self.ux_label_orderNumber.setText(_translate("MainWindow_mainView", "Facture/Order #:"))
+        self.ux_label_selectProd.setText(_translate("MainWindow_mainView", "Select Products for Current Order:"))
+        item = self.ux_tableWidget_orderProducts.horizontalHeaderItem(0)
+        item.setText(_translate("MainWindow_mainView", "Product Name"))
+        item = self.ux_tableWidget_orderProducts.horizontalHeaderItem(1)
+        item.setText(_translate("MainWindow_mainView", "Unit Amount"))
+        item = self.ux_tableWidget_orderProducts.horizontalHeaderItem(2)
+        item.setText(_translate("MainWindow_mainView", "Price-Per-Unit"))
+        item = self.ux_tableWidget_orderProducts.horizontalHeaderItem(3)
+        item.setText(_translate("MainWindow_mainView", "Total Cost"))
+        self.ux_label_prodInCurOrder.setText(_translate("MainWindow_mainView", "Products in Current Order:"))
+        self.ux_pButton_compOrder.setText(_translate("MainWindow_mainView", "Remove Product From Order"))
