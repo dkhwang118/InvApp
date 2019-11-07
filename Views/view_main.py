@@ -21,10 +21,10 @@ class MainView(QMainWindow):
     def __init__(self, model, main_controller):
         super().__init__()
 
-        self._model = model #connect App to MainView
-        self._main_controller = main_controller # connect cntrl
-        self._ui = Ui_MainWindow_mainView() # link selfInit using .py qt designer file
-        self._ui.setupUi(self) # init self
+        self._model = model                         # connect App to MainView
+        self._main_controller = main_controller     # connect cntrl
+        self._ui = Ui_MainWindow_mainView()         # link selfInit using .py qt designer file
+        self._ui.setupUi(self)                      # init self
 
         # connect widgets to controller
         #self._ui.spinBox_amount.valueChanged.connect(self._main_controller.change_amount)

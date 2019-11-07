@@ -25,6 +25,8 @@ class Ui_MainWindow_mainView(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(main_view.sizePolicy().hasHeightForWidth())
         main_view.setSizePolicy(sizePolicy)
+        main_view.setFixedSize(main_view.size())
+
 
         # init top-level QWidget in main window
         self.centralwidget = QtWidgets.QWidget(main_view)
