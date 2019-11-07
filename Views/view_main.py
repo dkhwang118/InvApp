@@ -37,9 +37,7 @@ class MainView(QMainWindow):
         self._ui.ux_pButton_newOrder.clicked.connect(lambda: self._main_controller.change_mainView(1))
 
         # hide widgets which are invisible on start (e.g. newOrders pButton)
-        self._ui.ux_pButton_newOrder.setHidden(1)
-        self._ui.ux_pButton_searchEditOrders.setHidden(1)
-
+        self.hide_secondLvlMenu_widgets()
 
 
         # listen for model event signals
@@ -67,8 +65,6 @@ class MainView(QMainWindow):
         if (value == 0): self._ui.stackedLayoutWidget.setCurrentWidget(self._ui.widget_welcomeLayout)
         elif (value == 1): self._ui.stackedLayoutWidget.setCurrentWidget(self._ui.widget_newOrderLayout)
 
-
-
     # @pyqtSlot(int)
     # def on_amount_changed(self, value):
     #     self._ui.spinBox_amount.setValue(value)
@@ -80,3 +76,7 @@ class MainView(QMainWindow):
     # @pyqtSlot(bool)
     # def on_enable_reset_changed(self, value):
     #     self._ui.pushButton_reset.setEnabled(value)
+
+    def hide_secondLvlMenu_widgets(self):
+        self._ui.ux_pButton_newOrder.setHidden(1)
+        self._ui.ux_pButton_searchEditOrders.setHidden(1)
