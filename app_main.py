@@ -14,7 +14,7 @@ from Controller.controller_main import MainController
 from Views.view_main_ui import Ui_MainWindow_mainView
 from pathlib import Path
 from Views.view_main import MainView
-from Crypto.PublicKey import RSA
+from Model.model_sql_db_utils import *
 
 ############################################
 #   Qt Initialization
@@ -33,12 +33,26 @@ from Crypto.PublicKey import RSA
 # main application class that connects the MVC framework
 class AppMain(QApplication):
     def __init__(self, sys_argv):
+
+        # setup db connection
+        db_con = db_create() # create db
+
+        # test adding a new client
+        db_newClient_test(db_con)
+
+        # test printing new client
+        db_printAllClients(db_con)
+
+
+        # init main application
         super(AppMain, self).__init__(sys_argv)
         self.model = Model()
         self.main_controller = MainController(self.model)
         self.main_view = MainView(self.model, self.main_controller)
         self.main_controller.define_view(self.main_view)
         self.main_view.show()
+
+
 
 
 if __name__ == '__main__':
