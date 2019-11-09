@@ -9,7 +9,7 @@
 ############################################################################
 
 import os
-import sqlite3
+from pysqlcipher3 import dbapi2 as sqlcipher
 from datetime import datetime
 
 
@@ -20,13 +20,13 @@ DEFAULT_PATH = os.path.join(os.path.dirname(__file__), 'InvApp.database')
 
 
 def db_connect(db_path=DEFAULT_PATH):
-    con = sqlite3.connect(db_path)
+    con = sqlcipher.connect(db_path)
     return con
 
 
 # creates the database file and initializes it with the default table parameters
 def db_create(db_path=DEFAULT_PATH):
-    db_con = sqlite3.connect(db_path)   # connect to db @ db_path location
+    db_con = sqlcipher.connect(db_path)   # connect to db @ db_path location
     db_cur = db_con.cursor()            # init cursor object to execute SQL statements
 
     # create strings to define tables
