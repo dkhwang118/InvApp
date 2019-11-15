@@ -16,18 +16,18 @@ from datetime import datetime
 ## 7 lines below this comment are from "Adam McQuistan" (link at page header)
 # create a default path to connect to and create (if necessary) a database
 # called 'database.sqlite3' in the same directory as this script
-DEFAULT_PATH = os.path.join(os.path.dirname(__file__), 'InvApp.database')
+DEFAULT_PATH = os.path.join(os.path.dirname(__file__), 'InvApp.database_encrypt')
 
 
-def db_connect(db_path=DEFAULT_PATH):
-    con = sqlcipher.connect(db_path)
-    return con
+def db_create_conn(db_path=DEFAULT_PATH):
+    conn = sqlcipher.connect(db_path)
+    return conn
 
 
 # creates the database file and initializes it with the default table parameters
 def db_create(db_path=DEFAULT_PATH):
-    db_con = sqlcipher.connect(db_path)   # connect to db @ db_path location
-    db_cur = db_con.cursor()            # init cursor object to execute SQL statements
+    db_conn = sqlcipher.connect(db_path)   # connect to db @ db_path location
+    db_cur = db_conn.cursor()            # init cursor object to execute SQL statements
 
     # create strings to define tables
     sql_createTable_Clients = """CREATE TABLE IF NOT EXISTS Clients (
@@ -39,20 +39,28 @@ def db_create(db_path=DEFAULT_PATH):
                                     DateAdded timestamp);"""
 
     # execute the creation of a table
+    db_cur.execute("PRAGMA key='password'")
     db_cur.execute(sql_createTable_Clients)
+    db_conn.commit()
+    db_cur.close()
+    return
 
-    return db_cur
-
-
-def db_newClient_test(db_cur):
-    #db_cur = db_con.cursor()    # create cursor object from db connection
+def db_newClient_test(db_conn):
+    db_cur = db_conn.cursor()    # create cursor object from db connection
 
     # execute insert into newly created table
+
     sql_tableInsert_Clients = "INSERT INTO Clients(Id, Name, Address, Phone, Email, DateAdded) values (?,?,?,?,?,?)"
+    db_cur.execute("PRAGMA key='password'")
     db_cur.execute(sql_tableInsert_Clients, (1, "Name1", "Address1", "7183497234", "email1", datetime.now()))
+    db_conn.commit()
+    db_cur.close()
 
 
-def db_printAllClients(db_cur):
-    #db_cur = db_con.cursor()
+def db_printAllClients(db_conn):
+    db_cur = db_conn.cursor()
+    db_cur.execute("PRAGMA key='password'")
+    db_cur.execute("SELECT * FROM Clients")
     print(db_cur.fetchone())
 
+    db_cur.close()
