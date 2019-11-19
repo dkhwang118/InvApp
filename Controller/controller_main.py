@@ -8,15 +8,13 @@
 ############################################################################
 
 from PyQt5.QtCore import QObject, pyqtSlot
-from Views.view_main import MainView
-from Views.view_startup import StartupView
-from Model.model_sql_db_utils import *
 
 
 class MainController(QObject):
     # class variables
     _mainView = None        # placeholder for the MainView window
     _startupView = None     # placeholder for the StartupView window
+    _incorrectPass = None
 
     def __init__(self, model):
         super().__init__()
@@ -30,9 +28,16 @@ class MainController(QObject):
     def define_startupView(self, qObj):
         self._startupView = qObj
 
+    def define_passDialog(self, qObj):
+        self._incorrectPass = qObj
+
     @pyqtSlot()
     def buttonClick_order(self):
         self._mainView.on_buttonClick_orders()
+
+    @pyqtSlot()
+    def buttonClick_passDialog(self):
+        self._incorrectPass.on_buttonClick_ok()
 
     @pyqtSlot(int)
     def change_mainView(self, value):
@@ -51,9 +56,13 @@ class MainController(QObject):
     @pyqtSlot(str)
     def buttonClick_passwordLogin(self, value):
         # code to tell controller to attempt db connection with given password value
-        self._model.db_connection_init(value)
+        connected = self._model.db_connection_init(value)
 
-        # after successful connection, show mainview
-        self._startupView.hide()
-        self._mainView.show()
-        #self._main_view.show()
+        if connected:
+            # after successful connection, show mainview
+            self._startupView.hide()
+            self._mainView.show()
+        else:
+            self._incorrectPass.show()
+
+

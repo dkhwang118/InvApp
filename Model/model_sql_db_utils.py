@@ -67,8 +67,15 @@ def db_newClient_test(db_conn):
 
 def db_printAllClients(db_conn):
     db_cur = db_conn.cursor()
-    db_cur.execute("PRAGMA key='password'")
     db_cur.execute("SELECT * FROM Clients")
-    print(db_cur.fetchone())
+    #print(db_cur.fetchone())
 
-    db_cur.close()
+
+def db_connectionCheck(db_conn):
+    connected = False
+    try:
+        db_printAllClients(db_conn)
+        connected = True
+        return connected
+    except:
+        return connected

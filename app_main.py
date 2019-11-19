@@ -16,6 +16,7 @@ from pathlib import Path
 from Views.view_main import MainView
 from Views.view_startup import StartupView
 from Model.model_sql_db_utils import *
+from Views.view_incorrectPassDialog import IncorrectPassDialog
 
 ############################################
 #   Qt Initialization
@@ -51,18 +52,14 @@ class AppMain(QApplication):
         self.main_controller = MainController(self.model)
         self.main_view = MainView(self.model, self.main_controller)
         self.startup_view = StartupView(self.model, self.main_controller)
+        self.pass_dialog = IncorrectPassDialog(self.main_controller)
 
         self.main_controller.define_startupView(self.startup_view)
         self.main_controller.define_mainView(self.main_view)
+        self.main_controller.define_passDialog(self.pass_dialog)
 
-
-        # show startup ui for password input first
+        # show initial startup ui
         self.startup_view.show()
-
-        # show main_view
-        #self.main_view.show()
-
-
 
 
 if __name__ == '__main__':

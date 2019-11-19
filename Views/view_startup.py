@@ -25,6 +25,9 @@ class StartupView(QMainWindow):
         self._ui = Ui_StartPage()         # link selfInit using .py qt designer file
         self._ui.setupUi(self, model.firstTimeStartup)                      # init self
 
+        # self._incorrectPassDialog = Ui_incorrectPass()
+        # self._incorrectPassDialog.setupUi(self)
+
         # connect widgets to controller
         #self._ui.ux_pButton_orders.clicked.connect(self._main_controller.buttonClick_order)
         #self._ui.ux_pButton_newOrder.clicked.connect(lambda: self._main_controller.change_mainView(1))

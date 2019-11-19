@@ -102,10 +102,13 @@ class Model(QObject):
 
     # function to try given password
     def db_connection_init(self, db_pass):
+        # start db connection based on if initial application launch or re-login
         if self._firstTimeStartup:
             self._db_connection, self._db_cursor = db_firstTimeCreate(db_pass)
         else:
             self._db_connection, self._db_cursor = db_create_connection(db_pass)
 
-        db_printAllClients(self._db_connection)
+        # check to see if password was correct (if app is connected to db) and return boolean result
+        return db_connectionCheck(self._db_connection)
+
 
