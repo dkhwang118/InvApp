@@ -14,6 +14,10 @@ from Model.model_sql_db_utils import *
 
 
 class MainController(QObject):
+    # class variables
+    _mainView = None        # placeholder for the MainView window
+    _startupView = None     # placeholder for the StartupView window
+
     def __init__(self, model):
         super().__init__()
 
@@ -50,6 +54,6 @@ class MainController(QObject):
         self._model.db_connection_init(value)
 
         # after successful connection, show mainview
-        main_view = MainView(self._model, self._self)
-        main_view.show()
+        self._startupView.hide()
+        self._mainView.show()
         #self._main_view.show()
