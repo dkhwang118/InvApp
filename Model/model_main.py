@@ -2,12 +2,15 @@
 #
 #   model_main.py
 #   Original design framework by "101" and "Roberto Leinardi" (https://stackoverflow.com/a/26699122)
+#   sqlite3 implementation framework by "Adam McQuistan" (https://stackabuse.com/a-sqlite-tutorial-with-python/)
+#
 #   Edited by: David K. Hwang
 #
 #
 ############################################################################
 
 from PyQt5.QtCore import QObject, pyqtSignal
+import sqlite3
 
 
 class Model(QObject):
