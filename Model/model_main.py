@@ -10,7 +10,7 @@
 ############################################################################
 
 from PyQt5.QtCore import QObject, pyqtSignal
-import sqlite3
+from Model.model_sql_db_utils import *
 
 
 class Model(QObject):
@@ -32,6 +32,26 @@ class Model(QObject):
     def currentView(self, value):
         self._currentView = value
         self.mainView_changed.emit(value)
+
+    @property
+    def firstTimeStartup(self):
+        return self._firstTimeStartup
+
+    @property
+    def db_connection(self):
+        return self._db_connection
+
+    @db_connection.setter
+    def db_connection(self, db_conn):
+        self._db_connection = db_conn
+
+    @property
+    def db_cursor(self):
+        return self._db_connection
+
+    @db_cursor.setter
+    def db_cursor(self, db_cur):
+        self._db_cursor = db_cur
 
     @property
     def amount(self):
@@ -63,8 +83,29 @@ class Model(QObject):
     def __init__(self):
         super().__init__()
 
+        # on model init, check if database file exists
+        if db_isPresent():
+            self._firstTimeStartup = False
+        else:
+            self._firstTimeStartup = True
+
+        # init _db_connection
+        self._db_connection = object
+        self._db_cursor = object
+
+        # set current view for main window
         self._currentView = 0
 
         self._amount = 0
         self._even_odd = ''
         self._enable_reset = False
+
+    # function to try given password
+    def db_connection_init(self, db_pass):
+        if self._firstTimeStartup:
+            self._db_connection, self._db_cursor = db_firstTimeCreate(db_pass)
+        else:
+            self._db_connection, self._db_cursor = db_create_connection(db_pass)
+
+        db_printAllClients(self._db_connection)
+

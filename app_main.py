@@ -14,6 +14,7 @@ from Controller.controller_main import MainController
 from Views.view_main_ui import Ui_MainWindow_mainView
 from pathlib import Path
 from Views.view_main import MainView
+from Views.view_startup import StartupView
 from Model.model_sql_db_utils import *
 
 ############################################
@@ -35,13 +36,13 @@ class AppMain(QApplication):
     def __init__(self, sys_argv):
 
         # setup db connection
-        db_con = db_create()  # create db
+        #db_con = db_create()  # create db
 
         # test adding a new client
         #db_newClient_test(db_create_conn())
 
         # test printing new client
-        db_printAllClients(db_create_conn())
+        #db_printAllClients(db_create_conn())
 
 
         # init main application
@@ -49,8 +50,17 @@ class AppMain(QApplication):
         self.model = Model()
         self.main_controller = MainController(self.model)
         self.main_view = MainView(self.model, self.main_controller)
-        self.main_controller.define_view(self.main_view)
-        self.main_view.show()
+        self.startup_view = StartupView(self.model, self.main_controller)
+
+        self.main_controller.define_startupView(self.startup_view)
+        self.main_controller.define_mainView(self.main_view)
+
+
+        # show startup ui for password input first
+        self.startup_view.show()
+
+        # show main_view
+        #self.main_view.show()
 
 
 

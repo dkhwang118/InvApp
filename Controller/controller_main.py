@@ -8,6 +8,9 @@
 ############################################################################
 
 from PyQt5.QtCore import QObject, pyqtSlot
+from Views.view_main import MainView
+from Views.view_startup import StartupView
+from Model.model_sql_db_utils import *
 
 
 class MainController(QObject):
@@ -15,10 +18,13 @@ class MainController(QObject):
         super().__init__()
 
         self._model = model
+        self._self = self
 
-    def define_view(self, qObj):
+    def define_mainView(self, qObj):
         self._mainView = qObj
 
+    def define_startupView(self, qObj):
+        self._startupView = qObj
 
     @pyqtSlot()
     def buttonClick_order(self):
@@ -37,3 +43,13 @@ class MainController(QObject):
 
         # calculate button enabled state
         self._model.enable_reset = True if value else False
+
+    @pyqtSlot(str)
+    def buttonClick_passwordLogin(self, value):
+        # code to tell controller to attempt db connection with given password value
+        self._model.db_connection_init(value)
+
+        # after successful connection, show mainview
+        main_view = MainView(self._model, self._self)
+        main_view.show()
+        #self._main_view.show()

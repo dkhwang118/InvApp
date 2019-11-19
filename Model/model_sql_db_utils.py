@@ -19,13 +19,21 @@ from datetime import datetime
 DEFAULT_PATH = os.path.join(os.path.dirname(__file__), 'InvApp.database_encrypt')
 
 
-def db_create_conn(db_path=DEFAULT_PATH):
-    conn = sqlcipher.connect(db_path)
-    return conn
+# function to return whether the database file for application use has been created or not
+def db_isPresent(db_path=DEFAULT_PATH):
+    return os.path.exists(db_path)
+
+
+# creates the db connection and returns the connection and cursor
+def db_create_connection(db_pass, db_path=DEFAULT_PATH):
+    db_conn = sqlcipher.connect(db_path)
+    db_cur = db_conn.cursor()
+    db_cur.execute("PRAGMA key='" + db_pass + "'")
+    return db_conn, db_cur
 
 
 # creates the database file and initializes it with the default table parameters
-def db_create(db_path=DEFAULT_PATH):
+def db_firstTimeCreate(db_pass, db_path=DEFAULT_PATH):
     db_conn = sqlcipher.connect(db_path)   # connect to db @ db_path location
     db_cur = db_conn.cursor()            # init cursor object to execute SQL statements
 
@@ -39,11 +47,11 @@ def db_create(db_path=DEFAULT_PATH):
                                     DateAdded timestamp);"""
 
     # execute the creation of a table
-    db_cur.execute("PRAGMA key='password'")
+    db_cur.execute("PRAGMA key='" + db_pass + "'")
     db_cur.execute(sql_createTable_Clients)
     db_conn.commit()
-    db_cur.close()
-    return
+    return db_conn, db_cur
+
 
 def db_newClient_test(db_conn):
     db_cur = db_conn.cursor()    # create cursor object from db connection
