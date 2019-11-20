@@ -31,9 +31,16 @@ class MainController(QObject):
     def define_passDialog(self, qObj):
         self._incorrectPass = qObj
 
-    @pyqtSlot()
-    def buttonClick_order(self):
-        self._mainView.on_buttonClick_orders()
+    ######################################################
+    #   pyqtSlots
+    ######################################################
+    @pyqtSlot(int)
+    def buttonClick_tier1(self, value):
+        #self._mainView.on_buttonClick_orders()
+        if self._model.currentTier2Buttons == value:
+            self._model.currentTier2Buttons = 0
+        else:
+            self._model.currentTier2Buttons = value
 
     @pyqtSlot()
     def buttonClick_passDialog(self):

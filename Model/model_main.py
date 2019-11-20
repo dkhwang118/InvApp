@@ -22,6 +22,8 @@ class Model(QObject):
 
     # define page-change signal
     mainView_changed = pyqtSignal(int)
+    currentTier2Buttons_changed = pyqtSignal(int)
+
 
     @property
     def currentView(self):
@@ -31,6 +33,15 @@ class Model(QObject):
     def currentView(self, value):
         self._currentView = value
         self.mainView_changed.emit(value)
+
+    @property
+    def currentTier2Buttons(self):
+        return self._currentTier2Buttons
+
+    @currentTier2Buttons.setter
+    def currentTier2Buttons(self, value):
+        self._currentTier2Buttons = value
+        self.currentTier2Buttons_changed.emit(value)
 
     @property
     def firstTimeStartup(self):
@@ -94,6 +105,9 @@ class Model(QObject):
 
         # set current view for main window
         self._currentView = 0
+
+        # set current visibility of Tier2 buttons
+        self._currentTier2Buttons = 0
 
         self._amount = 0
         self._even_odd = ''
