@@ -34,9 +34,10 @@ class MainController(QObject):
     ######################################################
     #   pyqtSlots
     ######################################################
+
+    # pyqtSlot and function to handle tier1 (leftmost) button clicks
     @pyqtSlot(int)
     def buttonClick_tier1(self, value):
-        #self._mainView.on_buttonClick_orders()
         if self._model.currentTier2Buttons == value:
             self._model.currentTier2Buttons = 0
         else:

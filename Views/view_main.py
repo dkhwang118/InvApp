@@ -40,6 +40,7 @@ class MainView(QMainWindow):
 
         # connect button click that changes mainView in MainWindow
         self._ui.ux_pButton_newOrder.clicked.connect(lambda: self._main_controller.change_mainView(1))
+        self._ui.ux_pButton_newClient.clicked.connect(lambda: self._main_controller.change_mainView(3))
 
         # hide widgets which are invisible on start (e.g. newOrders pButton)
         self.hide_secondLvlMenu_widgets()
@@ -52,8 +53,8 @@ class MainView(QMainWindow):
         # set a default value
         #self._main_controller.change_amount(42)
 
-
-    @pyqtSlot(int)         # signal received from model after one of the leftmost buttons is clicked
+    # signal received from model after one of the leftmost buttons is clicked
+    @pyqtSlot(int)
     def on_tier1_buttonClick(self, value):
         if value == 0:
             self.hide_secondLvlMenu_widgets()
@@ -81,10 +82,12 @@ class MainView(QMainWindow):
         elif value == 6:
             self.hide_secondLvlMenu_widgets()
 
+    # pyqtSlot and function to change the main window layout according to tier1 (leftmost) button clicks
     @pyqtSlot(int)
     def on_mainView_changed(self, value):
-        if (value == 0): self._ui.stackedLayoutWidget.setCurrentWidget(self._ui.widget_welcomeLayout)
-        elif (value == 1): self._ui.stackedLayoutWidget.setCurrentWidget(self._ui.widget_newOrderLayout)
+        if value == 0: self._ui.stackedLayoutWidget.setCurrentWidget(self._ui.widget_welcomeLayout)
+        elif value == 1: self._ui.stackedLayoutWidget.setCurrentWidget(self._ui.widget_newOrderLayout)
+        elif value == 3: self._ui.stackedLayoutWidget.setCurrentWidget(self._ui.widget_newClientLayout)
 
     # @pyqtSlot(int)
     # def on_amount_changed(self, value):
