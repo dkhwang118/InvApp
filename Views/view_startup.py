@@ -25,22 +25,10 @@ class StartupView(QMainWindow):
         self._ui = Ui_StartPage()         # link selfInit using .py qt designer file
         self._ui.setupUi(self, model.firstTimeStartup)                      # init self
 
-        # self._incorrectPassDialog = Ui_incorrectPass()
-        # self._incorrectPassDialog.setupUi(self)
-
         # connect widgets to controller
-        #self._ui.ux_pButton_orders.clicked.connect(self._main_controller.buttonClick_order)
-        #self._ui.ux_pButton_newOrder.clicked.connect(lambda: self._main_controller.change_mainView(1))
         self._ui.ux_pButton_login.clicked.connect(lambda: self._main_controller.buttonClick_passwordLogin(self._ui.ux_lineEdit_passwordInput.text()))
 
-
-        # hide widgets which are invisible on start (e.g. newOrders pButton)
-        #self.hide_secondLvlMenu_widgets()
-
         # listen for model event signals
-        #self._model.amount_changed.connect(self.on_amount_changed)
-        #self._model.even_odd_changed.connect(self.on_even_odd_changed)
-        #self._model.enable_reset_changed.connect(self.on_enable_reset_changed)
         #self._model.mainView_changed.connect(self.on_mainView_changed)
 
         # set a default value

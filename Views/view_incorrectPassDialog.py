@@ -24,7 +24,6 @@ class IncorrectPassDialog(QMainWindow):
         # connect push button to controller
         self._ui.ux_pButton_incorrectPassConfirm.clicked.connect(self._main_controller.buttonClick_passDialog)
 
-
     @pyqtSlot()
     def on_buttonClick_ok(self):
         self.hide()

@@ -36,16 +36,6 @@ from Views.view_incorrectPassDialog import IncorrectPassDialog
 class AppMain(QApplication):
     def __init__(self, sys_argv):
 
-        # setup db connection
-        #db_con = db_create()  # create db
-
-        # test adding a new client
-        #db_newClient_test(db_create_conn())
-
-        # test printing new client
-        #db_printAllClients(db_create_conn())
-
-
         # init main application
         super(AppMain, self).__init__(sys_argv)
         self.model = Model()

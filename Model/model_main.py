@@ -15,7 +15,6 @@ from Model.model_sql_db_utils import *
 
 class Model(QObject):
 
-
     # define signals dependent on changes in model
     amount_changed = pyqtSignal(int)
     even_odd_changed = pyqtSignal(str)
