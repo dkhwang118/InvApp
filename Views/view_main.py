@@ -42,6 +42,13 @@ class MainView(QMainWindow):
         self._ui.ux_pButton_newOrder.clicked.connect(lambda: self._main_controller.change_mainView(1))
         self._ui.ux_pButton_newClient.clicked.connect(lambda: self._main_controller.change_mainView(3))
 
+        # connect buttons that query/change db information
+        self._ui.ux_pButton_addClient.clicked.connect(lambda: self._main_controller.addNewClient(self._ui.ux_lineEdit_newClientName.text(),
+                                                                                                 self._ui.ux_lineEdit_addressLine1.text(),
+                                                                                                 self._ui.ux_lineEdit_addressLine2.text(),
+                                                                                                 self._ui.ux_lineEdit_newClientPhone.text(),
+                                                                                                 self._ui.ux_lineEdit_newClientEmail.text()))
+
         # hide widgets which are invisible on start (e.g. newOrders pButton)
         self.hide_secondLvlMenu_widgets()
 

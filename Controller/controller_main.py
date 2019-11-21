@@ -51,6 +51,10 @@ class MainController(QObject):
     def change_mainView(self, value):
         self._model.currentView = value
 
+    @pyqtSlot(str, str, str, str, str)
+    def addNewClient(self, name, address1, address2, phone, email):
+        self._model.db_addNewClient(name, address1, address2, phone, email)
+
     @pyqtSlot(int)
     def change_amount(self, value):
         self._model.amount = value

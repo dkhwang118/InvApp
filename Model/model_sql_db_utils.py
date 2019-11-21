@@ -9,6 +9,7 @@
 ############################################################################
 
 import os
+import sys
 from pysqlcipher3 import dbapi2 as sqlcipher
 from datetime import datetime
 
@@ -25,7 +26,7 @@ def db_isPresent(db_path=DEFAULT_PATH):
 
 
 # creates the db connection and returns the connection and cursor
-def db_create_connection(db_pass, db_path=DEFAULT_PATH):
+def create_connection(db_pass, db_path=DEFAULT_PATH):
     db_conn = sqlcipher.connect(db_path)
     db_cur = db_conn.cursor()
     db_cur.execute("PRAGMA key='" + db_pass + "'")
@@ -33,15 +34,16 @@ def db_create_connection(db_pass, db_path=DEFAULT_PATH):
 
 
 # creates the database file and initializes it with the default table parameters
-def db_firstTimeCreate(db_pass, db_path=DEFAULT_PATH):
+def firstTimeCreate(db_pass, db_path=DEFAULT_PATH):
     db_conn = sqlcipher.connect(db_path)   # connect to db @ db_path location
     db_cur = db_conn.cursor()            # init cursor object to execute SQL statements
 
     # create strings to define tables
     sql_createTable_Clients = """CREATE TABLE IF NOT EXISTS Clients (
                                     Id integer PRIMARY KEY,
-                                    Name nvarchar(128) NOT NULL,
-                                    Address nvarchar(256) NOT NULL,
+                                    Name nvarchar(128) UNIQUE NOT NULL,
+                                    Address_line1 nvarchar(128) NOT NULL,
+                                    Address_line2 nvarchar(128) NOT NULL,
                                     Phone nvarchar(24),
                                     Email nvarchar(128),
                                     DateAdded timestamp);"""
@@ -53,7 +55,7 @@ def db_firstTimeCreate(db_pass, db_path=DEFAULT_PATH):
     return db_conn, db_cur
 
 
-def db_newClient_test(db_conn):
+def db_newClient_test(db_conn, db_cur):
     db_cur = db_conn.cursor()    # create cursor object from db connection
 
     # execute insert into newly created table
@@ -65,16 +67,36 @@ def db_newClient_test(db_conn):
     db_cur.close()
 
 
+def addNewClient(db_conn, db_cur, name, address1, address2, phone, email):
+
+    # execute insert into newly created table
+    try:
+        sql_tableInsert_Clients = "INSERT INTO Clients(Name, Address_line1, Address_line2, Phone, Email, DateAdded) values (?,?,?,?,?,?)"
+        db_cur.execute(sql_tableInsert_Clients, (name, address1, address2, phone, email, datetime.now()))
+        db_conn.commit()
+    except sqlcipher.IntegrityError as e:
+        # need to show system dialog to user that name already exists
+        print("Client Name Already Exists!\n")
+        #e = sys.exc_info()[0] # exception info
+        print(e)
+
+
 def db_printAllClients(db_conn):
     db_cur = db_conn.cursor()
-    db_cur.execute("SELECT * FROM Clients")
-    #print(db_cur.fetchone())
+    db_cur.execute("SELECT * FROM Clients;")
+    print(db_cur.fetchall())
+
+
+def db_printAllTables(db_conn):
+    db_cur = db_conn.cursor()
+    db_cur.execute("SELECT name FROM sqlite_master WHERE type='table';")
+    print(db_cur.fetchone())
 
 
 def db_connectionCheck(db_conn):
     connected = False
     try:
-        db_printAllClients(db_conn)
+        db_printAllTables(db_conn)
         connected = True
         return connected
     except:

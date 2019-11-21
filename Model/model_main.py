@@ -100,8 +100,8 @@ class Model(QObject):
             self._firstTimeStartup = True
 
         # init _db_connection
-        self._db_connection = object
-        self._db_cursor = object
+        self._db_connection = None
+        self._db_cursor = None
 
         # set current view for main window
         self._currentView = 0
@@ -117,11 +117,22 @@ class Model(QObject):
     def db_connection_init(self, db_pass):
         # start db connection based on if initial application launch or re-login
         if self._firstTimeStartup:
-            self._db_connection, self._db_cursor = db_firstTimeCreate(db_pass)
+            self._db_connection, self._db_cursor = firstTimeCreate(db_pass)
         else:
-            self._db_connection, self._db_cursor = db_create_connection(db_pass)
+            self._db_connection, self._db_cursor = create_connection(db_pass)
 
         # check to see if password was correct (if app is connected to db) and return boolean result
         return db_connectionCheck(self._db_connection)
+
+    #######################################################################
+    #
+    #   Database functions to query and change data
+    #
+    #######################################################################
+
+    ### function to add new clients to db
+    def db_addNewClient(self, name, address1, address2, phone, email):
+        addNewClient(self._db_connection, self._db_cursor, name, address1, address2, phone, email)
+        db_printAllClients(self._db_connection)
 
 
