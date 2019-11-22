@@ -26,7 +26,9 @@ class StartupView(QMainWindow):
         self._ui.setupUi(self, model.firstTimeStartup)                      # init self
 
         # connect widgets to controller
+        self._ui.ux_pButton_login.setAutoDefault(True)
         self._ui.ux_pButton_login.clicked.connect(lambda: self._main_controller.buttonClick_passwordLogin(self._ui.ux_lineEdit_passwordInput.text()))
+        self._ui.ux_lineEdit_passwordInput.returnPressed.connect(self._ui.ux_pButton_login.click)
 
         # listen for model event signals
         #self._model.mainView_changed.connect(self.on_mainView_changed)

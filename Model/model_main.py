@@ -20,10 +20,13 @@ class Model(QObject):
     even_odd_changed = pyqtSignal(str)
     enable_reset_changed = pyqtSignal(bool)
 
+
     # define page-change signal
     mainView_changed = pyqtSignal(int)
     currentTier2Buttons_changed = pyqtSignal(int)
 
+    # signal to tell view to show a QMessageBox with given string values (title, text)
+    show_message_box = pyqtSignal(tuple)
 
     @property
     def currentView(self):
@@ -42,6 +45,15 @@ class Model(QObject):
     def currentTier2Buttons(self, value):
         self._currentTier2Buttons = value
         self.currentTier2Buttons_changed.emit(value)
+
+    @property
+    def message_box_values(self):
+        return self._message_box_values
+
+    @message_box_values.setter
+    def message_box_values(self, value):
+        self._message_box_values = value
+        self.show_message_box.emit(value)
 
     @property
     def firstTimeStartup(self):
@@ -90,6 +102,7 @@ class Model(QObject):
         self._enable_reset = value
         self.enable_reset_changed.emit(value)
 
+
     def __init__(self):
         super().__init__()
 
@@ -108,6 +121,8 @@ class Model(QObject):
 
         # set current visibility of Tier2 buttons
         self._currentTier2Buttons = 0
+
+        self._message_box_values = ("", "")
 
         self._amount = 0
         self._even_odd = ''
@@ -132,7 +147,8 @@ class Model(QObject):
 
     ### function to add new clients to db
     def db_addNewClient(self, name, address1, address2, phone, email):
-        addNewClient(self._db_connection, self._db_cursor, name, address1, address2, phone, email)
+        title, text = addNewClient(self._db_connection, self._db_cursor, name, address1, address2, phone, email)
         db_printAllClients(self._db_connection)
+        return title, text
 
 

@@ -13,6 +13,7 @@
 
 
 from PyQt5.QtWidgets import QMainWindow
+from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtCore import pyqtSlot
 from Views.view_MainWindow import Ui_MainWindow_mainView
 
@@ -25,6 +26,7 @@ class MainView(QMainWindow):
         self._main_controller = main_controller     # connect cntrl
         self._ui = Ui_MainWindow_mainView()         # link selfInit using .py qt designer file
         self._ui.setupUi(self)                      # init self
+
 
         # connect widgets to controller
         #self._ui.spinBox_amount.valueChanged.connect(self._main_controller.change_amount)
@@ -43,7 +45,7 @@ class MainView(QMainWindow):
         self._ui.ux_pButton_newClient.clicked.connect(lambda: self._main_controller.change_mainView(3))
 
         # connect buttons that query/change db information
-        self._ui.ux_pButton_addClient.clicked.connect(lambda: self._main_controller.addNewClient(self._ui.ux_lineEdit_newClientName.text(),
+        self._ui.ux_pButton_addClient.clicked.connect(lambda: self._main_controller.cntrl_addNewClient(self._ui.ux_lineEdit_newClientName.text(),
                                                                                                  self._ui.ux_lineEdit_addressLine1.text(),
                                                                                                  self._ui.ux_lineEdit_addressLine2.text(),
                                                                                                  self._ui.ux_lineEdit_newClientPhone.text(),
@@ -56,6 +58,7 @@ class MainView(QMainWindow):
         #self._model.amount_changed.connect(self.on_amount_changed)
         self._model.mainView_changed.connect(self.on_mainView_changed)
         self._model.currentTier2Buttons_changed.connect(self.on_tier1_buttonClick)
+        self._model.show_message_box.connect(self.on_show_message_box)
 
         # set a default value
         #self._main_controller.change_amount(42)
@@ -96,6 +99,11 @@ class MainView(QMainWindow):
         elif value == 1: self._ui.stackedLayoutWidget.setCurrentWidget(self._ui.widget_newOrderLayout)
         elif value == 3: self._ui.stackedLayoutWidget.setCurrentWidget(self._ui.widget_newClientLayout)
 
+    @pyqtSlot(tuple)
+    def on_show_message_box(self, value):
+        (title, text) = value
+        QMessageBox.about(self, title, text)
+
     # @pyqtSlot(int)
     # def on_amount_changed(self, value):
     #     self._ui.spinBox_amount.setValue(value)
@@ -120,3 +128,5 @@ class MainView(QMainWindow):
         self._ui.ux_pButton_sendInvoice.setHidden(1)
         self._ui.ux_pButton_searchView.setHidden(1)
         self._ui.ux_pButton_summaryView.setHidden(1)
+
+

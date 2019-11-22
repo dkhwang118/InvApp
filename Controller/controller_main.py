@@ -8,6 +8,7 @@
 ############################################################################
 
 from PyQt5.QtCore import QObject, pyqtSlot
+from PyQt5.QtWidgets import QMessageBox
 
 
 class MainController(QObject):
@@ -52,8 +53,12 @@ class MainController(QObject):
         self._model.currentView = value
 
     @pyqtSlot(str, str, str, str, str)
-    def addNewClient(self, name, address1, address2, phone, email):
-        self._model.db_addNewClient(name, address1, address2, phone, email)
+    def cntrl_addNewClient(self, name, address1, address2, phone, email):
+        title, text = self._model.db_addNewClient(name, address1, address2, phone, email)
+        self._model.message_box_values = (title, text)
+
+
+
 
     @pyqtSlot(int)
     def change_amount(self, value):

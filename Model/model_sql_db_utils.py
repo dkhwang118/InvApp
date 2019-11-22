@@ -41,7 +41,7 @@ def firstTimeCreate(db_pass, db_path=DEFAULT_PATH):
     # create strings to define tables
     sql_createTable_Clients = """CREATE TABLE IF NOT EXISTS Clients (
                                     Id integer PRIMARY KEY,
-                                    Name nvarchar(128) UNIQUE NOT NULL,
+                                    Name TEXT UNIQUE NOT NULL,
                                     Address_line1 nvarchar(128) NOT NULL,
                                     Address_line2 nvarchar(128) NOT NULL,
                                     Phone nvarchar(24),
@@ -49,7 +49,7 @@ def firstTimeCreate(db_pass, db_path=DEFAULT_PATH):
                                     DateAdded timestamp);"""
 
     # execute the creation of a table
-    db_cur.execute("PRAGMA key='" + db_pass + "'")
+    db_cur.execute("PRAGMA key='?'", db_pass)
     db_cur.execute(sql_createTable_Clients)
     db_conn.commit()
     return db_conn, db_cur
@@ -68,17 +68,35 @@ def db_newClient_test(db_conn, db_cur):
 
 
 def addNewClient(db_conn, db_cur, name, address1, address2, phone, email):
-
+    """
+    Add a new client to the database
+    :param db_conn: database connection object
+    :param db_cur: database cursor object
+    :param name: Client Name to Add
+    :param address1: 1st Address Line
+    :param address2: 2nd Address Line
+    :param phone: Client Phone Number (string)
+    :param email: Client email
+    :return: boolean whether data was added to db correctly
+    """
     # execute insert into newly created table
     try:
         sql_tableInsert_Clients = "INSERT INTO Clients(Name, Address_line1, Address_line2, Phone, Email, DateAdded) values (?,?,?,?,?,?)"
         db_cur.execute(sql_tableInsert_Clients, (name, address1, address2, phone, email, datetime.now()))
         db_conn.commit()
+        return "Success!", "Added " + name + " to Client List!"
     except sqlcipher.IntegrityError as e:
         # need to show system dialog to user that name already exists
-        print("Client Name Already Exists!\n")
-        #e = sys.exc_info()[0] # exception info
+        e_split = str(e).split()
+        if e_split[0] == 'UNIQUE':
+            if e_split[3] == 'Clients.Name':
+                msg = "Client Name Already Exists!"
+        #print(e_split)
+        #print("Client Name Already Exists!")
+        #ex = sys.exc_info()[0] # exception info
         print(e)
+        #print(ex)
+        return "Error!", msg
 
 
 def db_printAllClients(db_conn):

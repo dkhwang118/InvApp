@@ -410,7 +410,7 @@ class Ui_MainWindow_mainView(object):
         self.widget_newClientLayout.setGeometry(QtCore.QRect(310, 20, 871, 681))
         self.widget_newClientLayout.setObjectName("widget_newOrderLayout")
         self.ui_layout_newClientPage = QtWidgets.QGridLayout()
-        self.ui_layout_newClientPage.setSizeConstraint(QtWidgets.QLayout.SetFixedSize)
+        self.ui_layout_newClientPage.setSizeConstraint(QtWidgets.QLayout.SetDefaultConstraint)
         self.ui_layout_newClientPage.setSpacing(6)
         self.ui_layout_newClientPage.setObjectName("ui_layout_newClientPage")
         self.ux_lineEdit_newClientName = QtWidgets.QLineEdit(self.widget_newClientLayout)
