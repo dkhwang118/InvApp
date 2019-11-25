@@ -59,9 +59,28 @@ class MainView(QMainWindow):
         self._model.mainView_changed.connect(self.on_mainView_changed)
         self._model.currentTier2Buttons_changed.connect(self.on_tier1_buttonClick)
         self._model.show_message_box.connect(self.on_show_message_box)
+        self._model.call_success.connect(self.on_call_returnValue_received)
 
         # set a default value
         #self._main_controller.change_amount(42)
+
+    # signal received after each db call
+    @pyqtSlot(int)
+    def on_call_returnValue_received(self, value):
+        current_view = self._model.currentView
+        if current_view == 3:  # if currently in Add New Client view
+            if value == 1:  # if adding a new client was successful
+                self._ui.ux_lineEdit_newClientEmail.clear()
+                self._ui.ux_lineEdit_newClientPhone.clear()
+                self._ui.ux_lineEdit_newClientName.clear()
+                self._ui.ux_lineEdit_addressLine1.clear()
+                self._ui.ux_lineEdit_addressLine2.clear()
+            else:
+                # nothing
+                return
+        else:
+            # nothing
+            return
 
     # signal received from model after one of the leftmost buttons is clicked
     @pyqtSlot(int)

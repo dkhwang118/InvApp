@@ -54,11 +54,9 @@ class MainController(QObject):
 
     @pyqtSlot(str, str, str, str, str)
     def cntrl_addNewClient(self, name, address1, address2, phone, email):
-        title, text = self._model.db_addNewClient(name, address1, address2, phone, email)
+        return_val, title, text = self._model.db_addNewClient(name, address1, address2, phone, email)
         self._model.message_box_values = (title, text)
-
-
-
+        self._model.last_db_return_value = return_val
 
     @pyqtSlot(int)
     def change_amount(self, value):

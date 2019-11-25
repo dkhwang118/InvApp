@@ -84,7 +84,7 @@ def addNewClient(db_conn, db_cur, name, address1, address2, phone, email):
         sql_tableInsert_Clients = "INSERT INTO Clients(Name, Address_line1, Address_line2, Phone, Email, DateAdded) values (?,?,?,?,?,?)"
         db_cur.execute(sql_tableInsert_Clients, (name, address1, address2, phone, email, datetime.now()))
         db_conn.commit()
-        return "Success!", "Added " + name + " to Client List!"
+        return 1, "Success!", "Added " + name + " to Client List!"
     except sqlcipher.IntegrityError as e:
         # need to show system dialog to user that name already exists
         e_split = str(e).split()
@@ -96,7 +96,7 @@ def addNewClient(db_conn, db_cur, name, address1, address2, phone, email):
         #ex = sys.exc_info()[0] # exception info
         print(e)
         #print(ex)
-        return "Error!", msg
+        return 0, "Error!", msg
 
 
 def db_printAllClients(db_conn):

@@ -21,11 +21,9 @@ class Ui_MainWindow_mainView(object):
         main_view.setSizePolicy(sizePolicy)
 
 
-
         #self.centralWidget = QtWidgets.QStackedWidget(MainWindow_mainView)
         self.centralwidget = QtWidgets.QWidget(main_view)
         self.centralwidget.setObjectName("centralwidget")
-
 
 
         self.verticalLayoutWidget = QtWidgets.QWidget(self.centralwidget)

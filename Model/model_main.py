@@ -28,6 +28,9 @@ class Model(QObject):
     # signal to tell view to show a QMessageBox with given string values (title, text)
     show_message_box = pyqtSignal(tuple)
 
+    # signal to tell view whether last call was successful or not
+    call_success = pyqtSignal(int)
+
     @property
     def currentView(self):
         return self._currentView
@@ -54,6 +57,15 @@ class Model(QObject):
     def message_box_values(self, value):
         self._message_box_values = value
         self.show_message_box.emit(value)
+
+    @property
+    def last_db_return_value(self):
+        return self._last_db_return_value
+
+    @last_db_return_value.setter
+    def last_db_return_value(self, value):
+        self._last_db_return_value = value
+        self.call_success.emit(value)
 
     @property
     def firstTimeStartup(self):
@@ -123,6 +135,7 @@ class Model(QObject):
         self._currentTier2Buttons = 0
 
         self._message_box_values = ("", "")
+        self._last_db_return_value = -1
 
         self._amount = 0
         self._even_odd = ''
@@ -147,8 +160,8 @@ class Model(QObject):
 
     ### function to add new clients to db
     def db_addNewClient(self, name, address1, address2, phone, email):
-        title, text = addNewClient(self._db_connection, self._db_cursor, name, address1, address2, phone, email)
+        return_val, title, text = addNewClient(self._db_connection, self._db_cursor, name, address1, address2, phone, email)
         db_printAllClients(self._db_connection)
-        return title, text
+        return return_val, title, text
 
 
