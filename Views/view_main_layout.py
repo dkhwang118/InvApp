@@ -13,12 +13,15 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import QStandardItem, QStandardItemModel
+from PyQt5.QtWidgets import QAbstractItemView
+
 
 
 class Ui_MainWindow_mainView(object):
 
     # define model objects for listViews and other list containers
     model_listView_searchEditClients_nameSearchList = QStandardItemModel()
+    model_listView_searchEditClients_NameIdList = []
 
     def setupUi(self, main_view):
 
@@ -598,6 +601,7 @@ class Ui_MainWindow_mainView(object):
         self.ui_layout_searchEditClients.setSpacing(6)
         self.ui_layout_searchEditClients.setObjectName("ui_layout_searchEditClients")
         self.ui_ListView_searchEditClients_nameSearchList = QtWidgets.QListView(self.widget_searchEditClientsLayout)
+        self.ui_ListView_searchEditClients_nameSearchList.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.ui_ListView_searchEditClients_nameSearchList.setObjectName(
             "ui_ListView_searchEditClients_nameSearchList")
 

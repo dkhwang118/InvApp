@@ -7,7 +7,8 @@
 #
 ############################################################################
 
-from PyQt5.QtCore import QObject, pyqtSlot
+from PyQt5.QtCore import QObject, pyqtSlot, QModelIndex
+from PyQt5.QtGui import QStandardItem
 from PyQt5.QtWidgets import QMessageBox
 
 
@@ -79,5 +80,24 @@ class MainController(QObject):
             self._mainView.show()
         else:
             self._incorrectPass.show()
+
+    def searchClientNames_byName(self, currentNameText):
+        if currentNameText == "":
+            self._model.getAllClients()
+        else:
+            self._model.getAllClients_byName(currentNameText)
+
+    def searchEditClients_editClientInfo_buttonClick(self):
+        self._model.searchEditClients_editMode = 1
+
+    @pyqtSlot(QModelIndex)
+    def searchEditClients_onClientName_doubleClick(self, id):
+        """
+        Event when a client name in the searchEditClients view list is double-clicked
+        :param id: Client Id
+        :return:
+        """
+        self._model.getClientInfo_byId(id)
+        return
 
 

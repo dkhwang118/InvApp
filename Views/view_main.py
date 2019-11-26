@@ -11,7 +11,7 @@
 #
 ############################################################################
 
-
+from PyQt5 import QtCore
 from PyQt5.QtWidgets import QMainWindow
 from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtCore import pyqtSlot
@@ -46,12 +46,28 @@ class MainView(QMainWindow):
         self._ui.ux_pButton_newClient.clicked.connect(lambda: self._main_controller.change_mainView(3))
         self._ui.ux_pButton_editClient.clicked.connect(lambda: self._main_controller.change_mainView(4))
 
+
+
+        # connect searchEditOrders buttons and actions
+        self._ui.ux_pButton_searchEditClients_editClientInfo.clicked.connect(
+                                                    self._main_controller.searchEditClients_editClientInfo_buttonClick)
+        self._ui.ui_ListView_searchEditClients_nameSearchList.doubleClicked[QtCore.QModelIndex].connect(
+                                                                        self.on_searchEditClients_listViewDoubleClick)
+
+
+
+
         # connect buttons that query/change db information
         self._ui.ux_pButton_addClient.clicked.connect(lambda: self._main_controller.cntrl_addNewClient(self._ui.ux_lineEdit_newClientName.text(),
                                                                                                  self._ui.ux_lineEdit_addressLine1.text(),
                                                                                                  self._ui.ux_lineEdit_addressLine2.text(),
                                                                                                  self._ui.ux_lineEdit_newClientPhone.text(),
                                                                                                  self._ui.ux_lineEdit_newClientEmail.text()))
+
+        # connect searchable text line edit widgets
+        self._ui.ux_lineEdit_searchEditClients_clientNameSearch.textChanged.connect(
+                                        lambda: self._main_controller.searchClientNames_byName(
+                                            self._ui.ux_lineEdit_searchEditClients_clientNameSearch.text()))
 
         # hide widgets which are invisible on start (e.g. newOrders pButton)
         self.hide_secondLvlMenu_widgets()
@@ -62,6 +78,9 @@ class MainView(QMainWindow):
         self._model.currentTier2Buttons_changed.connect(self.on_tier1_buttonClick)
         self._model.show_message_box.connect(self.on_show_message_box)
         self._model.call_success.connect(self.on_call_returnValue_received)
+        self._model.searchEditClients_searchClientNames_newValues.connect(self.on_searchEditClients_newValues)
+        self._model.searchEditClients_clientInfoDoubleClick.connect(self.on_searchEditClients_clientInfoDoubleClick)
+        self._model.searchEditClients_editModeChanged.connect(self.on_searchEditClients_editModeChanged)
 
         # set a default value
         #self._main_controller.change_amount(42)
@@ -82,6 +101,32 @@ class MainView(QMainWindow):
                 return
         else:
             # nothing
+            return
+
+    def on_searchEditClients_listViewDoubleClick(self, item):
+        (name, id) = self._ui.model_listView_searchEditClients_NameIdList[item.row()]
+        self._main_controller.searchEditClients_onClientName_doubleClick(id)
+
+    @pyqtSlot(str, str, str, str, str)
+    def on_searchEditClients_clientInfoDoubleClick(self, name, address1, address2, phone, email):
+        self._ui.ux_lineEdit_searchEditClients_cNameOut.setText(name)
+        self._ui.ux_lineEdit_searchEditClients_address1Out.setText(address1)
+        self._ui.ux_lineEdit_searchEditClients_address2Out.setText(address2)
+        self._ui.ux_lineEdit_searchEditClients_cPhoneOut.setText(phone)
+        self._ui.ux_lineEdit_searchEditClients_cEmailOut.setText(email)
+
+        self._ui.ux_lineEdit_searchEditClients_cNameOut.setReadOnly(True)
+        self._ui.ux_lineEdit_searchEditClients_address1Out.setReadOnly(True)
+        self._ui.ux_lineEdit_searchEditClients_address2Out.setReadOnly(True)
+        self._ui.ux_lineEdit_searchEditClients_cPhoneOut.setReadOnly(True)
+        self._ui.ux_lineEdit_searchEditClients_cEmailOut.setReadOnly(True)
+
+    @pyqtSlot(int)
+    def on_searchEditClients_editModeChanged(self, value):
+        if value == 1:
+            # change values in lineEdit boxes to be changable
+            return
+        else:
             return
 
     # signal received from model after one of the leftmost buttons is clicked
@@ -122,9 +167,12 @@ class MainView(QMainWindow):
         elif value == 4:
             clients = self._model.getAllClients()
             self._ui.model_listView_searchEditClients_nameSearchList.clear()
-            #print(clients)
-            for (x,) in clients:
-                self._ui.model_listView_searchEditClients_nameSearchList.appendRow(QStandardItem(x))
+            self._ui.model_listView_searchEditClients_NameIdList.clear()
+            self._ui.model_listView_searchEditClients_NameIdList = clients
+            for (x,y) in clients:
+                item = QStandardItem(x)
+                item.setData(y)
+                self._ui.model_listView_searchEditClients_nameSearchList.appendRow(item)
             self._ui.stackedLayoutWidget.setCurrentWidget(self._ui.widget_searchEditClientsLayout)
 
     @pyqtSlot(tuple)
@@ -143,6 +191,18 @@ class MainView(QMainWindow):
     # @pyqtSlot(bool)
     # def on_enable_reset_changed(self, value):
     #     self._ui.pushButton_reset.setEnabled(value)
+
+    @pyqtSlot(list)
+    def on_searchEditClients_newValues(self, nameList):
+        self._ui.model_listView_searchEditClients_nameSearchList.clear()
+        self._ui.model_listView_searchEditClients_NameIdList.clear()
+        print(nameList)
+        for (x,y) in nameList:
+            item = QStandardItem(x)
+            item.setData(y)
+            self._ui.model_listView_searchEditClients_nameSearchList.appendRow(item)
+            self._ui.model_listView_searchEditClients_NameIdList = nameList
+
 
     def hide_secondLvlMenu_widgets(self):
         self._ui.ux_pButton_newOrder.setHidden(1)

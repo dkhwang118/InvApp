@@ -31,6 +31,14 @@ class Model(QObject):
     # signal to tell view whether last call was successful or not
     call_success = pyqtSignal(int)
 
+    # signal to tell view about updated list values
+    searchEditClients_searchClientNames_newValues = pyqtSignal(list)
+    searchEditClients_clientInfoDoubleClick = pyqtSignal(str, str, str, str, str)
+
+    # signal to tell view about changes in modes depedning on button press
+    searchEditClients_editModeChanged = pyqtSignal(int)
+
+
     @property
     def currentView(self):
         return self._currentView
@@ -39,6 +47,15 @@ class Model(QObject):
     def currentView(self, value):
         self._currentView = value
         self.mainView_changed.emit(value)
+
+    @property
+    def searchEditClients_editMode(self):
+        return self._searchEditClients_editMode
+
+    @searchEditClients_editMode.setter
+    def searchEditClients_editMode(self, value):
+        self._searchEditClients_editMode = value
+        self.searchEditClients_editModeChanged.emit(value)
 
     @property
     def currentTier2Buttons(self):
@@ -137,6 +154,9 @@ class Model(QObject):
         self._message_box_values = ("", "")
         self._last_db_return_value = -1
 
+        # set searchEditClient page signals and properties
+        self._searchEditClients_editMode = 0
+
         self._amount = 0
         self._even_odd = ''
         self._enable_reset = False
@@ -166,7 +186,26 @@ class Model(QObject):
 
     def getAllClients(self):
         db_cur = self._db_connection.cursor()
-        db_cur.execute("SELECT Name FROM Clients;")
-        return db_cur.fetchall()
+        db_cur.execute("SELECT Name, Id FROM Clients;")
+        clientNameList = db_cur.fetchall()
+        self.searchEditClients_searchClientNames_newValues.emit(clientNameList)
+        return clientNameList
 
+    def getAllClients_byName(self, name):
+        db_cur = self._db_connection.cursor()
+        formattedName = name + "%"
+        db_cur.execute("SELECT Name, Id FROM Clients WHERE Name LIKE ?;", (formattedName,))
+        self.searchEditClients_searchClientNames_newValues.emit(db_cur.fetchall())
+
+    def getClientInfo_byId(self, id):
+        db_cur = self._db_connection.cursor()
+        db_cur.execute("SELECT * FROM Clients WHERE Id=?;", (str(id),))
+        tempList = db_cur.fetchone()
+        print(tempList)
+        name = tempList[1]
+        address1 = tempList[2]
+        address2 = tempList[3]
+        phone = tempList[4]
+        email = tempList[5]
+        self.searchEditClients_clientInfoDoubleClick.emit(name, address1, address2, phone, email)
 
