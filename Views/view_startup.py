@@ -4,16 +4,14 @@
 #   Original design framework by "101" and "Roberto Leinardi" (https://stackoverflow.com/a/26699122)
 #   Edited by: David K. Hwang
 #
-#
 #   pyuic5 Views\view_main_ui.ui -o Views\view_main_ui.py
-#
 #   to convert .ui to .py
 #
 ############################################################################
 
 from PyQt5.QtWidgets import QMainWindow
 from PyQt5.QtCore import pyqtSlot
-from Views.ui_view_firstStart import Ui_StartPage
+from Views.view_firstStart_layout import Ui_StartPage
 
 
 class StartupView(QMainWindow):
@@ -35,33 +33,3 @@ class StartupView(QMainWindow):
 
         # set a default value
         #self._main_controller.change_amount(42)
-
-    # @pyqtSlot()
-    # def on_buttonClick_orders(self):
-    #     if (self._ui.ux_pButton_newOrder.isHidden()):
-    #         self._ui.ux_pButton_newOrder.show()
-    #         self._ui.ux_pButton_searchEditOrders.show()
-    #     else:
-    #         self._ui.ux_pButton_newOrder.hide()
-    #         self._ui.ux_pButton_searchEditOrders.hide()
-
-    # @pyqtSlot(int)
-    # def on_mainView_changed(self, value):
-    #     if (value == 0): self._ui.stackedLayoutWidget.setCurrentWidget(self._ui.widget_welcomeLayout)
-    #     elif (value == 1): self._ui.stackedLayoutWidget.setCurrentWidget(self._ui.widget_newOrderLayout)
-
-    # @pyqtSlot(int)
-    # def on_amount_changed(self, value):
-    #     self._ui.spinBox_amount.setValue(value)
-    #
-    # @pyqtSlot(str)
-    # def on_even_odd_changed(self, value):
-    #     self._ui.label_even_odd.setText(value)
-    #
-    # @pyqtSlot(bool)
-    # def on_enable_reset_changed(self, value):
-    #     self._ui.pushButton_reset.setEnabled(value)
-
-    # def hide_secondLvlMenu_widgets(self):
-    #     self._ui.ux_pButton_newOrder.setHidden(1)
-    #     self._ui.ux_pButton_searchEditOrders.setHidden(1)

@@ -15,7 +15,7 @@
 from PyQt5.QtWidgets import QMainWindow
 from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtCore import pyqtSlot
-from Views.view_MainWindow import Ui_MainWindow_mainView
+from Views.view_main_layout import Ui_MainWindow_mainView
 
 
 class MainView(QMainWindow):
@@ -43,6 +43,7 @@ class MainView(QMainWindow):
         # connect button click that changes mainView in MainWindow
         self._ui.ux_pButton_newOrder.clicked.connect(lambda: self._main_controller.change_mainView(1))
         self._ui.ux_pButton_newClient.clicked.connect(lambda: self._main_controller.change_mainView(3))
+        self._ui.ux_pButton_editClient.clicked.connect(lambda: self._main_controller.change_mainView(4))
 
         # connect buttons that query/change db information
         self._ui.ux_pButton_addClient.clicked.connect(lambda: self._main_controller.cntrl_addNewClient(self._ui.ux_lineEdit_newClientName.text(),
@@ -117,6 +118,7 @@ class MainView(QMainWindow):
         if value == 0: self._ui.stackedLayoutWidget.setCurrentWidget(self._ui.widget_welcomeLayout)
         elif value == 1: self._ui.stackedLayoutWidget.setCurrentWidget(self._ui.widget_newOrderLayout)
         elif value == 3: self._ui.stackedLayoutWidget.setCurrentWidget(self._ui.widget_newClientLayout)
+        elif value == 4: self._ui.stackedLayoutWidget.setCurrentWidget(self._ui.widget_searchEditClientsLayout)
 
     @pyqtSlot(tuple)
     def on_show_message_box(self, value):
