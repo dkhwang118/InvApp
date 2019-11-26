@@ -164,4 +164,9 @@ class Model(QObject):
         db_printAllClients(self._db_connection)
         return return_val, title, text
 
+    def getAllClients(self):
+        db_cur = self._db_connection.cursor()
+        db_cur.execute("SELECT Name FROM Clients;")
+        return db_cur.fetchall()
+
 

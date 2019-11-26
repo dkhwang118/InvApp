@@ -15,6 +15,7 @@
 from PyQt5.QtWidgets import QMainWindow
 from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtCore import pyqtSlot
+from PyQt5.QtGui import QStandardItemModel, QStandardItem
 from Views.view_main_layout import Ui_MainWindow_mainView
 
 
@@ -118,7 +119,13 @@ class MainView(QMainWindow):
         if value == 0: self._ui.stackedLayoutWidget.setCurrentWidget(self._ui.widget_welcomeLayout)
         elif value == 1: self._ui.stackedLayoutWidget.setCurrentWidget(self._ui.widget_newOrderLayout)
         elif value == 3: self._ui.stackedLayoutWidget.setCurrentWidget(self._ui.widget_newClientLayout)
-        elif value == 4: self._ui.stackedLayoutWidget.setCurrentWidget(self._ui.widget_searchEditClientsLayout)
+        elif value == 4:
+            clients = self._model.getAllClients()
+            self._ui.model_listView_searchEditClients_nameSearchList.clear()
+            #print(clients)
+            for (x,) in clients:
+                self._ui.model_listView_searchEditClients_nameSearchList.appendRow(QStandardItem(x))
+            self._ui.stackedLayoutWidget.setCurrentWidget(self._ui.widget_searchEditClientsLayout)
 
     @pyqtSlot(tuple)
     def on_show_message_box(self, value):

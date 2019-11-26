@@ -12,9 +12,14 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtGui import QStandardItem, QStandardItemModel
 
 
 class Ui_MainWindow_mainView(object):
+
+    # define model objects for listViews and other list containers
+    model_listView_searchEditClients_nameSearchList = QStandardItemModel()
+
     def setupUi(self, main_view):
 
         # init main window
@@ -595,6 +600,10 @@ class Ui_MainWindow_mainView(object):
         self.ui_ListView_searchEditClients_nameSearchList = QtWidgets.QListView(self.widget_searchEditClientsLayout)
         self.ui_ListView_searchEditClients_nameSearchList.setObjectName(
             "ui_ListView_searchEditClients_nameSearchList")
+
+        # set model for listView containing client names
+        self.ui_ListView_searchEditClients_nameSearchList.setModel(self.model_listView_searchEditClients_nameSearchList)
+
         self.ui_layout_searchEditClients.addWidget(self.ui_ListView_searchEditClients_nameSearchList, 8, 1, 7, 1)
         self.ui_label_searchEditClients_header = QtWidgets.QLabel(self.widget_searchEditClientsLayout)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
