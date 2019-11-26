@@ -114,19 +114,33 @@ class MainView(QMainWindow):
         self._ui.ux_lineEdit_searchEditClients_address2Out.setText(address2)
         self._ui.ux_lineEdit_searchEditClients_cPhoneOut.setText(phone)
         self._ui.ux_lineEdit_searchEditClients_cEmailOut.setText(email)
-
         self._ui.ux_lineEdit_searchEditClients_cNameOut.setReadOnly(True)
         self._ui.ux_lineEdit_searchEditClients_address1Out.setReadOnly(True)
         self._ui.ux_lineEdit_searchEditClients_address2Out.setReadOnly(True)
         self._ui.ux_lineEdit_searchEditClients_cPhoneOut.setReadOnly(True)
         self._ui.ux_lineEdit_searchEditClients_cEmailOut.setReadOnly(True)
+        self._ui.ux_pButton_searchEditClients_finalizeInfo.setDisabled(True)
 
     @pyqtSlot(int)
     def on_searchEditClients_editModeChanged(self, value):
         if value == 1:
             # change values in lineEdit boxes to be changable
+            self._ui.ux_lineEdit_searchEditClients_cNameOut.setReadOnly(False)
+            self._ui.ux_lineEdit_searchEditClients_address1Out.setReadOnly(False)
+            self._ui.ux_lineEdit_searchEditClients_address2Out.setReadOnly(False)
+            self._ui.ux_lineEdit_searchEditClients_cPhoneOut.setReadOnly(False)
+            self._ui.ux_lineEdit_searchEditClients_cEmailOut.setReadOnly(False)
+            self._ui.ux_pButton_searchEditClients_finalizeInfo.setDisabled(False)
+            self._ui.ux_pButton_searchEditClients_editClientInfo.setText("Cancel Editing Client Info")
             return
         else:
+            self._ui.ux_lineEdit_searchEditClients_cNameOut.setReadOnly(True)
+            self._ui.ux_lineEdit_searchEditClients_address1Out.setReadOnly(True)
+            self._ui.ux_lineEdit_searchEditClients_address2Out.setReadOnly(True)
+            self._ui.ux_lineEdit_searchEditClients_cPhoneOut.setReadOnly(True)
+            self._ui.ux_lineEdit_searchEditClients_cEmailOut.setReadOnly(True)
+            self._ui.ux_pButton_searchEditClients_finalizeInfo.setDisabled(True)
+            self._ui.ux_pButton_searchEditClients_editClientInfo.setText("Edit Client Information")
             return
 
     # signal received from model after one of the leftmost buttons is clicked
@@ -173,6 +187,7 @@ class MainView(QMainWindow):
                 item = QStandardItem(x)
                 item.setData(y)
                 self._ui.model_listView_searchEditClients_nameSearchList.appendRow(item)
+            self._ui.ux_pButton_searchEditClients_finalizeInfo.setDisabled(True)
             self._ui.stackedLayoutWidget.setCurrentWidget(self._ui.widget_searchEditClientsLayout)
 
     @pyqtSlot(tuple)

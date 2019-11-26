@@ -58,6 +58,14 @@ class Model(QObject):
         self.searchEditClients_editModeChanged.emit(value)
 
     @property
+    def currentClientId(self):
+        return self._currentClientId
+
+    @currentClientId.setter
+    def currentClientId(self, value):
+        self._currentClientId = value
+
+    @property
     def currentTier2Buttons(self):
         return self._currentTier2Buttons
 
@@ -156,6 +164,9 @@ class Model(QObject):
 
         # set searchEditClient page signals and properties
         self._searchEditClients_editMode = 0
+
+        # misc global propertes
+        self._currentClientId = -1
 
         self._amount = 0
         self._even_odd = ''

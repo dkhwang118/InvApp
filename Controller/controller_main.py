@@ -88,7 +88,11 @@ class MainController(QObject):
             self._model.getAllClients_byName(currentNameText)
 
     def searchEditClients_editClientInfo_buttonClick(self):
-        self._model.searchEditClients_editMode = 1
+        if self._model.searchEditClients_editMode == 0:
+            self._model.searchEditClients_editMode = 1
+        else:
+            self._model.searchEditClients_editMode = 0
+            self._model.getClientInfo_byId(self._model.currentClientId)
 
     @pyqtSlot(QModelIndex)
     def searchEditClients_onClientName_doubleClick(self, id):
@@ -97,6 +101,7 @@ class MainController(QObject):
         :param id: Client Id
         :return:
         """
+        self._model.currentClientId = id
         self._model.getClientInfo_byId(id)
         return
 
