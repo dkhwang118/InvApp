@@ -20,7 +20,6 @@ class Model(QObject):
     even_odd_changed = pyqtSignal(str)
     enable_reset_changed = pyqtSignal(bool)
 
-
     # define page-change signal
     mainView_changed = pyqtSignal(int)
     currentTier2Buttons_changed = pyqtSignal(int)
@@ -38,6 +37,11 @@ class Model(QObject):
     # signal to tell view about changes in modes depedning on button press
     searchEditClients_editModeChanged = pyqtSignal(int)
 
+    # signals for newOrder page
+    # signal for updated client list (Name, Id)
+    updatedClientList_NameId = pyqtSignal(list)
+    updated_ProdNotInOrderList = pyqtSignal(list)
+
     ####################################################################################################################
     #   MainWindow properties
     ####################################################################################################################
@@ -48,8 +52,6 @@ class Model(QObject):
 
     @currentView.setter
     def currentView(self, value):
-        if value == 1:  # if new view is newOrders => find latest orderNumber
-            self._nextOrderNumber = self.getNextOrderNum()
         self._currentView = value
         self.mainView_changed.emit(value)
 
@@ -112,6 +114,28 @@ class Model(QObject):
     def nextOrderNumber(self, value):
         self._nextOrderNumber = value
 
+    @property
+    def currentClientList(self):
+        return self._currentClientList
+
+    @currentClientList.setter
+    def currentClientList(self, values):
+        self._currentClientList = values
+        self.updatedClientList_NameId.emit(values)
+
+    @property
+    def currentDate(self):
+        return self._currentDate
+
+    @property
+    def productsNotInCurrentOrder(self):
+        return self._productsNotInCurrentOrder
+
+    @productsNotInCurrentOrder.setter
+    def productsNotInCurrentOrder(self, values):
+        self._productsNotInCurrentOrder = values
+        self.updated_ProdNotInOrderList.emit(values)
+
     ####################################################################################################################
     #   SearchEditClients properties
     ####################################################################################################################
@@ -169,6 +193,17 @@ class Model(QObject):
         self._currentClientId = -1
         self._currentOrderNumber = 0
         self._nextOrderNumber = "0000001"
+        self._currentClientList = []
+        self._currentDate = self.getCurrentDate()
+
+        # newOrder page properties
+        self._productsNotInCurrentOrder = []
+
+    #######################################################################
+    #
+    #   Database functions to query and change data
+    #
+    #######################################################################
 
     # function to try given password
     def db_connection_init(self, db_pass):
@@ -181,11 +216,15 @@ class Model(QObject):
         # check to see if password was correct (if app is connected to db) and return boolean result
         return db_connectionCheck(self._db_connection)
 
-    #######################################################################
-    #
-    #   Database functions to query and change data
-    #
-    #######################################################################
+    def getCurrentDate(self):
+        fullDate = str(datetime.now())
+        date = fullDate.split()
+        date_split = date[0].split('-')
+        fullYear = date_split[0]
+        year = fullYear[2:]
+        month = date_split[1]
+        day = date_split[2]
+        return fullYear + "-" + month + "-" + day
 
     ### function to add new clients to db
     def db_addNewClient(self, name, address1, address2, phone, email):
@@ -284,4 +323,16 @@ class Model(QObject):
         except sqlcipher.IntegrityError as e:
             print(e)
             self.show_message_box.emit("getNextOrderNum Error", e)
+
+    def getAllProducts(self):
+        try:
+            db_cur = self._db_connection.cursor()
+            db_cur.execute("""SELECT * FROM Products;""")
+            prodList = db_cur.fetchall()
+            return prodList
+        except:
+            ex = sys.exc_info()[0] # exception info
+            print(ex)
+            return []
+
 

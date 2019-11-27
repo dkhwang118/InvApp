@@ -14,6 +14,7 @@
 from PyQt5 import QtCore
 from PyQt5.QtWidgets import QMainWindow
 from PyQt5.QtWidgets import QMessageBox
+from PyQt5.QtWidgets import QTableWidgetItem
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtGui import QStandardItemModel, QStandardItem
 from Views.view_main_layout import Ui_MainWindow_mainView
@@ -47,6 +48,9 @@ class MainView(QMainWindow):
         self._ui.ux_pButton_editClient.clicked.connect(lambda: self._main_controller.change_mainView(4))
         self._ui.ux_pButton_addProduct.clicked.connect(lambda: self._main_controller.change_mainView(5))
 
+        ################################
+        #  newOrder Page connections
+        ################################
 
 
         ################################
@@ -98,6 +102,8 @@ class MainView(QMainWindow):
         self._model.searchEditClients_searchClientNames_newValues.connect(self.on_searchEditClients_newValues)
         self._model.searchEditClients_clientInfoDoubleClick.connect(self.on_searchEditClients_clientInfoDoubleClick)
         self._model.searchEditClients_editModeChanged.connect(self.on_searchEditClients_editModeChanged)
+        self._model.updatedClientList_NameId.connect(self.on_updatedClientList_NameId)
+        self._model.updated_ProdNotInOrderList.connect(self.on_updatedProdNotInOrderList)
 
         # set a default value
         #self._main_controller.change_amount(42)
@@ -110,9 +116,17 @@ class MainView(QMainWindow):
     @pyqtSlot(int)
     def on_mainView_changed(self, value):
         if value == 0: self._ui.stackedLayoutWidget.setCurrentWidget(self._ui.widget_welcomeLayout)
-        elif value == 1:
+        elif value == 1:    # set newOrders page and init fields with relevant data
             self._ui.stackedLayoutWidget.setCurrentWidget(self._ui.widget_newOrderLayout)
-            self._ui.ux_lineEdit_orderNumber.setText(self._model.nextOrderNumber)
+            self._ui.ux_lineEdit_orderNumber.setText(self._model.getNextOrderNum())
+            self._ui.ux_lineEdit_deliveryDate.setText(self._model.currentDate)
+            # self._ui.ux_comboBox_clientName.clear()
+            # for (x, y) in self._model.currentClientList:
+            #     self._ui.ux_comboBox_clientName.addItem(x)
+            # self._ui.ux_lineEdit_deliveryDate.setText(self._model.currentDate)
+            # for (x, y) in self._model.getAllProducts():
+            #     self._ui.ux_tableWidget_curProducts.set
+
         elif value == 3: self._ui.stackedLayoutWidget.setCurrentWidget(self._ui.widget_newClientLayout)
         elif value == 4:
             clients = self._model.getAllClients()
@@ -149,6 +163,15 @@ class MainView(QMainWindow):
     def on_show_message_box(self, value):
         (title, text) = value
         QMessageBox.about(self, title, text)
+
+    @pyqtSlot(list)
+    def on_updatedClientList_NameId(self, nameList):
+        if self._model.currentView == 1:   # if current view is newOrder page
+            self._ui.ux_comboBox_clientName.clear()
+            print(nameList)
+            for (x, y) in nameList:
+                self._ui.ux_comboBox_clientName.addItem(x)
+        return
 
     ####################################################################################################################
     #   MainWindow pButton functions/pyqtSlots
@@ -197,9 +220,26 @@ class MainView(QMainWindow):
         self._ui.ux_pButton_summaryView.setHidden(1)
 
     ####################################################################################################################
+    #   newOrders page functions and pyqtslots
+    ####################################################################################################################
+    @pyqtSlot(list)
+    def on_updatedProdNotInOrderList(self, values):
+        row = 0
+        self._ui.ux_tableWidget_curProducts.setRowCount(len(values))
+        for (id, name, description, price, date) in values:
+            self._ui.ux_tableWidget_curProducts.setItem(row, 0, QTableWidgetItem(name))
+            priceLen = len(str(price))
+            fPrice = str(price)[:(priceLen - 2)] + "," + str(price)[(priceLen-2):]
+            self._ui.ux_tableWidget_curProducts.setItem(row, 1, QTableWidgetItem(fPrice))
+            row += 1
+
+
+
+    ####################################################################################################################
     #   searchEditClients page functions and pyqtslots
     ####################################################################################################################
 
+    @pyqtSlot(QtCore.QModelIndex)
     def on_searchEditClients_listViewDoubleClick(self, item):
         (name, id) = self._ui.model_listView_searchEditClients_NameIdList[item.row()]
         self._main_controller.searchEditClients_onClientName_doubleClick(id)

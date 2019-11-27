@@ -51,6 +51,10 @@ class MainController(QObject):
     @pyqtSlot(int)
     def change_mainView(self, value):
         self._model.currentView = value
+        if value == 1:  # if new view is newOrders => tell model to get relevant data
+            self._model.currentClientList = self._model.getAllClients()
+            self._model.productsNotInCurrentOrder = self._model.getAllProducts()
+
 
     @pyqtSlot(str)
     def buttonClick_passwordLogin(self, value):
