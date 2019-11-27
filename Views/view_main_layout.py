@@ -158,6 +158,7 @@ class Ui_MainWindow_mainView(object):
         self.ui_newOrder(self.stackedLayoutWidget)
         self.ui_newClient(self.stackedLayoutWidget)
         self.ui_searchEditClients(self.stackedLayoutWidget)
+        self.ui_newProduct(self.stackedLayoutWidget)
 
         # set first shown widget (welcome)
         self.stackedLayoutWidget.setCurrentWidget(self.widget_welcomeLayout)
@@ -229,22 +230,30 @@ class Ui_MainWindow_mainView(object):
 
         # # retranslateUI for searchEditClient page
         self.ui_label_searchEditClients_header.setText(
-            _translate("MainWindow_mainView", "Search/Edit Client Information"))
+            _translate("main_view", "Search/Edit Client Information"))
         self.ui_label_searchEditClients_typeBelow.setText(
-            _translate("MainWindow_mainView", "Type a Clent Name Below to Search:"))
-        self.ui_label_searchEditClients_clientEmail.setText(_translate("MainWindow_mainView", "Client Email:"))
+            _translate("main_view", "Type a Clent Name Below to Search:"))
+        self.ui_label_searchEditClients_clientEmail.setText(_translate("main_view", "Client Email:"))
         self.ui_label_searchEditClients_doubleClickTo.setText(
-            _translate("MainWindow_mainView", "Double-Click on Client Name Below to Show Information:"))
-        self.ui_label_searchEditClients_clientName.setText(_translate("MainWindow_mainView", "Client Name:"))
+            _translate("main_view", "Double-Click on Client Name Below to Show Information:"))
+        self.ui_label_searchEditClients_clientName.setText(_translate("main_view", "Client Name:"))
         self.ui_label_searchEditClients_addressLine2.setText(
-            _translate("MainWindow_mainView", "Client Address Line 2:"))
+            _translate("main_view", "Client Address Line 2:"))
         self.ui_label_searchEditClients_addressLine1.setText(
-            _translate("MainWindow_mainView", "Client Address Line 1:"))
-        self.ui_label_searchEditClients_clientPhone.setText(_translate("MainWindow_mainView", "Client Phone:"))
+            _translate("main_view", "Client Address Line 1:"))
+        self.ui_label_searchEditClients_clientPhone.setText(_translate("main_view", "Client Phone:"))
         self.ux_pButton_searchEditClients_editClientInfo.setText(
-            _translate("MainWindow_mainView", "Edit Client Information"))
+            _translate("main_view", "Edit Client Information"))
         self.ux_pButton_searchEditClients_finalizeInfo.setText(
-            _translate("MainWindow_mainView", "Finalize Information Edit"))
+            _translate("main_view", "Finalize Information Edit"))
+
+        # retranslateUi() for newProduct page
+        self.ux_label_newProduct_price.setText(_translate("main_view", "Product Price-Per-Unit:"))
+        self.ux_label_newProduct_name.setText(_translate("main_view", "Product Name:"))
+        self.ux_label_newProduct_description.setText(_translate("main_view", "Product Description:"))
+        self.ux_pButton_newProduct_addProd.setText(_translate("main_view", "Add New Product To Database"))
+        self.ui_label_newProduct_header.setText(_translate("main_view", "Add New Products"))
+
 
     ############################################################
     #
@@ -581,17 +590,19 @@ class Ui_MainWindow_mainView(object):
         self.ux_lineEdit_newClientEmail.setMinimumSize(QtCore.QSize(200, 0))
         self.ux_lineEdit_newClientEmail.setObjectName("ux_lineEdit_newClientEmail")
         self.ui_layout_newClientPage.addWidget(self.ux_lineEdit_newClientEmail, 8, 1, 1, 2)
+        spacerItem2 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.ui_layout_newClientPage.addItem(spacerItem2, 13, 2, 1, 1)
         #self.ui_layout_newClientPage.addLayout(self.ui_layout_newClientPage, 0, 0, 1, 1)
 
         # attach/set newClient layout to welcomePage widget
         self.widget_newClientLayout.setLayout(self.ui_layout_newClientPage)
         self.stackedLayoutWidget.addWidget(self.widget_newClientLayout)
 
-    ############################################################
+    ####################################################################################################################
     #
-    #   ui_newOrder - window layout shown after "New Order" button click
+    #   ui_searchEditClients - window layout shown after "Search/Edit Client Info" button click
     #
-    ############################################################
+    ####################################################################################################################
     def ui_searchEditClients(self, stackedLayoutWidget):
         self.widget_searchEditClientsLayout = QtWidgets.QWidget(stackedLayoutWidget)
         self.widget_searchEditClientsLayout.setGeometry(QtCore.QRect(310, 20, 871, 681))
@@ -701,4 +712,111 @@ class Ui_MainWindow_mainView(object):
         self.widget_searchEditClientsLayout.setLayout(self.ui_layout_searchEditClients)
         self.stackedLayoutWidget.addWidget(self.widget_searchEditClientsLayout)
 
+    ####################################################################################################################
+    #
+    #   ui_newProduct - window layout shown after "Add New Product" button click
+    #
+    ####################################################################################################################
+    def ui_newProduct(self, stackedLayoutWidget):
+        self.widget_newProductLayout = QtWidgets.QWidget(stackedLayoutWidget)
+        self.widget_newProductLayout.setGeometry(QtCore.QRect(310, 20, 871, 681))
+        self.widget_newProductLayout.setObjectName("gridLayoutWidget")
+        self.ui_layout_newProduct = QtWidgets.QGridLayout()
+        self.ui_layout_newProduct.setSizeConstraint(QtWidgets.QLayout.SetDefaultConstraint)
+        self.ui_layout_newProduct.setSpacing(6)
+        self.ui_layout_newProduct.setObjectName("ui_layout_newProduct")
+        self.ux_lineEdit_newProduct_name = QtWidgets.QLineEdit(self.widget_newProductLayout)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.ux_lineEdit_newProduct_name.sizePolicy().hasHeightForWidth())
+        self.ux_lineEdit_newProduct_name.setSizePolicy(sizePolicy)
+        self.ux_lineEdit_newProduct_name.setMinimumSize(QtCore.QSize(200, 0))
+        self.ux_lineEdit_newProduct_name.setObjectName("ux_lineEdit_newProduct_name")
+        self.ui_layout_newProduct.addWidget(self.ux_lineEdit_newProduct_name, 2, 1, 1, 2)
+        self.ux_label_newProduct_price = QtWidgets.QLabel(self.widget_newProductLayout)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.ux_label_newProduct_price.sizePolicy().hasHeightForWidth())
+        self.ux_label_newProduct_price.setSizePolicy(sizePolicy)
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.ux_label_newProduct_price.setFont(font)
+        self.ux_label_newProduct_price.setAlignment(
+            QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
+        self.ux_label_newProduct_price.setObjectName("ux_label_newProduct_price")
+        self.ui_layout_newProduct.addWidget(self.ux_label_newProduct_price, 6, 0, 1, 1)
+        self.ux_lineEdit_newProduct_price = QtWidgets.QLineEdit(self.widget_newProductLayout)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.ux_lineEdit_newProduct_price.sizePolicy().hasHeightForWidth())
+        self.ux_lineEdit_newProduct_price.setSizePolicy(sizePolicy)
+        self.ux_lineEdit_newProduct_price.setMinimumSize(QtCore.QSize(200, 0))
+        self.ux_lineEdit_newProduct_price.setObjectName("ux_lineEdit_newProduct_price")
+        self.ui_layout_newProduct.addWidget(self.ux_lineEdit_newProduct_price, 6, 1, 1, 2)
+        spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        self.ui_layout_newProduct.addItem(spacerItem, 1, 1, 1, 2)
+        self.ux_label_newProduct_name = QtWidgets.QLabel(self.widget_newProductLayout)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.ux_label_newProduct_name.sizePolicy().hasHeightForWidth())
+        self.ux_label_newProduct_name.setSizePolicy(sizePolicy)
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.ux_label_newProduct_name.setFont(font)
+        self.ux_label_newProduct_name.setAlignment(
+            QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
+        self.ux_label_newProduct_name.setObjectName("ux_label_newProduct_name")
+        self.ui_layout_newProduct.addWidget(self.ux_label_newProduct_name, 2, 0, 1, 1)
+        self.ux_label_newProduct_description = QtWidgets.QLabel(self.widget_newProductLayout)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.ux_label_newProduct_description.sizePolicy().hasHeightForWidth())
+        self.ux_label_newProduct_description.setSizePolicy(sizePolicy)
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.ux_label_newProduct_description.setFont(font)
+        self.ux_label_newProduct_description.setAlignment(
+            QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
+        self.ux_label_newProduct_description.setObjectName("ux_label_newProduct_description")
+        self.ui_layout_newProduct.addWidget(self.ux_label_newProduct_description, 5, 0, 1, 1)
+        self.ux_pButton_newProduct_addProd = QtWidgets.QPushButton(self.widget_newProductLayout)
+        self.ux_pButton_newProduct_addProd.setMinimumSize(QtCore.QSize(0, 50))
+        self.ux_pButton_newProduct_addProd.setObjectName("ux_pButton_newProduct_addProd")
+        self.ui_layout_newProduct.addWidget(self.ux_pButton_newProduct_addProd, 11, 3, 1, 1)
+        self.ui_label_newProduct_header = QtWidgets.QLabel(self.widget_newProductLayout)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.ui_label_newProduct_header.sizePolicy().hasHeightForWidth())
+        self.ui_label_newProduct_header.setSizePolicy(sizePolicy)
+        font = QtGui.QFont()
+        font.setPointSize(18)
+        font.setBold(True)
+        font.setUnderline(True)
+        font.setWeight(75)
+        self.ui_label_newProduct_header.setFont(font)
+        self.ui_label_newProduct_header.setAlignment(QtCore.Qt.AlignCenter)
+        self.ui_label_newProduct_header.setObjectName("ui_label_newProduct_header")
+        self.ui_layout_newProduct.addWidget(self.ui_label_newProduct_header, 0, 0, 1, 4)
+        self.ux_textEdit_newProduct_description = QtWidgets.QTextEdit(self.widget_newProductLayout)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.ux_textEdit_newProduct_description.sizePolicy().hasHeightForWidth())
+        self.ux_textEdit_newProduct_description.setSizePolicy(sizePolicy)
+        self.ux_textEdit_newProduct_description.setObjectName("ux_textEdit_newProduct_description")
+        self.ui_layout_newProduct.addWidget(self.ux_textEdit_newProduct_description, 5, 1, 1, 2)
+        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.ui_layout_newProduct.addItem(spacerItem1, 10, 1, 1, 1)
+        spacerItem2 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.ui_layout_newProduct.addItem(spacerItem2, 11, 2, 1, 1)
+
+        # attach/set saerchEditClients layout to newProduct widget
+        self.widget_newProductLayout.setLayout(self.ui_layout_newProduct)
+        self.stackedLayoutWidget.addWidget(self.widget_newProductLayout)
 
