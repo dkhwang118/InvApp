@@ -48,6 +48,8 @@ class Model(QObject):
 
     @currentView.setter
     def currentView(self, value):
+        if value == 1:  # if new view is newOrders => find latest orderNumber
+            self._nextOrderNumber = self.getNextOrderNum()
         self._currentView = value
         self.mainView_changed.emit(value)
 
@@ -98,6 +100,17 @@ class Model(QObject):
     def db_cursor(self, db_cur):
         self._db_cursor = db_cur
 
+    ####################################################################################################################
+    #   newOrder properties
+    ####################################################################################################################
+
+    @property
+    def nextOrderNumber(self):
+        return self._nextOrderNumber
+
+    @nextOrderNumber.setter
+    def nextOrderNumber(self, value):
+        self._nextOrderNumber = value
 
     ####################################################################################################################
     #   SearchEditClients properties
@@ -119,6 +132,13 @@ class Model(QObject):
     @currentClientId.setter
     def currentClientId(self, value):
         self._currentClientId = value
+
+
+#######################################################################
+#
+#   INITIALIZATION
+#
+#######################################################################
 
     def __init__(self):
         super().__init__()
@@ -147,6 +167,8 @@ class Model(QObject):
 
         # misc global propertes
         self._currentClientId = -1
+        self._currentOrderNumber = 0
+        self._nextOrderNumber = "0000001"
 
     # function to try given password
     def db_connection_init(self, db_pass):
@@ -235,3 +257,31 @@ class Model(QObject):
                 if e_split[3] == 'Products.Name':
                     msg = "Product Name Already Exists! Please use a UNIQUE name for each Product!"
             self.show_message_box.emit(("Add Product Failed!", msg))
+
+    def getNextOrderNum(self):
+        try:
+            db_cur = self._db_connection.cursor()
+            # get and parse current date
+            temp = str(datetime.now())
+            date = temp.split()
+            date_split = date[0].split('-')
+            fullYear = date_split[0]
+            year = fullYear[2:]
+            month = date_split[1]
+            day = date_split[2]
+
+            db_cur.execute("""SELECT OrderNumber 
+                            FROM Orders 
+                            WHERE OrderYear = ?
+                            AND OrderMonth = ?;""", (year,month))
+            orderNumList = db_cur.fetchall()
+            print(orderNumList)
+            if not orderNumList:    # if order list is empty
+                orderNum = year + month + "001"
+            else:   # find last order number in list
+                orderNum = year + month + str(max(orderNumList))
+            return orderNum
+        except sqlcipher.IntegrityError as e:
+            print(e)
+            self.show_message_box.emit("getNextOrderNum Error", e)
+

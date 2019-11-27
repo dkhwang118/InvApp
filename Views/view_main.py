@@ -110,7 +110,9 @@ class MainView(QMainWindow):
     @pyqtSlot(int)
     def on_mainView_changed(self, value):
         if value == 0: self._ui.stackedLayoutWidget.setCurrentWidget(self._ui.widget_welcomeLayout)
-        elif value == 1: self._ui.stackedLayoutWidget.setCurrentWidget(self._ui.widget_newOrderLayout)
+        elif value == 1:
+            self._ui.stackedLayoutWidget.setCurrentWidget(self._ui.widget_newOrderLayout)
+            self._ui.ux_lineEdit_orderNumber.setText(self._model.nextOrderNumber)
         elif value == 3: self._ui.stackedLayoutWidget.setCurrentWidget(self._ui.widget_newClientLayout)
         elif value == 4:
             clients = self._model.getAllClients()

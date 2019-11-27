@@ -58,6 +58,10 @@ def firstTimeCreate(db_pass, db_path=DEFAULT_PATH):
     sql_createTable_Orders = """CREATE TABLE IF NOT EXISTS Orders (
                                     Id INTEGER PRIMARY KEY,
                                     ClientId INTEGER NOT NULL,
+                                    FullOrderNumber TEXT UNIQUE NOT NULL,        
+                                    OrderYear INTEGER NOT NULL,
+                                    OrderMonth INTEGER NOT NULL,
+                                    OrderNumber INTEGER NOT NULL,
                                     DeliveryDate DATETIME,
                                     OrderPaid INTEGER NOT NULL,
                                     OrderPaidDate DATETIME,
