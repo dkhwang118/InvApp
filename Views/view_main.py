@@ -153,7 +153,7 @@ class MainView(QMainWindow):
                 self._ui.ux_lineEdit_addressLine1.clear()
                 self._ui.ux_lineEdit_addressLine2.clear()
             else:
-                # nothing
+                # nothing => client was not successfully added, thus info stays put
                 return
         else:
             # nothing
@@ -222,6 +222,7 @@ class MainView(QMainWindow):
     ####################################################################################################################
     #   newOrders page functions and pyqtslots
     ####################################################################################################################
+
     @pyqtSlot(list)
     def on_updatedProdNotInOrderList(self, values):
         row = 0
@@ -232,8 +233,6 @@ class MainView(QMainWindow):
             fPrice = str(price)[:(priceLen - 2)] + "," + str(price)[(priceLen-2):]
             self._ui.ux_tableWidget_curProducts.setItem(row, 1, QTableWidgetItem(fPrice))
             row += 1
-
-
 
     ####################################################################################################################
     #   searchEditClients page functions and pyqtslots
