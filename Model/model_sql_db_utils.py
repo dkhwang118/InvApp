@@ -48,9 +48,39 @@ def firstTimeCreate(db_pass, db_path=DEFAULT_PATH):
                                     Email nvarchar(128),
                                     DateAdded timestamp);"""
 
+    sql_createTable_Products = """CREATE TABLE IF NOT EXISTS Products (
+                                    Id integer PRIMARY KEY,
+                                    Name TEXT UNIQUE NOT NULL,
+                                    Description TEXT,
+                                    PriceInCents INT NOT NULL,
+                                    DateAdded timestamp);"""
+
+    sql_createTable_Orders = """CREATE TABLE IF NOT EXISTS Orders (
+                                    Id INTEGER PRIMARY KEY,
+                                    ClientId INTEGER NOT NULL,
+                                    DeliveryDate DATETIME,
+                                    OrderPaid INTEGER NOT NULL,
+                                    OrderPaidDate DATETIME,
+                                    CreatedDate timestamp,
+                                    FOREIGN KEY (ClientId) REFERENCES Clients (Id));"""
+
+    sql_createTable_OrderItems = """CREATE TABLE IF NOT EXISTS OrderItems (
+                                    ProductId INTEGER NOT NULL,
+                                    OrderId INTEGER NOT NULL,
+                                    NumInOrder INTEGER NOT NULL,
+                                    PRIMARY KEY (ProductID, OrderId),
+                                    FOREIGN KEY (ProductId) REFERENCES Products (Id),
+                                    FOREIGN KEY (OrderId) REFERENCES Orders (Id));"""
+
     # execute the creation of a table
-    db_cur.execute("PRAGMA key='?'", db_pass)
+    db_cur.execute("PRAGMA key='" + db_pass + "'")
     db_cur.execute(sql_createTable_Clients)
+    db_conn.commit()
+    db_cur.execute(sql_createTable_Products)
+    db_conn.commit()
+    db_cur.execute(sql_createTable_Orders)
+    db_conn.commit()
+    db_cur.execute(sql_createTable_OrderItems)
     db_conn.commit()
     return db_conn, db_cur
 
@@ -97,7 +127,6 @@ def addNewClient(db_conn, db_cur, name, address1, address2, phone, email):
         print(e)
         #print(ex)
         return 0, "Error!", msg
-
 
 def db_printAllClients(db_conn):
     db_cur = db_conn.cursor()

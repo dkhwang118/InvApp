@@ -38,6 +38,9 @@ class Model(QObject):
     # signal to tell view about changes in modes depedning on button press
     searchEditClients_editModeChanged = pyqtSignal(int)
 
+    ####################################################################################################################
+    #   MainWindow properties
+    ####################################################################################################################
 
     @property
     def currentView(self):
@@ -47,23 +50,6 @@ class Model(QObject):
     def currentView(self, value):
         self._currentView = value
         self.mainView_changed.emit(value)
-
-    @property
-    def searchEditClients_editMode(self):
-        return self._searchEditClients_editMode
-
-    @searchEditClients_editMode.setter
-    def searchEditClients_editMode(self, value):
-        self._searchEditClients_editMode = value
-        self.searchEditClients_editModeChanged.emit(value)
-
-    @property
-    def currentClientId(self):
-        return self._currentClientId
-
-    @currentClientId.setter
-    def currentClientId(self, value):
-        self._currentClientId = value
 
     @property
     def currentTier2Buttons(self):
@@ -112,33 +98,27 @@ class Model(QObject):
     def db_cursor(self, db_cur):
         self._db_cursor = db_cur
 
-    @property
-    def amount(self):
-        return self._amount
 
-    @amount.setter
-    def amount(self, value):
-        self._amount = value
-        self.amount_changed.emit(value)
+    ####################################################################################################################
+    #   SearchEditClients properties
+    ####################################################################################################################
 
     @property
-    def even_odd(self):
-        return self._even_odd
+    def searchEditClients_editMode(self):
+        return self._searchEditClients_editMode
 
-    @even_odd.setter
-    def even_odd(self, value):
-        self._even_odd = value
-        self.even_odd_changed.emit(value)
+    @searchEditClients_editMode.setter
+    def searchEditClients_editMode(self, value):
+        self._searchEditClients_editMode = value
+        self.searchEditClients_editModeChanged.emit(value)
 
     @property
-    def enable_reset(self):
-        return self._enable_reset
+    def currentClientId(self):
+        return self._currentClientId
 
-    @enable_reset.setter
-    def enable_reset(self, value):
-        self._enable_reset = value
-        self.enable_reset_changed.emit(value)
-
+    @currentClientId.setter
+    def currentClientId(self, value):
+        self._currentClientId = value
 
     def __init__(self):
         super().__init__()
@@ -167,10 +147,6 @@ class Model(QObject):
 
         # misc global propertes
         self._currentClientId = -1
-
-        self._amount = 0
-        self._even_odd = ''
-        self._enable_reset = False
 
     # function to try given password
     def db_connection_init(self, db_pass):
@@ -219,4 +195,29 @@ class Model(QObject):
         phone = tempList[4]
         email = tempList[5]
         self.searchEditClients_clientInfoDoubleClick.emit(name, address1, address2, phone, email)
+
+    def editClientInfo_byCurrentId(self, name, address1, address2, phone, email):
+        db_cur = self._db_connection.cursor()
+        update = """UPDATE Clients
+                    SET Name = ?,
+                        Address_line1 = ?,
+                        Address_line2 = ?,
+                        Phone = ?,
+                        Email = ?
+                    WHERE Id = ?"""
+        try:
+            db_cur.execute(update, (name, address1, address2, phone, email, self._currentClientId))
+            self._db_connection.commit()
+            text = "Client \"" + name + "\" Information Edit Successful."
+            self.searchEditClients_searchClientNames_newValues
+            self.show_message_box.emit(("Edit Client Information Success!", text))
+            self.searchEditClients_editModeChanged.emit(0)
+
+        except sqlcipher.IntegrityError as e:
+            #print(e)
+            e_split = str(e).split()
+            if e_split[0] == 'UNIQUE':
+                if e_split[3] == 'Clients.Name':
+                    msg = "Client Name Already Exists! Please use a UNIQUE name for each client!"
+            self.show_message_box.emit(("Edit Client Information Failed!", msg))
 

@@ -34,9 +34,8 @@ class MainController(QObject):
         self._incorrectPass = qObj
 
     ######################################################
-    #   pyqtSlots
+    #   MainWindow functions and pyqtSlots
     ######################################################
-
     # pyqtSlot and function to handle tier1 (leftmost) button clicks
     @pyqtSlot(int)
     def buttonClick_tier1(self, value):
@@ -53,22 +52,6 @@ class MainController(QObject):
     def change_mainView(self, value):
         self._model.currentView = value
 
-    @pyqtSlot(str, str, str, str, str)
-    def cntrl_addNewClient(self, name, address1, address2, phone, email):
-        return_val, title, text = self._model.db_addNewClient(name, address1, address2, phone, email)
-        self._model.message_box_values = (title, text)
-        self._model.last_db_return_value = return_val
-
-    @pyqtSlot(int)
-    def change_amount(self, value):
-        self._model.amount = value
-
-        # calculate even or odd
-        self._model.even_odd = 'odd' if value % 2 else 'even'
-
-        # calculate button enabled state
-        self._model.enable_reset = True if value else False
-
     @pyqtSlot(str)
     def buttonClick_passwordLogin(self, value):
         # code to tell controller to attempt db connection with given password value
@@ -81,13 +64,28 @@ class MainController(QObject):
         else:
             self._incorrectPass.show()
 
+    ####################################################################################################################
+    #   addNewClient page pyqtSlots
+    ####################################################################################################################
+
+    @pyqtSlot(str, str, str, str, str)
+    def cntrl_addNewClient(self, name, address1, address2, phone, email):
+        return_val, title, text = self._model.db_addNewClient(name, address1, address2, phone, email)
+        self._model.message_box_values = (title, text)
+        self._model.last_db_return_value = return_val
+
+    ####################################################################################################################
+    #   searchEditOrders page pyqtSlots
+    ####################################################################################################################
+
     def searchClientNames_byName(self, currentNameText):
         if currentNameText == "":
             self._model.getAllClients()
         else:
             self._model.getAllClients_byName(currentNameText)
 
-    def searchEditClients_editClientInfo_buttonClick(self):
+    @pyqtSlot()
+    def searchEditClients_enableEditInfo_buttonClick(self):
         if self._model.searchEditClients_editMode == 0:
             self._model.searchEditClients_editMode = 1
         else:
@@ -104,5 +102,11 @@ class MainController(QObject):
         self._model.currentClientId = id
         self._model.getClientInfo_byId(id)
         return
+
+    @pyqtSlot(str, str, str, str, str)
+    def searchEditClients_finalizeInfo_buttonClick(self, name, address1, address2, phone, email):
+        self._model.editClientInfo_byCurrentId(name, address1, address2, phone, email)
+
+
 
 
