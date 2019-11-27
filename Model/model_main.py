@@ -209,10 +209,9 @@ class Model(QObject):
             db_cur.execute(update, (name, address1, address2, phone, email, self._currentClientId))
             self._db_connection.commit()
             text = "Client \"" + name + "\" Information Edit Successful."
-            self.searchEditClients_searchClientNames_newValues
+            #self.searchEditClients_searchClientNames_newValues     code would be here to emit signal to refresh client names in listview
             self.show_message_box.emit(("Edit Client Information Success!", text))
             self.searchEditClients_editModeChanged.emit(0)
-
         except sqlcipher.IntegrityError as e:
             #print(e)
             e_split = str(e).split()
@@ -221,3 +220,18 @@ class Model(QObject):
                     msg = "Client Name Already Exists! Please use a UNIQUE name for each client!"
             self.show_message_box.emit(("Edit Client Information Failed!", msg))
 
+    def addNewProduct(self, name, description, priceInCents):
+        try:
+            db_cur = self._db_connection.cursor()
+            sql_tableInsert_Products = "INSERT INTO Products(Name, Description, PriceInCents, DateAdded) values (?,?,?,?)"
+            db_cur.execute(sql_tableInsert_Products, (name, description, priceInCents, datetime.now()))
+            self._db_connection.commit()
+            text = "Product \"" + name + "\" Successfully Added to Database!"
+            self.show_message_box.emit(("Add New Product Success!", text))
+        except sqlcipher.IntegrityError as e:
+            print(e)
+            e_split = str(e).split()
+            if e_split[0] == 'UNIQUE':
+                if e_split[3] == 'Products.Name':
+                    msg = "Product Name Already Exists! Please use a UNIQUE name for each Product!"
+            self.show_message_box.emit(("Add Product Failed!", msg))

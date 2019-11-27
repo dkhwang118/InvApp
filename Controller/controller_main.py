@@ -75,7 +75,7 @@ class MainController(QObject):
         self._model.last_db_return_value = return_val
 
     ####################################################################################################################
-    #   searchEditOrders page pyqtSlots
+    #   searchEditClients page pyqtSlots
     ####################################################################################################################
 
     def searchClientNames_byName(self, currentNameText):
@@ -107,6 +107,16 @@ class MainController(QObject):
     def searchEditClients_finalizeInfo_buttonClick(self, name, address1, address2, phone, email):
         self._model.editClientInfo_byCurrentId(name, address1, address2, phone, email)
 
+    ####################################################################################################################
+    #   newProduct page pyqtSlots
+    ####################################################################################################################
 
-
-
+    @pyqtSlot(str, str, str)
+    def newProduct_addProduct_buttonClick(self, name, description, priceInCents):
+        fPriceInCents = 0
+        # if "," or "." found => delete
+        if (priceInCents.find(',') != -1):
+            fPriceInCents = int(priceInCents.replace(',', ''))
+        elif (priceInCents.find('.') != -1):
+            fPriceInCents = int(priceInCents.replace('.', ''))
+        self._model.addNewProduct(name, description, fPriceInCents)

@@ -49,21 +49,9 @@ class MainView(QMainWindow):
 
 
 
-        # connect searchEditOrders buttons and actions
-        self._ui.ux_pButton_searchEditClients_editClientInfo.clicked.connect(
-                                                    self._main_controller.searchEditClients_enableEditInfo_buttonClick)
-        self._ui.ui_ListView_searchEditClients_nameSearchList.doubleClicked[QtCore.QModelIndex].connect(
-                                                                        self.on_searchEditClients_listViewDoubleClick)
-        self._ui.ux_pButton_searchEditClients_finalizeInfo.clicked.connect(lambda:
-                                self._main_controller.searchEditClients_finalizeInfo_buttonClick(
-                                    self._ui.ux_lineEdit_searchEditClients_cNameOut.text(),
-                                    self._ui.ux_lineEdit_searchEditClients_address1Out.text(),
-                                    self._ui.ux_lineEdit_searchEditClients_address2Out.text(),
-                                    self._ui.ux_lineEdit_searchEditClients_cPhoneOut.text(),
-                                    self._ui.ux_lineEdit_searchEditClients_cEmailOut.text(),
-                                ))
-
-        # connect buttons that query/change db information
+        ################################
+        #  addClient Page connections
+        ################################
         self._ui.ux_pButton_addClient.clicked.connect(lambda: self._main_controller.cntrl_addNewClient(
                                                                          self._ui.ux_lineEdit_newClientName.text(),
                                                                          self._ui.ux_lineEdit_addressLine1.text(),
@@ -71,10 +59,32 @@ class MainView(QMainWindow):
                                                                          self._ui.ux_lineEdit_newClientPhone.text(),
                                                                          self._ui.ux_lineEdit_newClientEmail.text()))
 
-        # connect searchable text line edit widgets
+        ######################################
+        #  searchEditClients Page connections
+        ######################################
+        self._ui.ux_pButton_searchEditClients_editClientInfo.clicked.connect(
+            self._main_controller.searchEditClients_enableEditInfo_buttonClick)
+        self._ui.ui_ListView_searchEditClients_nameSearchList.doubleClicked[QtCore.QModelIndex].connect(
+            self.on_searchEditClients_listViewDoubleClick)
+        self._ui.ux_pButton_searchEditClients_finalizeInfo.clicked.connect(lambda:
+                                                   self._main_controller.searchEditClients_finalizeInfo_buttonClick(
+                                                       self._ui.ux_lineEdit_searchEditClients_cNameOut.text(),
+                                                       self._ui.ux_lineEdit_searchEditClients_address1Out.text(),
+                                                       self._ui.ux_lineEdit_searchEditClients_address2Out.text(),
+                                                       self._ui.ux_lineEdit_searchEditClients_cPhoneOut.text(),
+                                                       self._ui.ux_lineEdit_searchEditClients_cEmailOut.text()))
         self._ui.ux_lineEdit_searchEditClients_clientNameSearch.textChanged.connect(lambda:
                                                 self._main_controller.searchClientNames_byName(
                                                     self._ui.ux_lineEdit_searchEditClients_clientNameSearch.text()))
+
+        ######################################
+        #  addProduct Page connections
+        ######################################
+        self._ui.ux_pButton_newProduct_addProd.clicked.connect(lambda:
+                                                    self._main_controller.newProduct_addProduct_buttonClick(
+                                                        self._ui.ux_lineEdit_newProduct_name.text(),
+                                                        self._ui.ux_textEdit_newProduct_description.toPlainText(),
+                                                        self._ui.ux_lineEdit_newProduct_price.text()))
 
         # hide widgets which are invisible on start (e.g. newOrders pButton)
         self.hide_secondLvlMenu_widgets()
