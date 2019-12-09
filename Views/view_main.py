@@ -52,8 +52,8 @@ class MainView(QMainWindow):
         #  newOrder Page connections
         ################################
         self._ui.ux_pButton_addProdToOrd.clicked.connect(lambda: self._main_controller.addProd_toNewOrder(
-                                                                            self._ui.ux_tableWidget_curProducts.currentRow()
-        ))
+                                                                            self._ui.ux_tableWidget_curProducts.currentRow()))
+        self._ui.ux_pButton_compOrder.clicked.connect(lambda: self._main_controller.removeProd_fromNewOrder(self._ui.ux_tableWidget_orderProducts.currentRow()))
 
         ################################
         #  addClient Page connections

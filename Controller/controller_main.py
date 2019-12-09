@@ -75,6 +75,9 @@ class MainController(QObject):
         # get product from productsNotInCurrentOrder using index of currently selected item(s)
         self._model.newOrder_addProdToOrder(index)
 
+    @pyqtSlot(int)
+    def removeProd_fromNewOrder(self, index):
+        self._model.newOrder_removeProdFromOrder(index)
 
 
     ####################################################################################################################

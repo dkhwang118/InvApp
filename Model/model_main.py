@@ -353,5 +353,8 @@ class Model(QObject):
         self._productsInCurrentOrder.append(addedProduct)
         self.updated_ProdInOrderList.emit(self._productsInCurrentOrder)
 
-
-
+    def newOrder_removeProdFromOrder(self, index):
+        removedProduct = self._productsInCurrentOrder.pop(index)
+        self.updated_ProdInOrderList.emit(self._productsInCurrentOrder)
+        self._productsNotInCurrentOrder.append(removedProduct)
+        self.updated_ProdNotInOrderList.emit(self._productsNotInCurrentOrder)
