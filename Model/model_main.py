@@ -41,6 +41,8 @@ class Model(QObject):
     # signal for updated client list (Name, Id)
     updatedClientList_NameId = pyqtSignal(list)
     updated_ProdNotInOrderList = pyqtSignal(list)
+    updated_ProdInOrderList = pyqtSignal(list)
+
 
     ####################################################################################################################
     #   MainWindow properties
@@ -136,6 +138,15 @@ class Model(QObject):
         self._productsNotInCurrentOrder = values
         self.updated_ProdNotInOrderList.emit(values)
 
+    @property
+    def productsInCurrentOrder(self):
+        return self._productsInCurrentOrder
+
+    @productsInCurrentOrder.setter
+    def productsInCurrentOrder(self, values):
+        self._productsInCurrentOrder = values
+        self.updated_ProdInOrderList.emit(values)
+
     ####################################################################################################################
     #   SearchEditClients properties
     ####################################################################################################################
@@ -198,6 +209,7 @@ class Model(QObject):
 
         # newOrder page properties
         self._productsNotInCurrentOrder = []
+        self._productsInCurrentOrder = []
 
     #######################################################################
     #
@@ -334,5 +346,12 @@ class Model(QObject):
             ex = sys.exc_info()[0] # exception info
             print(ex)
             return []
+
+    def newOrder_addProdToOrder(self, index):
+        addedProduct = self._productsNotInCurrentOrder.pop(index)
+        self.updated_ProdNotInOrderList.emit(self._productsNotInCurrentOrder)
+        self._productsInCurrentOrder.append(addedProduct)
+        self.updated_ProdInOrderList.emit(self._productsInCurrentOrder)
+
 
 

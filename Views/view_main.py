@@ -51,7 +51,9 @@ class MainView(QMainWindow):
         ################################
         #  newOrder Page connections
         ################################
-
+        self._ui.ux_pButton_addProdToOrd.clicked.connect(lambda: self._main_controller.addProd_toNewOrder(
+                                                                            self._ui.ux_tableWidget_curProducts.currentRow()
+        ))
 
         ################################
         #  addClient Page connections
@@ -104,6 +106,7 @@ class MainView(QMainWindow):
         self._model.searchEditClients_editModeChanged.connect(self.on_searchEditClients_editModeChanged)
         self._model.updatedClientList_NameId.connect(self.on_updatedClientList_NameId)
         self._model.updated_ProdNotInOrderList.connect(self.on_updatedProdNotInOrderList)
+        self._model.updated_ProdInOrderList.connect(self.on_updatedProdInOrderList)
 
         # set a default value
         #self._main_controller.change_amount(42)
@@ -227,12 +230,27 @@ class MainView(QMainWindow):
     def on_updatedProdNotInOrderList(self, values):
         row = 0
         self._ui.ux_tableWidget_curProducts.setRowCount(len(values))
+        print(values)
         for (id, name, description, price, date) in values:
             self._ui.ux_tableWidget_curProducts.setItem(row, 0, QTableWidgetItem(name))
             priceLen = len(str(price))
             fPrice = str(price)[:(priceLen - 2)] + "," + str(price)[(priceLen-2):]
             self._ui.ux_tableWidget_curProducts.setItem(row, 1, QTableWidgetItem(fPrice))
             row += 1
+
+    @pyqtSlot(list)
+    def on_updatedProdInOrderList(self, values):
+        row = 0
+        self._ui.ux_tableWidget_orderProducts.setRowCount(len(values))
+        for (id, name, description, price, date) in values:
+            self._ui.ux_tableWidget_orderProducts.setItem(row, 0, QTableWidgetItem(name))
+            priceLen = len(str(price))
+            fPrice = str(price)[:(priceLen - 2)] + "," + str(price)[(priceLen-2):]
+            self._ui.ux_tableWidget_orderProducts.setItem(row, 2, QTableWidgetItem(fPrice))
+            self._ui.ux_tableWidget_orderProducts.setItem(row, 1, QTableWidgetItem(0))
+            self._ui.ux_tableWidget_orderProducts.setItem(row, 3, QTableWidgetItem(0))
+            row += 1
+
 
     ####################################################################################################################
     #   searchEditClients page functions and pyqtslots

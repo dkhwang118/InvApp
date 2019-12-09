@@ -55,7 +55,6 @@ class MainController(QObject):
             self._model.currentClientList = self._model.getAllClients()
             self._model.productsNotInCurrentOrder = self._model.getAllProducts()
 
-
     @pyqtSlot(str)
     def buttonClick_passwordLogin(self, value):
         # code to tell controller to attempt db connection with given password value
@@ -71,6 +70,12 @@ class MainController(QObject):
     ####################################################################################################################
     #   newOrder page pyqtSlots
     ####################################################################################################################
+    @pyqtSlot(int)
+    def addProd_toNewOrder(self, index):
+        # get product from productsNotInCurrentOrder using index of currently selected item(s)
+        self._model.newOrder_addProdToOrder(index)
+
+
 
     ####################################################################################################################
     #   addNewClient page pyqtSlots
