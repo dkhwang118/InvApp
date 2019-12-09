@@ -54,6 +54,11 @@ class MainView(QMainWindow):
         self._ui.ux_pButton_addProdToOrd.clicked.connect(lambda: self._main_controller.addProd_toNewOrder(
                                                                             self._ui.ux_tableWidget_curProducts.currentRow()))
         self._ui.ux_pButton_compOrder.clicked.connect(lambda: self._main_controller.removeProd_fromNewOrder(self._ui.ux_tableWidget_orderProducts.currentRow()))
+        self._ui.ux_pButton_revAndComp.clicked.connect(lambda: self._main_controller.newOrder_reviewOrder(self._ui.ux_lineEdit_orderNumber.text(),
+                                                                                                          self._ui.ux_comboBox_clientName.currentIndex(),
+                                                                                                          self._ui.ux_lineEdit_deliveryDate.text()))
+
+        self._ui.ux_tableWidget_orderProducts.itemChanged.connect(self._main_controller.currentItemChanged())
 
         ################################
         #  addClient Page connections

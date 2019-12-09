@@ -79,6 +79,29 @@ class MainController(QObject):
     def removeProd_fromNewOrder(self, index):
         self._model.newOrder_removeProdFromOrder(index)
 
+    @pyqtSlot()
+    def currentItemChanged(self):
+        print("edited current item in QTable\n")
+
+    @pyqtSlot(str, int, str)
+    def newOrder_reviewOrder(self, orderNum, clientIndex_inCurCliList, orderDate):
+        # gather products and create string
+        products = ""
+        #for (pId, pName, pDesc, priceInCents, dateAdded) in self._model.productsInCurrentOrder:
+        #    products +=
+
+        msgText = """Please Review the Order Below and Select "Yes" if Correct:\n
+                    Order Number: """ + orderNum + """\n
+                    Client Name: """ + self._model.currentClientList[clientIndex_inCurCliList][0] + """\n
+                    Order Date: """ + orderDate + """\n
+                    Products: """
+
+        reviewOrder_msgBox = QMessageBox.question(self._mainView, "Review and Complete the Order", msgText, QMessageBox.Yes, QMessageBox.No)
+        if reviewOrder_msgBox == QMessageBox.Yes:
+            print("pressed yes\n")
+        else:
+            print("other\n")
+
 
     ####################################################################################################################
     #   addNewClient page pyqtSlots

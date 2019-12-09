@@ -42,6 +42,7 @@ class Model(QObject):
     updatedClientList_NameId = pyqtSignal(list)
     updated_ProdNotInOrderList = pyqtSignal(list)
     updated_ProdInOrderList = pyqtSignal(list)
+    updated_ProdAmountsInOrderList = pyqtSignal(list)
 
 
     ####################################################################################################################
@@ -147,6 +148,15 @@ class Model(QObject):
         self._productsInCurrentOrder = values
         self.updated_ProdInOrderList.emit(values)
 
+    @property
+    def productAmountsInCurrentOrder(self):
+        return self._productAmountsInCurrentOrder
+
+    @productAmountsInCurrentOrder.setter
+    def productAmountsInCurrentOrder(self, values):
+        self._productAmountsInCurrentOrder = values
+        self.updated_ProdAmountsInOrderList.emit(values)
+
     ####################################################################################################################
     #   SearchEditClients properties
     ####################################################################################################################
@@ -167,7 +177,6 @@ class Model(QObject):
     @currentClientId.setter
     def currentClientId(self, value):
         self._currentClientId = value
-
 
 #######################################################################
 #
@@ -210,6 +219,7 @@ class Model(QObject):
         # newOrder page properties
         self._productsNotInCurrentOrder = []
         self._productsInCurrentOrder = []
+        self._productAmountsInCurrentOrder = []
 
     #######################################################################
     #
