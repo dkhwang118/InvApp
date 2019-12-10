@@ -43,6 +43,7 @@ class Model(QObject):
     updated_ProdNotInOrderList = pyqtSignal(list)
     updated_ProdInOrderList = pyqtSignal(list)
     updated_ProdAmountsInOrderList = pyqtSignal(list)
+    updated_ProdInOrderListIndices = pyqtSignal(int, int)
 
 
     ####################################################################################################################
@@ -157,6 +158,23 @@ class Model(QObject):
         self._productAmountsInCurrentOrder = values
         self.updated_ProdAmountsInOrderList.emit(values)
 
+    @property
+    def prodsInOrdrList_selectedIndices(self):
+        return self._prodsInOrdrList_selectedIndices
+
+    @prodsInOrdrList_selectedIndices.setter
+    def prodsInOrdrList_selectedIndices(self, value):
+        self._prodsInOrdrList_selectedIndices = value
+        #self.updated_ProdInOrderListIndices.emit(x, y)
+
+    @property
+    def prodInOrdrList_selected(self):
+        return self._prodInOrdrList_selected
+
+    @prodInOrdrList_selected.setter
+    def prodInOrdrList_selected(self, value):
+        self._prodInOrdrList_selected = value
+
     ####################################################################################################################
     #   SearchEditClients properties
     ####################################################################################################################
@@ -220,6 +238,10 @@ class Model(QObject):
         self._productsNotInCurrentOrder = []
         self._productsInCurrentOrder = []
         self._productAmountsInCurrentOrder = []
+        self.prodsInOrdrList_selectedIndices = [-1, -1]
+        self._prodInOrdrList_selected = False
+
+        self.newOrder_productAmtDict = {}
 
     #######################################################################
     #
@@ -357,14 +379,29 @@ class Model(QObject):
             print(ex)
             return []
 
+    def newOrder_getAllProducts(self):
+        try:
+            db_cur = self._db_connection.cursor()
+            db_cur.execute("""SELECT * FROM Products;""")
+            prodList = db_cur.fetchall()
+            return prodList
+        except:
+            ex = sys.exc_info()[0] # exception info
+            print(ex)
+            return []
+
     def newOrder_addProdToOrder(self, index):
-        addedProduct = self._productsNotInCurrentOrder.pop(index)
-        self.updated_ProdNotInOrderList.emit(self._productsNotInCurrentOrder)
-        self._productsInCurrentOrder.append(addedProduct)
+        addedProduct = self._productsNotInCurrentOrder.pop(index)                   # get prod from first list
+        self.updated_ProdNotInOrderList.emit(self._productsNotInCurrentOrder)       # emit signal to update first list
+        productId = addedProduct[0]
+        self.newOrder_productAmtDict[productId] = 1
+        self._productsInCurrentOrder.append([addedProduct, 1])
         self.updated_ProdInOrderList.emit(self._productsInCurrentOrder)
 
     def newOrder_removeProdFromOrder(self, index):
         removedProduct = self._productsInCurrentOrder.pop(index)
         self.updated_ProdInOrderList.emit(self._productsInCurrentOrder)
-        self._productsNotInCurrentOrder.append(removedProduct)
+        productId = removedProduct[0]
+        self.newOrder_productAmtDict[productId] = 0
+        self._productsNotInCurrentOrder.append(removedProduct[0])
         self.updated_ProdNotInOrderList.emit(self._productsNotInCurrentOrder)

@@ -58,7 +58,11 @@ class MainView(QMainWindow):
                                                                                                           self._ui.ux_comboBox_clientName.currentIndex(),
                                                                                                           self._ui.ux_lineEdit_deliveryDate.text()))
 
-        self._ui.ux_tableWidget_orderProducts.itemChanged.connect(self._main_controller.currentItemChanged())
+        self._ui.ux_tableWidget_orderProducts.itemDoubleClicked.connect(lambda: self._main_controller.currentItemChanged(self._ui.ux_tableWidget_orderProducts.selectedIndexes()))
+        self._ui.ux_tableWidget_orderProducts.cellChanged.connect(lambda: self._main_controller.printit(self._ui.ux_tableWidget_orderProducts.item(self._model.prodsInOrdrList_selectedIndices[0],
+                                                                                                                                           self._model.prodsInOrdrList_selectedIndices[1])))
+           # self._main_controller.productAmountChangedInList(self._ui.ux_tableWidget_orderProducts.item(self._model.prodsInOrdrList_selectedIndices[0], self._model.prodsInOrdrList_selectedIndices[0]))
+        #)    #itemChanged.connect(lambda: self._main_controller.currentItemChanged())
 
         ################################
         #  addClient Page connections
@@ -247,12 +251,14 @@ class MainView(QMainWindow):
     def on_updatedProdInOrderList(self, values):
         row = 0
         self._ui.ux_tableWidget_orderProducts.setRowCount(len(values))
-        for (id, name, description, price, date) in values:
+        for listItem in values:
+            (pId, name, description, price, date) = listItem[0]
+            num = listItem[1]
             self._ui.ux_tableWidget_orderProducts.setItem(row, 0, QTableWidgetItem(name))
             priceLen = len(str(price))
             fPrice = str(price)[:(priceLen - 2)] + "," + str(price)[(priceLen-2):]
             self._ui.ux_tableWidget_orderProducts.setItem(row, 2, QTableWidgetItem(fPrice))
-            self._ui.ux_tableWidget_orderProducts.setItem(row, 1, QTableWidgetItem(0))
+            self._ui.ux_tableWidget_orderProducts.setItem(row, 1, QTableWidgetItem(str(num)))
             self._ui.ux_tableWidget_orderProducts.setItem(row, 3, QTableWidgetItem(0))
             row += 1
 

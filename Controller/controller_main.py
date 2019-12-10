@@ -9,7 +9,7 @@
 
 from PyQt5.QtCore import QObject, pyqtSlot, QModelIndex
 from PyQt5.QtGui import QStandardItem
-from PyQt5.QtWidgets import QMessageBox
+from PyQt5.QtWidgets import QMessageBox, QTableWidgetItem
 
 
 class MainController(QObject):
@@ -32,6 +32,9 @@ class MainController(QObject):
 
     def define_passDialog(self, qObj):
         self._incorrectPass = qObj
+
+
+
 
     ######################################################
     #   MainWindow functions and pyqtSlots
@@ -79,9 +82,34 @@ class MainController(QObject):
     def removeProd_fromNewOrder(self, index):
         self._model.newOrder_removeProdFromOrder(index)
 
-    @pyqtSlot()
-    def currentItemChanged(self):
-        print("edited current item in QTable\n")
+    @pyqtSlot(list)
+    def currentItemChanged(self, values):
+        print("Selected new item in QTable")
+        self._model.prodInOrdrList_selected = True
+        for item in values:
+            self._model.prodsInOrdrList_selectedIndices = [item.row(), item.column()]
+            print(item.row(), item.column())
+
+    @pyqtSlot(QTableWidgetItem)
+    def printit(self, item):
+        if (self._model.prodInOrdrList_selected == False):
+            return
+        else:
+            #get item at selected indices
+            print(item.text())
+            #change value in list
+
+            # find index
+            productIndex = self._model.prodsInOrdrList_selectedIndices[0]
+
+            # change value in list
+            self._model.productsInCurrentOrder[productIndex][1] = int(item.text())
+
+            self._model.prodInOrdrList_selected = False
+
+    @pyqtSlot(int)
+    def productAmountChangedInList(self, prodAmt):
+        print(prodAmt)
 
     @pyqtSlot(str, int, str)
     def newOrder_reviewOrder(self, orderNum, clientIndex_inCurCliList, orderDate):
