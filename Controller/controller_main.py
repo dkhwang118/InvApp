@@ -80,6 +80,7 @@ class MainController(QObject):
 
     @pyqtSlot(int)
     def removeProd_fromNewOrder(self, index):
+
         self._model.newOrder_removeProdFromOrder(index)
 
     @pyqtSlot(list)
@@ -91,13 +92,12 @@ class MainController(QObject):
             print(item.row(), item.column())
 
     @pyqtSlot(QTableWidgetItem)
-    def printit(self, item):
+    def productAmountChangedInList(self, item):
         if (self._model.prodInOrdrList_selected == False):
             return
         else:
             #get item at selected indices
-            print(item.text())
-            #change value in list
+            #print(item.text())
 
             # find index
             productIndex = self._model.prodsInOrdrList_selectedIndices[0]
@@ -106,17 +106,15 @@ class MainController(QObject):
             self._model.productsInCurrentOrder[productIndex][1] = int(item.text())
 
             self._model.prodInOrdrList_selected = False
-
-    @pyqtSlot(int)
-    def productAmountChangedInList(self, prodAmt):
-        print(prodAmt)
-
+            self._model.updated_ProdInOrderList.emit(self._model.productsInCurrentOrder)
+            
     @pyqtSlot(str, int, str)
     def newOrder_reviewOrder(self, orderNum, clientIndex_inCurCliList, orderDate):
         # gather products and create string
         products = ""
-        #for (pId, pName, pDesc, priceInCents, dateAdded) in self._model.productsInCurrentOrder:
-        #    products +=
+        #for product in self._model.productsInCurrentOrder:
+
+            #products +=
 
         msgText = """Please Review the Order Below and Select "Yes" if Correct:\n
                     Order Number: """ + orderNum + """\n

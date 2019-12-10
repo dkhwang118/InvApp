@@ -62,7 +62,7 @@ def firstTimeCreate(db_pass, db_path=DEFAULT_PATH):
                                     OrderYear INTEGER NOT NULL,
                                     OrderMonth INTEGER NOT NULL,
                                     OrderNumber INTEGER NOT NULL,
-                                    DeliveryDate DATETIME,
+                                    DeliveryDate TEXT,
                                     OrderPaid INTEGER NOT NULL,
                                     OrderPaidDate DATETIME,
                                     CreatedDate timestamp,

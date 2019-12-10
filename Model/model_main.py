@@ -341,6 +341,43 @@ class Model(QObject):
                     msg = "Product Name Already Exists! Please use a UNIQUE name for each Product!"
             self.show_message_box.emit(("Add Product Failed!", msg))
 
+    def addNewOrder(self, orderId, clientId, orderNum, deliveryDate, orderPaid, orderPaidDate):
+        try:
+            db_cur = self._db_connection.cursor()
+            sql_tableInsert_Orders = """INSERT INTO Orders(Id, ClientId, FullOrderNumber, OrderYear, 
+                                                        OrderMonth, OrderNumber, DeliveryDate, CreatedDate) values (?,?,?,?,?,?,?,?)"""
+            fDeliveryDate = ""
+            if (deliveryDate == ""): fDeliveryDate = "NotSet"
+            else: fDeliveryDate = deliveryDate
+            db_cur.execute(sql_tableInsert_Orders, (orderId, clientId, orderNum, orderNum[:4], orderNum[4:6], orderNum[6:9], fDeliveryDate, datetime.now()))
+            self._db_connection.commit()
+            #text = "Product \"" + name + "\" Successfully Added to Database!"
+            #self.show_message_box.emit(("Add New Product Success!", text))
+        except sqlcipher.IntegrityError as e:
+            print(e)
+            e_split = str(e).split()
+            if e_split[0] == 'UNIQUE':
+                if e_split[3] == 'Orders.FullOrderNumber':
+                    msg = "Order Number Already Exists! Please use a UNIQUE number for each Order Number!"
+            self.show_message_box.emit(("Create Order Failed!", msg))
+
+    def addNewProduct_toOrder(self, pId, orderId, numInOrder):
+        try:
+            db_cur = self._db_connection.cursor()
+            sql_tableInsert_OrderItem = """INSERT INTO OrderItems(ProductId, OrderId, NumInOrder) values (?,?,?)"""
+            fDeliveryDate = ""
+            db_cur.execute(sql_tableInsert_OrderItem, (pId, orderId, numInOrder))
+            self._db_connection.commit()
+            #text = "Product \"" + name + "\" Successfully Added to Database!"
+            #self.show_message_box.emit(("Add New Product Success!", text))
+        except sqlcipher.IntegrityError as e:
+            print(e)
+            e_split = str(e).split()
+            if e_split[0] == 'UNIQUE':
+                if e_split[3] == 'OrderItems.ProductId':
+                    msg = "Order Number Already Exists! Please use a UNIQUE number for each Order Number!"
+            self.show_message_box.emit(("Create Order Failed!", e))
+
     def getNextOrderNum(self):
         try:
             db_cur = self._db_connection.cursor()
@@ -391,17 +428,19 @@ class Model(QObject):
             return []
 
     def newOrder_addProdToOrder(self, index):
-        addedProduct = self._productsNotInCurrentOrder.pop(index)                   # get prod from first list
-        self.updated_ProdNotInOrderList.emit(self._productsNotInCurrentOrder)       # emit signal to update first list
-        productId = addedProduct[0]
-        self.newOrder_productAmtDict[productId] = 1
-        self._productsInCurrentOrder.append([addedProduct, 1])
-        self.updated_ProdInOrderList.emit(self._productsInCurrentOrder)
+        if (len(self.productsNotInCurrentOrder) > 0):
+            addedProduct = self._productsNotInCurrentOrder.pop(index)                   # get prod from first list
+            self.updated_ProdNotInOrderList.emit(self._productsNotInCurrentOrder)       # emit signal to update first list
+            productId = addedProduct[0]
+            self.newOrder_productAmtDict[productId] = 1
+            self._productsInCurrentOrder.append([addedProduct, 1])
+            self.updated_ProdInOrderList.emit(self._productsInCurrentOrder)
 
     def newOrder_removeProdFromOrder(self, index):
-        removedProduct = self._productsInCurrentOrder.pop(index)
-        self.updated_ProdInOrderList.emit(self._productsInCurrentOrder)
-        productId = removedProduct[0]
-        self.newOrder_productAmtDict[productId] = 0
-        self._productsNotInCurrentOrder.append(removedProduct[0])
-        self.updated_ProdNotInOrderList.emit(self._productsNotInCurrentOrder)
+        if (len(self.productsInCurrentOrder) > 0):
+            removedProduct = self._productsInCurrentOrder.pop(index)
+            self.updated_ProdInOrderList.emit(self._productsInCurrentOrder)
+            productId = removedProduct[0]
+            self.newOrder_productAmtDict[productId] = 0
+            self._productsNotInCurrentOrder.append(removedProduct[0])
+            self.updated_ProdNotInOrderList.emit(self._productsNotInCurrentOrder)
