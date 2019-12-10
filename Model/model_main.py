@@ -343,7 +343,7 @@ class Model(QObject):
                     msg = "Product Name Already Exists! Please use a UNIQUE name for each Product!"
             self.show_message_box.emit(("Add Product Failed!", msg))
 
-    def addNewOrder(self, clientId, orderNum, subTotal, deliveryDate = "NotSet", orderPaid = 0, orderPaidDate = "NotPaid"):
+    def addToDB_newOrder(self, clientId, orderNum, subTotal, deliveryDate = "NotSet", orderPaid = 0, orderPaidDate = "NotPaid"):
         try:
             db_cur = self._db_connection.cursor()
             sql_tableInsert_Orders = """INSERT INTO Orders(ClientId, FullOrderNumber, OrderYear, 
@@ -369,17 +369,16 @@ class Model(QObject):
                             + "Next Available Order Number: " + self.getNextOrderNum()
             self.show_message_box.emit(("Create Order Failed!", msg))
 
-    def addNewProduct_toOrder(self, pId, orderId, numInOrder):
+    def addToDB_newOrderItem(self, pId, orderId, numInOrder):
         try:
             db_cur = self._db_connection.cursor()
             sql_tableInsert_OrderItem = """INSERT INTO OrderItems(ProductId, OrderId, NumInOrder) values (?,?,?)"""
-            fDeliveryDate = ""
-            db_cur.execute(sql_tableInsert_OrderItem, (pId, orderId, numInOrder))
+            db_cur.execute(sql_tableInsert_OrderItem, (int(pId), int(orderId), int(numInOrder)))
             self._db_connection.commit()
             #text = "Product \"" + name + "\" Successfully Added to Database!"
             #self.show_message_box.emit(("Add New Product Success!", text))
         except sqlcipher.IntegrityError as e:
-            print(e)
+            print(str(e))
             e_split = str(e).split()
             if e_split[0] == 'UNIQUE':
                 if e_split[3] == 'OrderItems.ProductId':
@@ -472,6 +471,32 @@ class Model(QObject):
             db_cur.execute("""SELECT * FROM Orders;""")
             orderList = db_cur.fetchall()
             return orderList
+        except:
+            ex = sys.exc_info()[0] # exception info
+            print(ex)
+            return []
+
+    def getOrderId_byOrderNum(self, orderNum):
+        try:
+            db_cur = self._db_connection.cursor()
+            db_cur.execute("""SELECT Id 
+                            FROM Orders 
+                            WHERE FullOrderNumber = ?;""", (str(orderNum),))
+            orderId = db_cur.fetchone()
+            return orderId[0]
+        except:
+            ex = sys.exc_info()[0] # exception info
+            print(ex)
+            return -1
+
+    def getAllOrderItems_byOrderId(self, orderId):
+        try:
+            db_cur = self._db_connection.cursor()
+            db_cur.execute("""SELECT * 
+                            FROM OrderItems 
+                            WHERE OrderId = ?;""", (int(orderId),))
+            orderItemsList = db_cur.fetchall()
+            return orderItemsList
         except:
             ex = sys.exc_info()[0] # exception info
             print(ex)

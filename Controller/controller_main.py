@@ -134,14 +134,19 @@ class MainController(QObject):
         reviewOrder_msgBox = QMessageBox.question(self._mainView, "Review and Complete the Order", msgText, QMessageBox.Yes, QMessageBox.No)
         if reviewOrder_msgBox == QMessageBox.Yes:
             # add new order to table, then add products in order
-            self._model.addNewOrder(self._model.currentClientList[clientIndex_inCurCliList][1], orderNum, orderTotal, DeliveryDate)
+            self._model.addToDB_newOrder(self._model.currentClientList[clientIndex_inCurCliList][1], orderNum, orderTotal, DeliveryDate)
             print(self._model.getAllOrders())
+
+            # add products to OrderItems table
+            for item in self._model.productsInCurrentOrder:
+                self._model.addToDB_newOrderItem(item[0][0], self._model.getOrderId_byOrderNum(orderNum), item[1])
 
             # reset product lists on GUI page
             self._model.productsNotInCurrentOrder = self._model.getAllProducts()
             self._model.productsInCurrentOrder = []
         else:
             print("other\n")
+
 
 
     ####################################################################################################################
