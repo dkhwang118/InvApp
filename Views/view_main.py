@@ -102,6 +102,13 @@ class MainView(QMainWindow):
                                                         self._ui.ux_textEdit_newProduct_description.toPlainText(),
                                                         self._ui.ux_lineEdit_newProduct_price.text()))
 
+        ######################################
+        #  New Invoice Page connections
+        ######################################
+        self._ui.ux_lineEdit_newInvoice_clientNameSearch.textChanged.connect(lambda:
+                                                                             self._main_controller.searchClientNames_byName(
+                                                                                 self._ui.ux_lineEdit_newInvoice_clientNameSearch.text()))
+
         # hide widgets which are invisible on start (e.g. newOrders pButton)
         self.hide_secondLvlMenu_widgets()
 
@@ -120,6 +127,9 @@ class MainView(QMainWindow):
 
         # newOrder model event signals
         self._model.addNewOrderSuccess_newOrderNum.connect(self.on_newOrderSuccess_getNextOrderNum)
+
+        # newInvoice model event signals
+        self._model.updated_newInvoice_clientList.connect(self.on_newInvoice_newClientList)
 
         # set a default value
         #self._main_controller.change_amount(42)
@@ -156,7 +166,16 @@ class MainView(QMainWindow):
             self._ui.ux_pButton_searchEditClients_finalizeInfo.setDisabled(True)
             self._ui.stackedLayoutWidget.setCurrentWidget(self._ui.widget_searchEditClientsLayout)
         elif value == 5: self._ui.stackedLayoutWidget.setCurrentWidget(self._ui.widget_newProductLayout)
-        elif value == 7: self._ui.stackedLayoutWidget.setCurrentWidget(self._ui.widget_newInvoiceLayout)
+        elif value == 7:
+            clients = self._model.getAllClients()
+            self._ui.model_listView_newInvoice_nameSearchList.clear()
+            self._ui.model_listView_newInvoice_NameIdList.clear()
+            self._ui.model_listView_newInvoice_NameIdList = clients
+            for (x, y) in clients:
+                item = QStandardItem(x)
+                item.setData(y)
+                self._ui.model_listView_newInvoice_nameSearchList.appendRow(item)
+            self._ui.stackedLayoutWidget.setCurrentWidget(self._ui.widget_newInvoiceLayout)
 
     # signal received after each db call
     @pyqtSlot(int)
@@ -331,3 +350,17 @@ class MainView(QMainWindow):
             self._ui.model_listView_searchEditClients_nameSearchList.appendRow(item)
             self._ui.model_listView_searchEditClients_NameIdList = nameList
 
+    ####################################################################################################################
+    #   searchEditClients page functions and pyqtslots
+    ####################################################################################################################
+
+    @pyqtSlot(list)
+    def on_newInvoice_newClientList(self, nameList):
+        self._ui.model_listView_newInvoice_nameSearchList.clear()
+        self._ui.model_listView_newInvoice_NameIdList.clear()
+        print(nameList)
+        for (x, y) in nameList:
+            item = QStandardItem(x)
+            item.setData(y)
+            self._ui.model_listView_newInvoice_nameSearchList.appendRow(item)
+            self._ui.model_listView_newInvoice_NameIdList = nameList

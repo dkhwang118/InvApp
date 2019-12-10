@@ -22,6 +22,9 @@ class Ui_MainWindow_mainView(object):
     # define model objects for listViews and other list containers
     model_listView_searchEditClients_nameSearchList = QStandardItemModel()
     model_listView_searchEditClients_NameIdList = []
+    model_listView_newInvoice_nameSearchList = QStandardItemModel()
+    model_listView_newInvoice_NameIdList = []
+
 
     def setupUi(self, main_view):
 
@@ -985,6 +988,10 @@ class Ui_MainWindow_mainView(object):
         sizePolicy.setHeightForWidth(self.ui_ListView_newInvoice_nameSearchList.sizePolicy().hasHeightForWidth())
         self.ui_ListView_newInvoice_nameSearchList.setSizePolicy(sizePolicy)
         self.ui_ListView_newInvoice_nameSearchList.setObjectName("ui_ListView_newInvoice_nameSearchList")
+
+        # set model for listView containing client names
+        self.ui_ListView_newInvoice_nameSearchList.setModel(self.model_listView_newInvoice_nameSearchList)
+
         self.ui_layout_newInvoice.addWidget(self.ui_ListView_newInvoice_nameSearchList, 8, 1, 5, 1)
         spacerItem5 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.ui_layout_newInvoice.addItem(spacerItem5, 25, 1, 1, 1)

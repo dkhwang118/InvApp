@@ -47,6 +47,9 @@ class Model(QObject):
     updated_newOrderNum = pyqtSignal(int)
     addNewOrderSuccess_newOrderNum = pyqtSignal(str)
 
+    # singals for newInvoice page
+    updated_newInvoice_clientList = pyqtSignal(list)
+
 
     ####################################################################################################################
     #   MainWindow properties
@@ -282,14 +285,21 @@ class Model(QObject):
         db_cur = self._db_connection.cursor()
         db_cur.execute("SELECT Name, Id FROM Clients;")
         clientNameList = db_cur.fetchall()
-        self.searchEditClients_searchClientNames_newValues.emit(clientNameList)
+        if (self._currentView == 4):
+            self.searchEditClients_searchClientNames_newValues.emit(clientNameList)
+        elif (self._currentView == 7):
+            self.updated_newInvoice_clientList.emit(clientNameList)
         return clientNameList
 
     def getAllClients_byName(self, name):
         db_cur = self._db_connection.cursor()
         formattedName = name + "%"
         db_cur.execute("SELECT Name, Id FROM Clients WHERE Name LIKE ?;", (formattedName,))
-        self.searchEditClients_searchClientNames_newValues.emit(db_cur.fetchall())
+        if (self._currentView == 4):
+            self.searchEditClients_searchClientNames_newValues.emit(db_cur.fetchall())
+        elif (self._currentView == 7):
+            self.updated_newInvoice_clientList.emit(db_cur.fetchall())
+        
 
     def getClientInfo_byId(self, id):
         db_cur = self._db_connection.cursor()

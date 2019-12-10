@@ -203,3 +203,7 @@ class MainController(QObject):
         elif (priceInCents.find('.') != -1):
             fPriceInCents = int(priceInCents.replace('.', ''))
         self._model.addNewProduct(name, description, fPriceInCents)
+
+    ####################################################################################################################
+    #   New Invoice page pyqtSlots
+    ####################################################################################################################
