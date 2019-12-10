@@ -47,6 +47,7 @@ class MainView(QMainWindow):
         self._ui.ux_pButton_newClient.clicked.connect(lambda: self._main_controller.change_mainView(3))
         self._ui.ux_pButton_editClient.clicked.connect(lambda: self._main_controller.change_mainView(4))
         self._ui.ux_pButton_addProduct.clicked.connect(lambda: self._main_controller.change_mainView(5))
+        self._ui.ux_pButton_newInvoice.clicked.connect(lambda: self._main_controller.change_mainView(7))
 
         ################################
         #  newOrder Page connections
@@ -155,6 +156,7 @@ class MainView(QMainWindow):
             self._ui.ux_pButton_searchEditClients_finalizeInfo.setDisabled(True)
             self._ui.stackedLayoutWidget.setCurrentWidget(self._ui.widget_searchEditClientsLayout)
         elif value == 5: self._ui.stackedLayoutWidget.setCurrentWidget(self._ui.widget_newProductLayout)
+        elif value == 7: self._ui.stackedLayoutWidget.setCurrentWidget(self._ui.widget_newInvoiceLayout)
 
     # signal received after each db call
     @pyqtSlot(int)
