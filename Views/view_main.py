@@ -117,6 +117,9 @@ class MainView(QMainWindow):
         self._model.updated_ProdNotInOrderList.connect(self.on_updatedProdNotInOrderList)
         self._model.updated_ProdInOrderList.connect(self.on_updatedProdInOrderList)
 
+        # newOrder model event signals
+        self._model.addNewOrderSuccess_newOrderNum.connect(self.on_newOrderSuccess_getNextOrderNum)
+
         # set a default value
         #self._main_controller.change_amount(42)
 
@@ -264,6 +267,10 @@ class MainView(QMainWindow):
             self._ui.ux_tableWidget_orderProducts.setItem(row, 1, QTableWidgetItem(str(num)))
             self._ui.ux_tableWidget_orderProducts.setItem(row, 3, QTableWidgetItem(fTotalPrice))
             row += 1
+
+    @pyqtSlot(str)
+    def on_newOrderSuccess_getNextOrderNum(self, value):
+        self._ui.ux_lineEdit_orderNumber.setText(value)
 
 
     ####################################################################################################################

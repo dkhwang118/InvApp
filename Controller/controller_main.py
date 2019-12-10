@@ -57,6 +57,7 @@ class MainController(QObject):
         if value == 1:  # if new view is newOrders => tell model to get relevant data
             self._model.currentClientList = self._model.getAllClients()
             self._model.productsNotInCurrentOrder = self._model.getAllProducts()
+            self._model.productsInCurrentOrder = []
 
     @pyqtSlot(str)
     def buttonClick_passwordLogin(self, value):
@@ -109,22 +110,36 @@ class MainController(QObject):
             self._model.updated_ProdInOrderList.emit(self._model.productsInCurrentOrder)
 
     @pyqtSlot(str, int, str)
-    def newOrder_reviewOrder(self, orderNum, clientIndex_inCurCliList, orderDate):
+    def newOrder_reviewOrder(self, orderNum, clientIndex_inCurCliList, DeliveryDate):
         # gather products and create string
         orderTotal = 0
         products = ""
         for product in self._model.productsInCurrentOrder:
-            products += "      " + str(product[0][1]) + " x " + str(product[1]) + "\n"
+            temp_total = product[0][3] * product[1]
+            totalPriceLen = len(str(temp_total))
+            ftemp_total = str(temp_total)[:(totalPriceLen - 2)] + "," + str(temp_total)[(totalPriceLen - 2):]
+            products += "      " + str(product[0][1]) + " x " + str(product[1]) + " = " + ftemp_total + "\n"
+            orderTotal += temp_total
 
-        msgText = 'Please Review the Order Below and Select "Yes" if Correct:' \
+        orderTotalLen = len(str(orderTotal))
+        forderTotal = str(orderTotal)[:(orderTotalLen - 2)] + "," + str(orderTotal)[(orderTotalLen - 2):]
+
+        msgText = 'Please Review the Order Below and Select "Yes" if Correct:\n' \
                     + "\n  Order Number: " + orderNum \
                     + "\n  Client Name: " + self._model.currentClientList[clientIndex_inCurCliList][0] \
-                    + "\n  Order Date: " + orderDate \
-                    + "\n  Products: \n" + products
+                    + "\n  Delivery Date: " + DeliveryDate \
+                    + "\n  Products In Order: \n" + products \
+                    + "\n  Order Sub-Total: " + forderTotal
 
         reviewOrder_msgBox = QMessageBox.question(self._mainView, "Review and Complete the Order", msgText, QMessageBox.Yes, QMessageBox.No)
         if reviewOrder_msgBox == QMessageBox.Yes:
-            print("pressed yes\n")
+            # add new order to table, then add products in order
+            self._model.addNewOrder(self._model.currentClientList[clientIndex_inCurCliList][1], orderNum, orderTotal, DeliveryDate)
+            print(self._model.getAllOrders())
+
+            # reset product lists on GUI page
+            self._model.productsNotInCurrentOrder = self._model.getAllProducts()
+            self._model.productsInCurrentOrder = []
         else:
             print("other\n")
 

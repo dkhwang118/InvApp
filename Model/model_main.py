@@ -44,6 +44,8 @@ class Model(QObject):
     updated_ProdInOrderList = pyqtSignal(list)
     updated_ProdAmountsInOrderList = pyqtSignal(list)
     updated_ProdInOrderListIndices = pyqtSignal(int, int)
+    updated_newOrderNum = pyqtSignal(int)
+    addNewOrderSuccess_newOrderNum = pyqtSignal(str)
 
 
     ####################################################################################################################
@@ -341,24 +343,30 @@ class Model(QObject):
                     msg = "Product Name Already Exists! Please use a UNIQUE name for each Product!"
             self.show_message_box.emit(("Add Product Failed!", msg))
 
-    def addNewOrder(self, orderId, clientId, orderNum, deliveryDate, orderPaid, orderPaidDate):
+    def addNewOrder(self, clientId, orderNum, subTotal, deliveryDate = "NotSet", orderPaid = 0, orderPaidDate = "NotPaid"):
         try:
             db_cur = self._db_connection.cursor()
-            sql_tableInsert_Orders = """INSERT INTO Orders(Id, ClientId, FullOrderNumber, OrderYear, 
-                                                        OrderMonth, OrderNumber, DeliveryDate, CreatedDate) values (?,?,?,?,?,?,?,?)"""
+            sql_tableInsert_Orders = """INSERT INTO Orders(ClientId, FullOrderNumber, OrderYear, 
+                                                        OrderMonth, OrderNumber, DeliveryDate, 
+                                                        SubTotal, OrderPaid, CreatedDate) values (?,?,?,?,?,?,?,?,?)"""
             fDeliveryDate = ""
             if (deliveryDate == ""): fDeliveryDate = "NotSet"
             else: fDeliveryDate = deliveryDate
-            db_cur.execute(sql_tableInsert_Orders, (orderId, clientId, orderNum, orderNum[:4], orderNum[4:6], orderNum[6:9], fDeliveryDate, datetime.now()))
+            db_cur.execute(sql_tableInsert_Orders, (clientId, orderNum, orderNum[:2],
+                                                    orderNum[2:4], orderNum[4:], fDeliveryDate,
+                                                    subTotal, orderPaid, datetime.now()))
             self._db_connection.commit()
+            self.addNewOrderSuccess_newOrderNum.emit(self.getNextOrderNum())
             #text = "Product \"" + name + "\" Successfully Added to Database!"
             #self.show_message_box.emit(("Add New Product Success!", text))
         except sqlcipher.IntegrityError as e:
-            print(e)
+            #print(e)
+            msg = str(e)
             e_split = str(e).split()
             if e_split[0] == 'UNIQUE':
                 if e_split[3] == 'Orders.FullOrderNumber':
-                    msg = "Order Number Already Exists! Please use a UNIQUE number for each Order Number!"
+                    msg = "Order Number Already Exists! Please use a UNIQUE number for each Order Number!\n" \
+                            + "Next Available Order Number: " + self.getNextOrderNum()
             self.show_message_box.emit(("Create Order Failed!", msg))
 
     def addNewProduct_toOrder(self, pId, orderId, numInOrder):
@@ -375,8 +383,8 @@ class Model(QObject):
             e_split = str(e).split()
             if e_split[0] == 'UNIQUE':
                 if e_split[3] == 'OrderItems.ProductId':
-                    msg = "Order Number Already Exists! Please use a UNIQUE number for each Order Number!"
-            self.show_message_box.emit(("Create Order Failed!", e))
+                    msg = "Order Number Already Exists! Please use a UNIQUE number for each Order Number!\n"
+            self.show_message_box.emit(("Create Order Failed!", str(e)))
 
     def getNextOrderNum(self):
         try:
@@ -389,21 +397,34 @@ class Model(QObject):
             year = fullYear[2:]
             month = date_split[1]
             day = date_split[2]
-
+            #print(self.getAllOrders())
             db_cur.execute("""SELECT OrderNumber 
                             FROM Orders 
                             WHERE OrderYear = ?
-                            AND OrderMonth = ?;""", (year,month))
+                            AND OrderMonth = ?;""", (int(year),int(month)))
             orderNumList = db_cur.fetchall()
-            print(orderNumList)
+            #print(orderNumList)
+            # find largest value given list of tuples
+            fOrderNumList = []
+            for order in orderNumList:
+                fOrderNumList.append(order[0])
+
             if not orderNumList:    # if order list is empty
-                orderNum = year + month + "001"
+                orderNum = year + month + "001"     # order is first of the month
             else:   # find last order number in list
-                orderNum = year + month + str(max(orderNumList))
+                newOrderNum = (max(fOrderNumList) + 1)
+                fNewOrderNum = ""
+                if len(str(newOrderNum)) == 1:
+                    fNewOrderNum = "00" + str(newOrderNum)
+                elif len(str(newOrderNum)) == 2:
+                    fNewOrderNum = "0" + str(newOrderNum)
+                else:
+                    fNewOrderNum = str(newOrderNum)
+                orderNum = year + month + fNewOrderNum
             return orderNum
         except sqlcipher.IntegrityError as e:
-            print(e)
-            self.show_message_box.emit("getNextOrderNum Error", e)
+            print(str(e))
+            self.show_message_box.emit("getNextOrderNum Error", str(e))
 
     def getAllProducts(self):
         try:
@@ -444,3 +465,14 @@ class Model(QObject):
             self.newOrder_productAmtDict[productId] = 0
             self._productsNotInCurrentOrder.append(removedProduct[0])
             self.updated_ProdNotInOrderList.emit(self._productsNotInCurrentOrder)
+
+    def getAllOrders(self):
+        try:
+            db_cur = self._db_connection.cursor()
+            db_cur.execute("""SELECT * FROM Orders;""")
+            orderList = db_cur.fetchall()
+            return orderList
+        except:
+            ex = sys.exc_info()[0] # exception info
+            print(ex)
+            return []

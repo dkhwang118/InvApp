@@ -63,8 +63,9 @@ def firstTimeCreate(db_pass, db_path=DEFAULT_PATH):
                                     OrderMonth INTEGER NOT NULL,
                                     OrderNumber INTEGER NOT NULL,
                                     DeliveryDate TEXT,
+                                    SubTotal INTEGER NOT NULL,
                                     OrderPaid INTEGER NOT NULL,
-                                    OrderPaidDate DATETIME,
+                                    OrderPaidDate TEXT,
                                     CreatedDate timestamp,
                                     FOREIGN KEY (ClientId) REFERENCES Clients (Id));"""
 
@@ -87,7 +88,6 @@ def firstTimeCreate(db_pass, db_path=DEFAULT_PATH):
     db_cur.execute(sql_createTable_OrderItems)
     db_conn.commit()
     return db_conn, db_cur
-
 
 def db_newClient_test(db_conn, db_cur):
     db_cur = db_conn.cursor()    # create cursor object from db connection
