@@ -77,6 +77,20 @@ def firstTimeCreate(db_pass, db_path=DEFAULT_PATH):
                                     FOREIGN KEY (ProductId) REFERENCES Products (Id),
                                     FOREIGN KEY (OrderId) REFERENCES Orders (Id));"""
 
+    sql_createTable_Invoices = """CREATE TABLE IF NOT EXISTS Invoices (
+                                        Id INTEGER PRIMARY KEY,
+                                        ClientId INTEGER NOT NULL,
+                                        NumOrders INTEGER NOT NULL,
+                                        SubTotal INTEGER NOT NULL,
+                                        FOREIGN KEY (ClientId) REFERENCES Clients (Id));"""
+
+    sql_createTable_InvoiceOrders = """CREATE TABLE IF NOT EXISTS InvoiceOrders (
+                                        InvoiceId INTEGER NOT NULL,
+                                        OrderId INTEGER NOT NULL,
+                                        PRIMARY KEY (InvoiceId, OrderId),
+                                        FOREIGN KEY (InvoiceId) REFERENCES Invoices (Id),
+                                        FOREIGN KEY (OrderId) REFERENCES Orders (Id));"""
+
     # execute the creation of a table
     db_cur.execute("PRAGMA key='" + db_pass + "'")
     db_cur.execute(sql_createTable_Clients)
@@ -86,6 +100,10 @@ def firstTimeCreate(db_pass, db_path=DEFAULT_PATH):
     db_cur.execute(sql_createTable_Orders)
     db_conn.commit()
     db_cur.execute(sql_createTable_OrderItems)
+    db_conn.commit()
+    db_cur.execute(sql_createTable_Invoices)
+    db_conn.commit()
+    db_cur.execute(sql_createTable_InvoiceOrders)
     db_conn.commit()
     return db_conn, db_cur
 
