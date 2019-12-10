@@ -107,20 +107,20 @@ class MainController(QObject):
 
             self._model.prodInOrdrList_selected = False
             self._model.updated_ProdInOrderList.emit(self._model.productsInCurrentOrder)
-            
+
     @pyqtSlot(str, int, str)
     def newOrder_reviewOrder(self, orderNum, clientIndex_inCurCliList, orderDate):
         # gather products and create string
+        orderTotal = 0
         products = ""
-        #for product in self._model.productsInCurrentOrder:
+        for product in self._model.productsInCurrentOrder:
+            products += "      " + str(product[0][1]) + " x " + str(product[1]) + "\n"
 
-            #products +=
-
-        msgText = """Please Review the Order Below and Select "Yes" if Correct:\n
-                    Order Number: """ + orderNum + """\n
-                    Client Name: """ + self._model.currentClientList[clientIndex_inCurCliList][0] + """\n
-                    Order Date: """ + orderDate + """\n
-                    Products: """
+        msgText = 'Please Review the Order Below and Select "Yes" if Correct:' \
+                    + "\n  Order Number: " + orderNum \
+                    + "\n  Client Name: " + self._model.currentClientList[clientIndex_inCurCliList][0] \
+                    + "\n  Order Date: " + orderDate \
+                    + "\n  Products: \n" + products
 
         reviewOrder_msgBox = QMessageBox.question(self._mainView, "Review and Complete the Order", msgText, QMessageBox.Yes, QMessageBox.No)
         if reviewOrder_msgBox == QMessageBox.Yes:
