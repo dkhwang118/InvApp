@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow_mainView</class>
+ <widget class="QMainWindow" name="MainWindow_mainView">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1196</width>
+    <height>711</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QWidget" name="gridLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>310</x>
+      <y>20</y>
+      <width>871</width>
+      <height>683</height>
+     </rect>
+    </property>
+    <layout class="QGridLayout" name="ui_layout_dynamicMainView">
+     <item row="1" column="0">
+      <layout class="QGridLayout" name="ui_layout_searchEditClients" rowstretch="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0">
+       <property name="sizeConstraint">
+        <enum>QLayout::SetFixedSize</enum>
+       </property>
+       <property name="spacing">
+        <number>6</number>
+       </property>
+       <item row="14" column="3">
+        <widget class="QLabel" name="ui_label_newInvoiceCandS_orderSubTotal">
+         <property name="text">
+          <string>Order SubTotal:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="14" column="5">
+        <widget class="QLineEdit" name="ux_lineEdit_newInvoiceCandS_orderSubTotal"/>
+       </item>
+       <item row="7" column="3">
+        <widget class="QLabel" name="ui_label_newInvoiceCandS_addressLine1">
+         <property name="text">
+          <string>Client Address Line 1:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="10" column="3">
+        <widget class="QLabel" name="ui_label_newInvoiceCandS_clientEmail">
+         <property name="text">
+          <string>Client Email:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="2">
+        <spacer name="ui_vSpacer0_newInvoiceCandS">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="8" column="3">
+        <widget class="QLabel" name="ui_label_newInvoiceCandS_addressLine2">
+         <property name="text">
+          <string>Client Address Line 2:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <spacer name="ui_hSpacer0_newInvoiceCandS">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="6" column="4">
+        <spacer name="ui_hSpacer2_newInvoiceCandS">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>10</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="2" column="2">
+        <spacer name="ui_hSpacer1_newInvoiceCandS">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="6" column="6">
+        <spacer name="ui_hSpacer3_newInvoiceCandS">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="0" column="1" colspan="5">
+        <widget class="QLabel" name="ui_label_newInvoiceCandS_header">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>18</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+           <underline>true</underline>
+          </font>
+         </property>
+         <property name="text">
+          <string>Create and Send New Invoice</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="18" column="1">
+        <widget class="QPushButton" name="ux_pButton_newInvoiceCandS_showAllOrders">
+         <property name="text">
+          <string>Show All Orders</string>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="5">
+        <widget class="QLineEdit" name="ux_lineEdit_newInvoiceCandS_address2Out"/>
+       </item>
+       <item row="7" column="5">
+        <widget class="QLineEdit" name="ux_lineEdit_newInvoiceCandS_address1Out"/>
+       </item>
+       <item row="10" column="5">
+        <widget class="QLineEdit" name="ux_lineEdit_newInvoiceCandS_cEmailOut"/>
+       </item>
+       <item row="9" column="3">
+        <widget class="QLabel" name="ui_label_newInvoiceCandS_clientPhone">
+         <property name="text">
+          <string>Client Phone:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="5">
+        <widget class="QLineEdit" name="ux_lineEdit_newInvoiceCandS_cNameOut"/>
+       </item>
+       <item row="16" column="3">
+        <widget class="QLabel" name="ui_label_newInvoiceCandS_orderTotal">
+         <property name="text">
+          <string>Order Total:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="15" column="5">
+        <widget class="QLineEdit" name="ux_lineEdit_newInvoiceCandS_taxApplied"/>
+       </item>
+       <item row="9" column="5">
+        <widget class="QLineEdit" name="ux_lineEdit_newInvoiceCandS_cPhoneOut"/>
+       </item>
+       <item row="15" column="3">
+        <widget class="QLabel" name="ui_label_newInvoiceCandS_taxApplied">
+         <property name="text">
+          <string>Tax Applied (in %):</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="3">
+        <widget class="QLabel" name="ui_label_newInvoiceCandS_clientName">
+         <property name="text">
+          <string>Client Name:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="13" column="3">
+        <widget class="QLabel" name="ui_label_newInvoiceCandS_orderItems">
+         <property name="text">
+          <string>Order Items:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+         </property>
+        </widget>
+       </item>
+       <item row="17" column="1">
+        <widget class="QPushButton" name="ux_pButton_newInvoiceCandS_ShowUnsentOrders">
+         <property name="text">
+          <string>Show Orders without Invoices Sent</string>
+         </property>
+        </widget>
+       </item>
+       <item row="19" column="1">
+        <spacer name="ui_vSpacer0_newInvoiceCandS_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="16" column="5">
+        <widget class="QLineEdit" name="ux_lineEdit_newInvoiceCandS_orderTotal"/>
+       </item>
+       <item row="13" column="5">
+        <widget class="QTableView" name="ui_tableView_newInvoiceCandS_orderItems"/>
+       </item>
+       <item row="6" column="1">
+        <widget class="QLabel" name="ui_label_newInvoiceCandS_doubleClickTo">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>Double-Click on an Order Number to Show Orders Details:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="17" column="5">
+        <widget class="QLabel" name="ui_label_newInvoiceCandS_clickBelowToSend">
+         <property name="text">
+          <string>Click Below to Bring-Up your Default Email Client with</string>
+         </property>
+        </widget>
+       </item>
+       <item row="11" column="3">
+        <widget class="QLabel" name="ui_label_newInvoiceCandS_orderNumber">
+         <property name="text">
+          <string>Order Number:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="1" rowspan="10">
+        <widget class="QListView" name="ui_ListView_newInvoiceCandS_orderSearchList">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+        </widget>
+       </item>
+       <item row="11" column="5">
+        <widget class="QLineEdit" name="ux_lineEdit_newInvoiceCandS_orderNumber"/>
+       </item>
+       <item row="20" column="1">
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="18" column="5" rowspan="2">
+        <widget class="QPushButton" name="ux_pButton_newInvoiceCandS_createAndSendInvoice">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>Create And Send Invoice</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

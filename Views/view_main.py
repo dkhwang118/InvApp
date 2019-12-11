@@ -48,6 +48,7 @@ class MainView(QMainWindow):
         self._ui.ux_pButton_editClient.clicked.connect(lambda: self._main_controller.change_mainView(4))
         self._ui.ux_pButton_addProduct.clicked.connect(lambda: self._main_controller.change_mainView(5))
         self._ui.ux_pButton_newInvoice.clicked.connect(lambda: self._main_controller.change_mainView(7))
+        self._ui.ux_pButton_sendInvoice.clicked.connect(lambda: self._main_controller.change_mainView(8))
 
         ################################
         #  newOrder Page connections
@@ -176,6 +177,8 @@ class MainView(QMainWindow):
                 item.setData(y)
                 self._ui.model_listView_newInvoice_nameSearchList.appendRow(item)
             self._ui.stackedLayoutWidget.setCurrentWidget(self._ui.widget_newInvoiceLayout)
+        elif value == 8:
+            self._ui.stackedLayoutWidget.setCurrentWidget(self._ui.widget_newInvoiceCandSLayout)
 
     # signal received after each db call
     @pyqtSlot(int)
