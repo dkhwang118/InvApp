@@ -27,7 +27,7 @@ class MainView(QMainWindow):
         self._model = model                         # connect App to MainView
         self._main_controller = main_controller     # connect cntrl
         self._ui = Ui_MainWindow_mainView()         # link selfInit using .py qt designer file
-        self._ui.setupUi(self)                      # init self
+        self._ui.setupUi(self, self._model)                      # init self
 
 
         # connect widgets to controller
@@ -346,24 +346,38 @@ class MainView(QMainWindow):
     def on_searchEditClients_newValues(self, nameList):
         self._ui.model_listView_searchEditClients_nameSearchList.clear()
         self._ui.model_listView_searchEditClients_NameIdList.clear()
-        print(nameList)
+        #print(nameList)
         for (x, y) in nameList:
             item = QStandardItem(x)
             item.setData(y)
             self._ui.model_listView_searchEditClients_nameSearchList.appendRow(item)
-            self._ui.model_listView_searchEditClients_NameIdList = nameList
+        self._ui.model_listView_searchEditClients_NameIdList = nameList
 
     ####################################################################################################################
-    #   searchEditClients page functions and pyqtslots
+    #   newInvoice page functions and pyqtslots
     ####################################################################################################################
 
     @pyqtSlot(list)
     def on_newInvoice_newClientList(self, nameList):
         self._ui.model_listView_newInvoice_nameSearchList.clear()
         self._ui.model_listView_newInvoice_NameIdList.clear()
-        print(nameList)
+        #print(nameList)
         for (x, y) in nameList:
             item = QStandardItem(x)
             item.setData(y)
             self._ui.model_listView_newInvoice_nameSearchList.appendRow(item)
-            self._ui.model_listView_newInvoice_NameIdList = nameList
+        self._ui.model_listView_newInvoice_NameIdList = nameList
+
+    ####################################################################################################################
+    #   newInvoiceCandS page functions and pyqtslots
+    ####################################################################################################################
+    @pyqtSlot(list)
+    def on_newInvoiceCandS_newOrderList(self, orderList):
+        self._ui.model_listView_searchEditClients_nameSearchList.clear()
+        self._ui.model_listView_searchEditClients_NameIdList.clear()
+        # print(nameList)
+        for (x, y) in nameList:
+            item = QStandardItem(x)
+            item.setData(y)
+            self._ui.model_listView_searchEditClients_nameSearchList.appendRow(item)
+        self._ui.model_listView_searchEditClients_NameIdList = nameList

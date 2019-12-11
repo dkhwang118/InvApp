@@ -26,7 +26,7 @@ class Ui_MainWindow_mainView(object):
     model_listView_newInvoice_NameIdList = []
 
 
-    def setupUi(self, main_view):
+    def setupUi(self, main_view, model):
 
         # init main window
         main_view.setObjectName("main_view")
@@ -163,7 +163,7 @@ class Ui_MainWindow_mainView(object):
         self.ui_searchEditClients(self.stackedLayoutWidget)
         self.ui_newProduct(self.stackedLayoutWidget)
         self.ui_newInvoice(self.stackedLayoutWidget)
-        self.ui_newInvoiceCandS(self.stackedLayoutWidget)
+        self.ui_newInvoiceCandS(self.stackedLayoutWidget, model)
 
         # set first shown widget (welcome)
         self.stackedLayoutWidget.setCurrentWidget(self.widget_welcomeLayout)
@@ -1048,7 +1048,7 @@ class Ui_MainWindow_mainView(object):
     #   ui_newInvoiceCandS - window layout shown after "Add New Product" button click
     #
     ####################################################################################################################
-    def ui_newInvoiceCandS(self, stackedLayoutWidget):
+    def ui_newInvoiceCandS(self, stackedLayoutWidget, model):
         self.widget_newInvoiceCandSLayout = QtWidgets.QWidget(stackedLayoutWidget)
         self.widget_newInvoiceCandSLayout.setContentsMargins(0, 0, 0, 0)
         self.widget_newInvoiceCandSLayout.setObjectName("widget_newInvoiceCandSLayout")
@@ -1142,9 +1142,13 @@ class Ui_MainWindow_mainView(object):
         self.ux_lineEdit_newInvoiceCandS_orderTotal = QtWidgets.QLineEdit(self.widget_newInvoiceCandSLayout)
         self.ux_lineEdit_newInvoiceCandS_orderTotal.setObjectName("ux_lineEdit_newInvoiceCandS_orderTotal")
         self.ui_layout_newInvoiceCandS.addWidget(self.ux_lineEdit_newInvoiceCandS_orderTotal, 16, 5, 1, 1)
-        self.ui_tableView_newInvoiceCandS_orderItems = QtWidgets.QTableView(self.widget_newInvoiceCandSLayout)
-        self.ui_tableView_newInvoiceCandS_orderItems.setObjectName("ui_tableView_newInvoiceCandS_orderItems")
-        self.ui_layout_newInvoiceCandS.addWidget(self.ui_tableView_newInvoiceCandS_orderItems, 13, 5, 1, 1)
+        self.ui_listView_newInvoiceCandS_orderItems = QtWidgets.QListView(self.widget_newInvoiceCandSLayout)
+        self.ui_listView_newInvoiceCandS_orderItems.setObjectName("ui_listView_newInvoiceCandS_orderItems")
+
+        # set model for tableView
+        self.ui_listView_newInvoiceCandS_orderItems.setModel(model.model_listView_newInvoiceCandS_orderList)
+
+        self.ui_layout_newInvoiceCandS.addWidget(self.ui_listView_newInvoiceCandS_orderItems, 13, 5, 1, 1)
         self.ui_label_newInvoiceCandS_doubleClickTo = QtWidgets.QLabel(self.widget_newInvoiceCandSLayout)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)

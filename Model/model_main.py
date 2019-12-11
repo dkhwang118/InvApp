@@ -10,6 +10,7 @@
 ############################################################################
 
 from PyQt5.QtCore import QObject, pyqtSignal
+from PyQt5.QtGui import QStandardItemModel
 from Model.model_sql_db_utils import *
 
 
@@ -49,6 +50,9 @@ class Model(QObject):
 
     # singals for newInvoice page
     updated_newInvoice_clientList = pyqtSignal(list)
+
+    # define models for temp data storage (per-page)
+    model_listView_newInvoiceCandS_orderList = QStandardItemModel()
 
 
     ####################################################################################################################

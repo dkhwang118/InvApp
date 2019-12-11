@@ -33,9 +33,6 @@ class MainController(QObject):
     def define_passDialog(self, qObj):
         self._incorrectPass = qObj
 
-
-
-
     ######################################################
     #   MainWindow functions and pyqtSlots
     ######################################################
