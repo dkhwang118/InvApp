@@ -1145,6 +1145,8 @@ class Ui_MainWindow_mainView(object):
         self.ux_lineEdit_newInvoiceCandS_orderTotal.setObjectName("ux_lineEdit_newInvoiceCandS_orderTotal")
         self.ui_layout_newInvoiceCandS.addWidget(self.ux_lineEdit_newInvoiceCandS_orderTotal, 16, 5, 1, 1)
         self.ui_listView_newInvoiceCandS_orderItems = QtWidgets.QListView(self.widget_newInvoiceCandSLayout)
+        self.ui_listView_newInvoiceCandS_orderItems.setModel(model.model_listView_newInvoiceCandS_orderItems)
+        self.ui_listView_newInvoiceCandS_orderItems.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.ui_listView_newInvoiceCandS_orderItems.setObjectName("ui_listView_newInvoiceCandS_orderItems")
         self.ui_layout_newInvoiceCandS.addWidget(self.ui_listView_newInvoiceCandS_orderItems, 13, 5, 1, 1)
         self.ui_label_newInvoiceCandS_doubleClickTo = QtWidgets.QLabel(self.widget_newInvoiceCandSLayout)

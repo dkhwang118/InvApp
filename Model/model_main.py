@@ -53,8 +53,9 @@ class Model(QObject):
 
     # define models for temp data storage (per-page)
     model_listView_newInvoiceCandS_orderList = QStandardItemModel()
+    model_listView_newInvoiceCandS_orderItems = QStandardItemModel()
     updated_orderList = pyqtSignal(QStandardItemModel)
-    updated_orderData = pyqtSignal(str, str, str, str, str, str, list, int)
+    updated_orderData = pyqtSignal(str, str, str, str, str, str, int)
 
 
     ####################################################################################################################
@@ -267,6 +268,7 @@ class Model(QObject):
 
         # Create and Send invoice model
         self._model_listView_newInvoiceCandS_orderList = QStandardItemModel()
+        self.model_listView_newInvoiceCandS_orderItems = QStandardItemModel()
 
         self.newOrder_productAmtDict = {}
 
@@ -512,7 +514,7 @@ class Model(QObject):
             print(ex)
             return []
 
-    def getOrderData_byOrderId(self, value):
+    def getOrderData_byFullOrderNum(self, value):
         try:
             db_cur = self._db_connection.cursor()
             db_cur.execute("""SELECT * 
@@ -550,6 +552,30 @@ class Model(QObject):
             print(ex)
             return []
 
+    def getAllOrderItemData_byOrderId(self, orderId):
+        try:
+            db_cur = self._db_connection.cursor()
+            db_cur.execute("""SELECT prods.Id, prods.Name, prods.PriceInCents, prods.NumInOrder
+                            FROM (
+                                SELECT Id, OrderId, Name, PriceInCents, NumInOrder
+                                FROM Products
+                                INNER JOIN OrderItems
+                                    ON OrderItems.ProductId = Products.Id
+                                WHERE Id IN (
+                                    SELECT ProductId 
+                                    FROM OrderItems 
+                                    WHERE OrderId = ?)
+                                ) AS prods
+                            WHERE prods.OrderId = ?;""", (int(orderId),int(orderId)))
+
+
+            orderItemsList = db_cur.fetchall()
+            return orderItemsList
+        except:
+            ex = sys.exc_info()[0] # exception info
+            print(ex)
+            return []
+
     ########################################
     #   pageInit Calls
     ########################################
@@ -564,18 +590,32 @@ class Model(QObject):
     #   pageUpdate Calls
     ########################################
 
+    def convert_itemPrice(self, priceInCents):
+        priceLen = len(str(priceInCents))
+        return str(priceInCents)[:(priceLen - 2)] + "," + str(priceInCents)[(priceLen - 2):]
+
     def pageUpdate_newInvoiceCandS_orderInfo(self, item):
-        orderId = self.model_listView_newInvoiceCandS_orderList.item(item.row())
+        orderNum = self.model_listView_newInvoiceCandS_orderList.item(item.row())
+        orderId = self.getOrderId_byOrderNum(orderNum.text())
 
         # get all order info from orderId
         #print("got order id " + orderId.text() + ", now make model display order values")
-        templist0 = self.getOrderData_byOrderId(orderId.text())
+        templist0 = self.getOrderData_byFullOrderNum(orderNum.text())
         #print(str(self.getOrderData_byOrderId(orderId.text())))
-        # self._main_controller.searchEditClients_onClientName_doubleClick(orderId)
 
         # get client info from orderId
         #print(str(self.getClientInfo_byId(templist0[0])))
         templist1 = self.getClientInfo_byId(templist0[0])
+
+        # get product info and format info for display
+        templist2 = self.getAllOrderItemData_byOrderId(orderId)
+        #print(str(templist2))
+
+        self.model_listView_newInvoiceCandS_orderItems.clear()
+        for (pId, pName, priceInCents, numInOrder) in templist2:
+            itemPrice = self.convert_itemPrice(priceInCents)
+            itemTotalPrice = self.convert_itemPrice(priceInCents * numInOrder)
+            self.model_listView_newInvoiceCandS_orderItems.appendRow(QStandardItem("" + pName + ": " + itemPrice + " x " + str(numInOrder) + " = " + itemTotalPrice))
 
         # send data to model to emit updates
         self.updated_orderData.emit(templist1[0],
@@ -584,5 +624,4 @@ class Model(QObject):
                                 templist1[3],
                                 templist1[4],
                                 templist0[1],
-                                [],     # product data
                                 templist0[6])

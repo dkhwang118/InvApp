@@ -386,8 +386,8 @@ class MainView(QMainWindow):
         #print("DEBUG_fromGUI: " + str(orderList))
         self._ui.ui_ListView_newInvoiceCandS_orderSearchList.show()
 
-    @pyqtSlot(str, str, str, str, str, str, list, int)
-    def on_newInvoiceCandS_showOrderData(self, name, ad1, ad2, ph, em, orderNum, orderItems, orderSubTotal):
+    @pyqtSlot(str, str, str, str, str, str, int)
+    def on_newInvoiceCandS_showOrderData(self, name, ad1, ad2, ph, em, orderNum, orderSubTotal):
         self._ui.ux_lineEdit_newInvoiceCandS_cNameOut.setText(name)
         self._ui.ux_lineEdit_newInvoiceCandS_address1Out.setText(ad1)
         self._ui.ux_lineEdit_newInvoiceCandS_address2Out.setText(ad2)
@@ -395,6 +395,9 @@ class MainView(QMainWindow):
         self._ui.ux_lineEdit_newInvoiceCandS_cEmailOut.setText(em)
         self._ui.ux_lineEdit_newInvoiceCandS_orderNumber.setText(orderNum)
         # set orders
+        self._ui.ui_listView_newInvoiceCandS_orderItems.show()
+
+
 
         orderSubTotalLen = len(str(orderSubTotal))
         fOrderSubTotal = str(orderSubTotal)[:(orderSubTotalLen - 2)] + "," + str(orderSubTotal)[(orderSubTotalLen - 2):]
