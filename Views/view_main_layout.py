@@ -1144,10 +1144,6 @@ class Ui_MainWindow_mainView(object):
         self.ui_layout_newInvoiceCandS.addWidget(self.ux_lineEdit_newInvoiceCandS_orderTotal, 16, 5, 1, 1)
         self.ui_listView_newInvoiceCandS_orderItems = QtWidgets.QListView(self.widget_newInvoiceCandSLayout)
         self.ui_listView_newInvoiceCandS_orderItems.setObjectName("ui_listView_newInvoiceCandS_orderItems")
-
-        # set model for tableView
-        self.ui_listView_newInvoiceCandS_orderItems.setModel(model.model_listView_newInvoiceCandS_orderList)
-
         self.ui_layout_newInvoiceCandS.addWidget(self.ui_listView_newInvoiceCandS_orderItems, 13, 5, 1, 1)
         self.ui_label_newInvoiceCandS_doubleClickTo = QtWidgets.QLabel(self.widget_newInvoiceCandSLayout)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
@@ -1171,6 +1167,10 @@ class Ui_MainWindow_mainView(object):
         self.ui_ListView_newInvoiceCandS_orderSearchList.setSizePolicy(sizePolicy)
         self.ui_ListView_newInvoiceCandS_orderSearchList.setObjectName("ui_ListView_newInvoiceCandS_orderSearchList")
         self.ui_layout_newInvoiceCandS.addWidget(self.ui_ListView_newInvoiceCandS_orderSearchList, 7, 1, 10, 1)
+
+        # set model for tableView
+        self.ui_ListView_newInvoiceCandS_orderSearchList.setModel(model.model_listView_newInvoiceCandS_orderList)
+
         self.ux_lineEdit_newInvoiceCandS_orderNumber = QtWidgets.QLineEdit(self.widget_newInvoiceCandSLayout)
         self.ux_lineEdit_newInvoiceCandS_orderNumber.setObjectName("ux_lineEdit_newInvoiceCandS_orderNumber")
         self.ui_layout_newInvoiceCandS.addWidget(self.ux_lineEdit_newInvoiceCandS_orderNumber, 11, 5, 1, 1)

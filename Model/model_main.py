@@ -10,7 +10,7 @@
 ############################################################################
 
 from PyQt5.QtCore import QObject, pyqtSignal
-from PyQt5.QtGui import QStandardItemModel
+from PyQt5.QtGui import QStandardItemModel, QStandardItem
 from Model.model_sql_db_utils import *
 
 
@@ -53,6 +53,7 @@ class Model(QObject):
 
     # define models for temp data storage (per-page)
     model_listView_newInvoiceCandS_orderList = QStandardItemModel()
+    updated_orderList = pyqtSignal(QStandardItemModel)
 
 
     ####################################################################################################################
@@ -205,6 +206,19 @@ class Model(QObject):
     def currentClientId(self, value):
         self._currentClientId = value
 
+    ####################################################################################################################
+    #   Create and Send Invoice properties
+    ####################################################################################################################
+
+    @property
+    def model_listView_newInvoiceCandS_orderList(self):
+        return self._model_listView_newInvoiceCandS_orderList
+
+    @model_listView_newInvoiceCandS_orderList.setter
+    def model_listView_newInvoiceCandS_orderList(self, values):
+        self._model_listView_newInvoiceCandS_orderList = values
+        self.updated_orderList.emit(values)
+
 #######################################################################
 #
 #   INITIALIZATION
@@ -249,6 +263,9 @@ class Model(QObject):
         self._productAmountsInCurrentOrder = []
         self.prodsInOrdrList_selectedIndices = [-1, -1]
         self._prodInOrdrList_selected = False
+
+        # Create and Send invoice model
+        self._model_listView_newInvoiceCandS_orderList = QStandardItemModel()
 
         self.newOrder_productAmtDict = {}
 
@@ -515,3 +532,9 @@ class Model(QObject):
             ex = sys.exc_info()[0] # exception info
             print(ex)
             return []
+
+    def pageInit_newInvoiceCandS(self):
+        self._model_listView_newInvoiceCandS_orderList.clear()
+        for orderRow in self.getAllOrders():
+            self._model_listView_newInvoiceCandS_orderList.appendRow(QStandardItem(orderRow[2]))
+        self.updated_orderList.emit(self._model_listView_newInvoiceCandS_orderList)

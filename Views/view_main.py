@@ -110,6 +110,11 @@ class MainView(QMainWindow):
                                                                              self._main_controller.searchClientNames_byName(
                                                                                  self._ui.ux_lineEdit_newInvoice_clientNameSearch.text()))
 
+        ######################################
+        #  New Invoice Create and Send Page connections
+        ######################################
+
+
         # hide widgets which are invisible on start (e.g. newOrders pButton)
         self.hide_secondLvlMenu_widgets()
 
@@ -131,6 +136,7 @@ class MainView(QMainWindow):
 
         # newInvoice model event signals
         self._model.updated_newInvoice_clientList.connect(self.on_newInvoice_newClientList)
+        self._model.updated_orderList.connect(self.on_newInvoiceCandS_newOrderList)
 
         # set a default value
         #self._main_controller.change_amount(42)
@@ -371,13 +377,8 @@ class MainView(QMainWindow):
     ####################################################################################################################
     #   newInvoiceCandS page functions and pyqtslots
     ####################################################################################################################
-    @pyqtSlot(list)
+    @pyqtSlot(QStandardItemModel)
     def on_newInvoiceCandS_newOrderList(self, orderList):
-        self._ui.model_listView_searchEditClients_nameSearchList.clear()
-        self._ui.model_listView_searchEditClients_NameIdList.clear()
-        # print(nameList)
-        for (x, y) in nameList:
-            item = QStandardItem(x)
-            item.setData(y)
-            self._ui.model_listView_searchEditClients_nameSearchList.appendRow(item)
-        self._ui.model_listView_searchEditClients_NameIdList = nameList
+        #self._ui.model_listView_searchEditClients_NameIdList.clear()
+        print("DEBUG_fromGUI: " + str(orderList))
+        self._ui.ui_ListView_newInvoiceCandS_orderSearchList.show()

@@ -55,6 +55,9 @@ class MainController(QObject):
             self._model.currentClientList = self._model.getAllClients()
             self._model.productsNotInCurrentOrder = self._model.getAllProducts()
             self._model.productsInCurrentOrder = []
+        elif value == 8:
+            print("DEBUG: orders = " + str(self._model.getAllOrders()))
+            self._model.pageInit_newInvoiceCandS()
 
     @pyqtSlot(str)
     def buttonClick_passwordLogin(self, value):
