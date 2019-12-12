@@ -361,6 +361,7 @@ class Ui_MainWindow_mainView(object):
         self.ui_layout_newOrder.addWidget(self.ux_pButton_addProdToOrd, 13, 0, 1, 1)
         self.ux_tableWidget_curProducts = QtWidgets.QTableWidget(self.widget_newOrderLayout)
         self.ux_tableWidget_curProducts.setSelectionMode(QAbstractItemView.SingleSelection)
+        self.ux_tableWidget_curProducts.setEditTriggers(QAbstractItemView.NoEditTriggers)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.MinimumExpanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -438,6 +439,7 @@ class Ui_MainWindow_mainView(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.ux_tableWidget_orderProducts.sizePolicy().hasHeightForWidth())
         self.ux_tableWidget_orderProducts.setSelectionMode(QAbstractItemView.SingleSelection)
+
         self.ux_tableWidget_orderProducts.setSizePolicy(sizePolicy)
         self.ux_tableWidget_orderProducts.setShowGrid(True)
         self.ux_tableWidget_orderProducts.setRowCount(0)
@@ -1165,6 +1167,7 @@ class Ui_MainWindow_mainView(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.ui_ListView_newInvoiceCandS_orderSearchList.sizePolicy().hasHeightForWidth())
         self.ui_ListView_newInvoiceCandS_orderSearchList.setSizePolicy(sizePolicy)
+        self.ui_ListView_newInvoiceCandS_orderSearchList.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.ui_ListView_newInvoiceCandS_orderSearchList.setObjectName("ui_ListView_newInvoiceCandS_orderSearchList")
         self.ui_layout_newInvoiceCandS.addWidget(self.ui_ListView_newInvoiceCandS_orderSearchList, 7, 1, 10, 1)
 

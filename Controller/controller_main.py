@@ -6,7 +6,7 @@
 #
 #
 ############################################################################
-
+from PyQt5 import QtCore
 from PyQt5.QtCore import QObject, pyqtSlot, QModelIndex
 from PyQt5.QtGui import QStandardItem
 from PyQt5.QtWidgets import QMessageBox, QTableWidgetItem
@@ -173,7 +173,7 @@ class MainController(QObject):
             self._model.searchEditClients_editMode = 1
         else:
             self._model.searchEditClients_editMode = 0
-            self._model.getClientInfo_byId(self._model.currentClientId)
+            self._model.getClientInfo_byId_searchEditClients(self._model.currentClientId)
 
     @pyqtSlot(QModelIndex)
     def searchEditClients_onClientName_doubleClick(self, id):
@@ -183,7 +183,7 @@ class MainController(QObject):
         :return:
         """
         self._model.currentClientId = id
-        self._model.getClientInfo_byId(id)
+        self._model.getClientInfo_byId_searchEditClients(id)
         return
 
     @pyqtSlot(str, str, str, str, str)
@@ -207,3 +207,9 @@ class MainController(QObject):
     ####################################################################################################################
     #   New Invoice page pyqtSlots
     ####################################################################################################################
+
+    @pyqtSlot(QModelIndex)
+    def on_newInvoiceCandS_orderSearchListDoubleClick(self, item):
+        self._model.pageUpdate_newInvoiceCandS_orderInfo(item)
+
+

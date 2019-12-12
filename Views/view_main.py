@@ -113,7 +113,8 @@ class MainView(QMainWindow):
         ######################################
         #  New Invoice Create and Send Page connections
         ######################################
-
+        self._ui.ui_ListView_newInvoiceCandS_orderSearchList.doubleClicked[QtCore.QModelIndex].connect(
+            self._main_controller.on_newInvoiceCandS_orderSearchListDoubleClick)
 
         # hide widgets which are invisible on start (e.g. newOrders pButton)
         self.hide_secondLvlMenu_widgets()
@@ -137,6 +138,8 @@ class MainView(QMainWindow):
         # newInvoice model event signals
         self._model.updated_newInvoice_clientList.connect(self.on_newInvoice_newClientList)
         self._model.updated_orderList.connect(self.on_newInvoiceCandS_newOrderList)
+
+        self._model.updated_orderData.connect(self.on_newInvoiceCandS_showOrderData)
 
         # set a default value
         #self._main_controller.change_amount(42)
@@ -380,5 +383,20 @@ class MainView(QMainWindow):
     @pyqtSlot(QStandardItemModel)
     def on_newInvoiceCandS_newOrderList(self, orderList):
         #self._ui.model_listView_searchEditClients_NameIdList.clear()
-        print("DEBUG_fromGUI: " + str(orderList))
+        #print("DEBUG_fromGUI: " + str(orderList))
         self._ui.ui_ListView_newInvoiceCandS_orderSearchList.show()
+
+    @pyqtSlot(str, str, str, str, str, str, list, int)
+    def on_newInvoiceCandS_showOrderData(self, name, ad1, ad2, ph, em, orderNum, orderItems, orderSubTotal):
+        self._ui.ux_lineEdit_newInvoiceCandS_cNameOut.setText(name)
+        self._ui.ux_lineEdit_newInvoiceCandS_address1Out.setText(ad1)
+        self._ui.ux_lineEdit_newInvoiceCandS_address2Out.setText(ad2)
+        self._ui.ux_lineEdit_newInvoiceCandS_cPhoneOut.setText(ph)
+        self._ui.ux_lineEdit_newInvoiceCandS_cEmailOut.setText(em)
+        self._ui.ux_lineEdit_newInvoiceCandS_orderNumber.setText(orderNum)
+        # set orders
+
+        orderSubTotalLen = len(str(orderSubTotal))
+        fOrderSubTotal = str(orderSubTotal)[:(orderSubTotalLen - 2)] + "," + str(orderSubTotal)[(orderSubTotalLen - 2):]
+
+        self._ui.ux_lineEdit_newInvoiceCandS_orderSubTotal.setText(fOrderSubTotal)

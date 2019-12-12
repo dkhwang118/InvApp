@@ -54,6 +54,7 @@ class Model(QObject):
     # define models for temp data storage (per-page)
     model_listView_newInvoiceCandS_orderList = QStandardItemModel()
     updated_orderList = pyqtSignal(QStandardItemModel)
+    updated_orderData = pyqtSignal(str, str, str, str, str, str, list, int)
 
 
     ####################################################################################################################
@@ -320,13 +321,17 @@ class Model(QObject):
             self.searchEditClients_searchClientNames_newValues.emit(db_cur.fetchall())
         elif (self._currentView == 7):
             self.updated_newInvoice_clientList.emit(db_cur.fetchall())
-        
 
     def getClientInfo_byId(self, id):
         db_cur = self._db_connection.cursor()
         db_cur.execute("SELECT * FROM Clients WHERE Id=?;", (str(id),))
+        return db_cur.fetchone()[1:]
+
+    def getClientInfo_byId_searchEditClients(self, id):
+        db_cur = self._db_connection.cursor()
+        db_cur.execute("SELECT * FROM Clients WHERE Id=?;", (str(id),))
         tempList = db_cur.fetchone()
-        print(tempList)
+        #print(tempList)
         name = tempList[1]
         address1 = tempList[2]
         address2 = tempList[3]
@@ -507,6 +512,18 @@ class Model(QObject):
             print(ex)
             return []
 
+    def getOrderData_byOrderId(self, value):
+        try:
+            db_cur = self._db_connection.cursor()
+            db_cur.execute("""SELECT * 
+                            FROM Orders 
+                            WHERE FullOrderNumber = ?;""", (value,))
+            return db_cur.fetchone()[1:]
+        except:
+            ex = sys.exc_info()[0] # exception info
+            print(ex)
+            return -1
+
     def getOrderId_byOrderNum(self, orderNum):
         try:
             db_cur = self._db_connection.cursor()
@@ -533,8 +550,39 @@ class Model(QObject):
             print(ex)
             return []
 
+    ########################################
+    #   pageInit Calls
+    ########################################
+
     def pageInit_newInvoiceCandS(self):
         self._model_listView_newInvoiceCandS_orderList.clear()
         for orderRow in self.getAllOrders():
             self._model_listView_newInvoiceCandS_orderList.appendRow(QStandardItem(orderRow[2]))
         self.updated_orderList.emit(self._model_listView_newInvoiceCandS_orderList)
+
+    ########################################
+    #   pageUpdate Calls
+    ########################################
+
+    def pageUpdate_newInvoiceCandS_orderInfo(self, item):
+        orderId = self.model_listView_newInvoiceCandS_orderList.item(item.row())
+
+        # get all order info from orderId
+        #print("got order id " + orderId.text() + ", now make model display order values")
+        templist0 = self.getOrderData_byOrderId(orderId.text())
+        #print(str(self.getOrderData_byOrderId(orderId.text())))
+        # self._main_controller.searchEditClients_onClientName_doubleClick(orderId)
+
+        # get client info from orderId
+        #print(str(self.getClientInfo_byId(templist0[0])))
+        templist1 = self.getClientInfo_byId(templist0[0])
+
+        # send data to model to emit updates
+        self.updated_orderData.emit(templist1[0],
+                                templist1[1],
+                                templist1[2],
+                                templist1[3],
+                                templist1[4],
+                                templist0[1],
+                                [],     # product data
+                                templist0[6])
