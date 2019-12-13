@@ -16,16 +16,26 @@ from Views.view_main import MainView
 from Views.view_startup import StartupView
 from Model.model_sql_db_utils import *
 from Views.view_incorrectPassDialog import IncorrectPassDialog
+from PyQt5.QtGui import QFont
+from PyQt5 import QtWidgets, QtCore
 
 ############################################
 #   Qt Initialization
 ############################################
 
+# idea from: https://leomoon.com/journal/python/high-dpi-scaling-in-pyqt5/
+QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True)    #enable highdpi scaling
+QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps, True)       #use highdpi icons
+
 # command-line args to application
-#args = []
+args = []
 
 # init Qt App w/ args
-#app = QApplication(args)
+app = QApplication(args)
+
+appFont = app.font()
+appFont.setPixelSize(12)
+app.setFont(appFont)
 
 # set Qt app style to 'Fusion'
 #app.setStyle('Fusion')
@@ -34,7 +44,7 @@ from Views.view_incorrectPassDialog import IncorrectPassDialog
 class AppMain(QApplication):
     def __init__(self, sys_argv):
 
-        # init main application
+        # init main
         super(AppMain, self).__init__(sys_argv)
         self.model = Model()
         self.main_controller = MainController(self.model)
@@ -51,5 +61,6 @@ class AppMain(QApplication):
 
 
 if __name__ == '__main__':
+
     appRun = AppMain(sys.argv)
     sys.exit(appRun.exec_())
