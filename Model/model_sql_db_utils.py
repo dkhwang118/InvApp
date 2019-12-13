@@ -153,17 +153,17 @@ def addNewClient(db_conn, db_cur, name, address1, address2, phone, email):
 def db_printAllClients(db_conn):
     db_cur = db_conn.cursor()
     db_cur.execute("SELECT * FROM Clients;")
-    print(db_cur.fetchall())
+    #print(db_cur.fetchall())
 
 def db_printAllProducts(db_conn):
     db_cur = db_conn.cursor()
     db_cur.execute("SELECT * FROM Products;")
-    print(db_cur.fetchall())
+    #print(db_cur.fetchall())
 
 def db_printAllTables(db_conn):
     db_cur = db_conn.cursor()
     db_cur.execute("SELECT name FROM sqlite_master WHERE type='table';")
-    print(db_cur.fetchall())
+    #print(db_cur.fetchall())
 
 def db_connectionCheck(db_conn):
     connected = False

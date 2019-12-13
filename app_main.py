@@ -38,7 +38,7 @@ appFont.setPixelSize(12)
 app.setFont(appFont)
 
 # set Qt app style to 'Fusion'
-#app.setStyle('Fusion')
+app.setStyle('Fusion')
 
 # main application class that connects the MVC framework
 class AppMain(QApplication):
