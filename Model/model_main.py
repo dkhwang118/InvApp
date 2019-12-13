@@ -56,6 +56,7 @@ class Model(QObject):
     model_listView_newInvoiceCandS_orderItems = QStandardItemModel()
     updated_orderList = pyqtSignal(QStandardItemModel)
     updated_orderData = pyqtSignal(str, str, str, str, str, str, int)
+    updated_orderTotal = pyqtSignal(str)
 
 
     ####################################################################################################################

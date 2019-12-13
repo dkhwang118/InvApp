@@ -212,4 +212,66 @@ class MainController(QObject):
     def on_newInvoiceCandS_orderSearchListDoubleClick(self, item):
         self._model.pageUpdate_newInvoiceCandS_orderInfo(item)
 
+    @pyqtSlot(str, str)
+    def on_newInvoiceCandS_taxValueChanged(self, taxValue, subTotal):
+        if (taxValue == ""):
+            #do nothing
+            return
+        else:
+            # convert taxValue from string to float
+            fTaxValue = 0.0
+            float_taxValue = 0.0
+            if (taxValue.find(',') != -1):
+                fTaxValue = taxValue.replace(',', '.')
+            else:
+                fTaxValue = taxValue
+            float_taxValue = float(fTaxValue)
+
+            print("CONTROLLER_DEBUG: taxValue=" + str(float_taxValue))
+
+            # format subtotal from string to int
+            fSubTotal = 0
+            # if "," or "." found => delete
+            if (subTotal.find(',') != -1):
+                fSubTotal = subTotal.replace(',', '.')
+            else:
+                fSubTotal = subTotal
+            float_subTotal = float(fSubTotal)
+
+            print("CONTROLLER_DEBUG: orderSubTotal=" + str(float_subTotal))
+            # calc total w/ above values
+            orderTotal = float_subTotal + (float_subTotal * (float_taxValue / 100))
+            print("CONTROLLER_DEBUG: orderTotal=" + str(orderTotal))
+
+            # format orderTotal
+            # find where decimal is
+            decIndex = str(orderTotal).find('.')
+            print("CONTROLLER_DEBUG: decIndex=" + str(decIndex))
+
+            fOrderTotal = ""
+            string_orderTotal = str(orderTotal)
+            # cut-off tail and round up if necessary
+            digitsAfterDecimalPoint = len(string_orderTotal) - (decIndex+1)
+            if digitsAfterDecimalPoint > 2:
+                fOrderTotal = string_orderTotal[:(decIndex + 3)]
+                if (int(string_orderTotal[(decIndex+3)]) > 5 ):
+                    fOrderTotal = str(float(fOrderTotal) + 0.01)
+            elif digitsAfterDecimalPoint == 1:
+                fOrderTotal = string_orderTotal + "0"
+            elif digitsAfterDecimalPoint == -1:
+                fOrderTotal = string_orderTotal + ".00"
+
+            orderTotalLen = len(str(fOrderTotal))
+            # if for some reason it still isn't cut off
+            decIndex = fOrderTotal.find('.')
+            if ((len(str(fOrderTotal)) - decIndex) != 2):
+                fOrderTotal = fOrderTotal[:(decIndex+3)]
+
+
+            #fOrderTotal = str(orderTotal)[:(orderTotalLen - 2)] + "," + str(orderTotal)[(orderTotalLen - 2):]
+            print("CONTROLLER_DEBUG: orderTotal2=" + str(fOrderTotal))
+            self._model.updated_orderTotal.emit(fOrderTotal)
+
+
+
 

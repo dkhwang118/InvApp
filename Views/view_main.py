@@ -115,6 +115,9 @@ class MainView(QMainWindow):
         ######################################
         self._ui.ui_ListView_newInvoiceCandS_orderSearchList.doubleClicked[QtCore.QModelIndex].connect(
             self._main_controller.on_newInvoiceCandS_orderSearchListDoubleClick)
+        self._ui.ux_lineEdit_newInvoiceCandS_taxApplied.textChanged.connect(lambda: self._main_controller.on_newInvoiceCandS_taxValueChanged(
+                                                                                self._ui.ux_lineEdit_newInvoiceCandS_taxApplied.text(),
+                                                                                self._ui.ux_lineEdit_newInvoiceCandS_orderSubTotal.text()))
 
         # hide widgets which are invisible on start (e.g. newOrders pButton)
         self.hide_secondLvlMenu_widgets()
@@ -138,6 +141,7 @@ class MainView(QMainWindow):
         # newInvoice model event signals
         self._model.updated_newInvoice_clientList.connect(self.on_newInvoice_newClientList)
         self._model.updated_orderList.connect(self.on_newInvoiceCandS_newOrderList)
+        self._model.updated_orderTotal.connect(self.on_newInvoiceCandS_updatedTaxValue)
 
         self._model.updated_orderData.connect(self.on_newInvoiceCandS_showOrderData)
 
@@ -397,9 +401,16 @@ class MainView(QMainWindow):
         # set orders
         self._ui.ui_listView_newInvoiceCandS_orderItems.show()
 
-
-
+        # calc and format orderSubTotal
         orderSubTotalLen = len(str(orderSubTotal))
         fOrderSubTotal = str(orderSubTotal)[:(orderSubTotalLen - 2)] + "," + str(orderSubTotal)[(orderSubTotalLen - 2):]
-
         self._ui.ux_lineEdit_newInvoiceCandS_orderSubTotal.setText(fOrderSubTotal)
+
+        # place default tax percentage
+        self._ui.ux_lineEdit_newInvoiceCandS_taxApplied.setText("0")
+        self._ui.ux_lineEdit_newInvoiceCandS_taxApplied.setText("5,5")
+
+    @pyqtSlot(str)
+    def on_newInvoiceCandS_updatedTaxValue(self, orderTotal):
+        self._ui.ux_lineEdit_newInvoiceCandS_orderTotal.setText(orderTotal)
+
