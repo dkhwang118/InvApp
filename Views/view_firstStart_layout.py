@@ -79,6 +79,7 @@ class Ui_StartPage(object):
         self.ui_vLayout_welcomeScreen.addWidget(self.ui_label_passwordText)
         self.startPage_stackedWidget.addWidget(self.startPage_widget_welcomeScreen)
         self.ux_lineEdit_passwordInput = QtWidgets.QLineEdit(self.centralwidget)
+        self.ux_lineEdit_passwordInput.setEchoMode(QtWidgets.QLineEdit.Password)
         self.ux_lineEdit_passwordInput.setGeometry(QtCore.QRect(440, 230, 291, 20))
         self.ux_lineEdit_passwordInput.setObjectName("ux_lineEdit_passwordInput")
         self.ui_label_password = QtWidgets.QLabel(self.centralwidget)
