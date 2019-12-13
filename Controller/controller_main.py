@@ -58,7 +58,7 @@ class MainController(QObject):
             self._model.productsNotInCurrentOrder = self._model.getAllProducts()
             self._model.productsInCurrentOrder = []
         elif value == 8:
-            print("DEBUG: orders = " + str(self._model.getAllOrders()))
+            #print("DEBUG: orders = " + str(self._model.getAllOrders()))
             self._model.pageInit_newInvoiceCandS()
 
     @pyqtSlot(str)
@@ -88,11 +88,11 @@ class MainController(QObject):
 
     @pyqtSlot(list)
     def currentItemChanged(self, values):
-        print("Selected new item in QTable")
+        #print("Selected new item in QTable")
         self._model.prodInOrdrList_selected = True
         for item in values:
             self._model.prodsInOrdrList_selectedIndices = [item.row(), item.column()]
-            print(item.row(), item.column())
+            #print(item.row(), item.column())
 
     @pyqtSlot(QTableWidgetItem)
     def productAmountChangedInList(self, item):
@@ -137,7 +137,7 @@ class MainController(QObject):
         if reviewOrder_msgBox == QMessageBox.Yes:
             # add new order to table, then add products in order
             self._model.addToDB_newOrder(self._model.currentClientList[clientIndex_inCurCliList][1], orderNum, orderTotal, DeliveryDate)
-            print(self._model.getAllOrders())
+            #print(self._model.getAllOrders())
 
             # add products to OrderItems table
             for item in self._model.productsInCurrentOrder:
@@ -147,7 +147,9 @@ class MainController(QObject):
             self._model.productsNotInCurrentOrder = self._model.getAllProducts()
             self._model.productsInCurrentOrder = []
         else:
-            print("other\n")
+            # order not finalized. dialog box closes
+            #print("other\n")
+            return
 
     ####################################################################################################################
     #   addNewClient page pyqtSlots
@@ -229,7 +231,7 @@ class MainController(QObject):
                 fTaxValue = taxValue
             float_taxValue = float(fTaxValue)
 
-            print("CONTROLLER_DEBUG: taxValue=" + str(float_taxValue))
+            #print("CONTROLLER_DEBUG: taxValue=" + str(float_taxValue))
 
             # format subtotal from string to int
             fSubTotal = 0
@@ -240,15 +242,15 @@ class MainController(QObject):
                 fSubTotal = subTotal
             float_subTotal = float(fSubTotal)
 
-            print("CONTROLLER_DEBUG: orderSubTotal=" + str(float_subTotal))
+            #print("CONTROLLER_DEBUG: orderSubTotal=" + str(float_subTotal))
             # calc total w/ above values
             orderTotal = float_subTotal + (float_subTotal * (float_taxValue / 100))
-            print("CONTROLLER_DEBUG: orderTotal=" + str(orderTotal))
+            #print("CONTROLLER_DEBUG: orderTotal=" + str(orderTotal))
 
             # format orderTotal
             # find where decimal is
             decIndex = str(orderTotal).find('.')
-            print("CONTROLLER_DEBUG: decIndex=" + str(decIndex))
+            #print("CONTROLLER_DEBUG: decIndex=" + str(decIndex))
 
             fOrderTotal = ""
             string_orderTotal = str(orderTotal)
@@ -270,7 +272,7 @@ class MainController(QObject):
                 fOrderTotal = fOrderTotal[:(decIndex+3)]
 
             #fOrderTotal = str(orderTotal)[:(orderTotalLen - 2)] + "," + str(orderTotal)[(orderTotalLen - 2):]
-            print("CONTROLLER_DEBUG: orderTotal2=" + str(fOrderTotal))
+            #print("CONTROLLER_DEBUG: orderTotal2=" + str(fOrderTotal))
             self._model.updated_orderTotal.emit(fOrderTotal)
 
     pyqtSlot(str, str, str, str)
@@ -280,16 +282,16 @@ class MainController(QObject):
         # get all order info from orderId
         # print("got order id " + orderId.text() + ", now make model display order values")
         templist0 = self._model.getOrderData_byFullOrderNum(orderNum)
-        print("CONT_DEBUG: templist0=" + str(templist0))
+        #print("CONT_DEBUG: templist0=" + str(templist0))
 
         # get client info from orderId
         # print(str(self.getClientInfo_byId(templist0[0])))
         templist1 = self._model.getClientInfo_byId(templist0[0])
-        print("CONT_DEBUG: templist1=" + str(templist1))
+        #print("CONT_DEBUG: templist1=" + str(templist1))
 
         # get product info and format info for display
         templist2 = self._model.getAllOrderItemData_byOrderId(orderId)
-        print("CONT_DEBUG: templist2=" + str(templist2))
+        #print("CONT_DEBUG: templist2=" + str(templist2))
 
         # code/idea for generic mailto: template credit goes to "Fabio" @: https://stackoverflow.com/a/39269802
         myOrg = "MyVeryOwnBusiness"
@@ -339,7 +341,6 @@ class MainController(QObject):
 
         body = body.replace(' ', '%20')         # replace whitespace with url encoded whitespace
         body = body.replace('\n', '%0D%0A')     # same for newlines
-        print(body)
         #browser_controller = webbrowser.get("google-chrome")
         webbrowser.open('mailto:?to=' + recipient + '&subject=' + subject + '&body=' + body, new=1)
 

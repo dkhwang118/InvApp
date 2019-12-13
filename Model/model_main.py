@@ -303,7 +303,7 @@ class Model(QObject):
     ### function to add new clients to db
     def db_addNewClient(self, name, address1, address2, phone, email):
         return_val, title, text = addNewClient(self._db_connection, self._db_cursor, name, address1, address2, phone, email)
-        db_printAllClients(self._db_connection)
+        #db_printAllClients(self._db_connection)
         return return_val, title, text
 
     def getAllClients(self):
@@ -375,7 +375,7 @@ class Model(QObject):
             text = "Product \"" + name + "\" Successfully Added to Database!"
             self.show_message_box.emit(("Add New Product Success!", text))
         except sqlcipher.IntegrityError as e:
-            print(e)
+            print(str(e))
             e_split = str(e).split()
             if e_split[0] == 'UNIQUE':
                 if e_split[3] == 'Products.Name':

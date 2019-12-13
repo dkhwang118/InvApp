@@ -30,6 +30,9 @@ class MainView(QMainWindow):
         self._ui.setupUi(self, self._model)                      # init self
 
 
+        # set demo mode
+        self.demoMode()
+
         # connect widgets to controller
         #self._ui.spinBox_amount.valueChanged.connect(self._main_controller.change_amount)
         #self._ui.pushButton_reset.clicked.connect(lambda: self._main_controller.change_amount(0))
@@ -156,6 +159,14 @@ class MainView(QMainWindow):
         # set a default value
         #self._main_controller.change_amount(42)
 
+    def demoMode(self):
+        self._ui.ux_pButton_searchEditOrders.setDisabled(True)
+        self._ui.ux_pButton_editProduct.setDisabled(True)
+        self._ui.ux_pButton_newInvoice.setDisabled(True)
+        self._ui.ux_pButton_searchInvoice.setDisabled(True)
+        self._ui.ux_pButton_summaryView.setDisabled(True)
+        self._ui.ux_pButton_searchView.setDisabled(True)
+
     ####################################################################################################################
     #   MainWindow functions called when model updates
     ####################################################################################################################
@@ -228,7 +239,7 @@ class MainView(QMainWindow):
     def on_updatedClientList_NameId(self, nameList):
         if self._model.currentView == 1:   # if current view is newOrder page
             self._ui.ux_comboBox_clientName.clear()
-            print(nameList)
+            #print(nameList)
             for (x, y) in nameList:
                 self._ui.ux_comboBox_clientName.addItem(x)
         return
@@ -287,7 +298,7 @@ class MainView(QMainWindow):
     def on_updatedProdNotInOrderList(self, values):
         row = 0
         self._ui.ux_tableWidget_curProducts.setRowCount(len(values))
-        print(values)
+        #print(values)
         for (id, name, description, price, date) in values:
             self._ui.ux_tableWidget_curProducts.setItem(row, 0, QTableWidgetItem(name))
             priceLen = len(str(price))
