@@ -118,6 +118,12 @@ class MainView(QMainWindow):
         self._ui.ux_lineEdit_newInvoiceCandS_taxApplied.textChanged.connect(lambda: self._main_controller.on_newInvoiceCandS_taxValueChanged(
                                                                                 self._ui.ux_lineEdit_newInvoiceCandS_taxApplied.text(),
                                                                                 self._ui.ux_lineEdit_newInvoiceCandS_orderSubTotal.text()))
+        self._ui.ux_pButton_newInvoiceCandS_createAndSendInvoice.clicked.connect(lambda: self._main_controller.send_invoiceData_toBrowser(
+            self._ui.ux_lineEdit_newInvoiceCandS_orderNumber.text(),
+            self._ui.ux_lineEdit_newInvoiceCandS_orderSubTotal.text(),
+            self._ui.ux_lineEdit_newInvoiceCandS_taxApplied.text(),
+            self._ui.ux_lineEdit_newInvoiceCandS_orderTotal.text()
+        ))
 
         # hide widgets which are invisible on start (e.g. newOrders pButton)
         self.hide_secondLvlMenu_widgets()
@@ -144,6 +150,8 @@ class MainView(QMainWindow):
         self._model.updated_orderTotal.connect(self.on_newInvoiceCandS_updatedTaxValue)
 
         self._model.updated_orderData.connect(self.on_newInvoiceCandS_showOrderData)
+
+
 
         # set a default value
         #self._main_controller.change_amount(42)
@@ -403,12 +411,12 @@ class MainView(QMainWindow):
 
         # calc and format orderSubTotal
         orderSubTotalLen = len(str(orderSubTotal))
-        fOrderSubTotal = str(orderSubTotal)[:(orderSubTotalLen - 2)] + "," + str(orderSubTotal)[(orderSubTotalLen - 2):]
+        fOrderSubTotal = str(orderSubTotal)[:(orderSubTotalLen - 2)] + "." + str(orderSubTotal)[(orderSubTotalLen - 2):]
         self._ui.ux_lineEdit_newInvoiceCandS_orderSubTotal.setText(fOrderSubTotal)
 
         # place default tax percentage
         self._ui.ux_lineEdit_newInvoiceCandS_taxApplied.setText("0")
-        self._ui.ux_lineEdit_newInvoiceCandS_taxApplied.setText("5,5")
+        self._ui.ux_lineEdit_newInvoiceCandS_taxApplied.setText("5.5")
 
     @pyqtSlot(str)
     def on_newInvoiceCandS_updatedTaxValue(self, orderTotal):

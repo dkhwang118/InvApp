@@ -10,6 +10,8 @@ from PyQt5 import QtCore
 from PyQt5.QtCore import QObject, pyqtSlot, QModelIndex
 from PyQt5.QtGui import QStandardItem
 from PyQt5.QtWidgets import QMessageBox, QTableWidgetItem
+import webbrowser
+import urllib
 
 
 class MainController(QObject):
@@ -267,11 +269,78 @@ class MainController(QObject):
             if ((len(str(fOrderTotal)) - decIndex) != 2):
                 fOrderTotal = fOrderTotal[:(decIndex+3)]
 
-
             #fOrderTotal = str(orderTotal)[:(orderTotalLen - 2)] + "," + str(orderTotal)[(orderTotalLen - 2):]
             print("CONTROLLER_DEBUG: orderTotal2=" + str(fOrderTotal))
             self._model.updated_orderTotal.emit(fOrderTotal)
 
+    pyqtSlot(str, str, str, str)
+    def send_invoiceData_toBrowser(self, orderNum, subtotal, tax, total):
+        orderId = self._model.getOrderId_byOrderNum(orderNum)
 
+        # get all order info from orderId
+        # print("got order id " + orderId.text() + ", now make model display order values")
+        templist0 = self._model.getOrderData_byFullOrderNum(orderNum)
+        print("CONT_DEBUG: templist0=" + str(templist0))
+
+        # get client info from orderId
+        # print(str(self.getClientInfo_byId(templist0[0])))
+        templist1 = self._model.getClientInfo_byId(templist0[0])
+        print("CONT_DEBUG: templist1=" + str(templist1))
+
+        # get product info and format info for display
+        templist2 = self._model.getAllOrderItemData_byOrderId(orderId)
+        print("CONT_DEBUG: templist2=" + str(templist2))
+
+        # code/idea for generic mailto: template credit goes to "Fabio" @: https://stackoverflow.com/a/39269802
+        myOrg = "MyVeryOwnBusiness"
+        recipient = templist1[4]
+        subject = "Invoice for Recent Order from " + myOrg
+        products = ""
+        for (pId, pName, priceInCents, numInOrder) in templist2:
+            itemPrice = self._model.convert_itemPrice(priceInCents)
+            itemTotalPrice = self._model.convert_itemPrice(priceInCents * numInOrder)
+            products += "" + pName + ": " + itemPrice + " x " + str(numInOrder) + " = " + itemTotalPrice + "%0D%0A"
+
+
+        temp_TaxTotal = str(float(total) - float(subtotal))
+        decIndex = temp_TaxTotal.find('.')
+        fTaxTotal = ""
+
+        digitsAfterDecimalPoint = len(temp_TaxTotal) - (decIndex+1)
+        if digitsAfterDecimalPoint > 2:
+            fTaxTotal = temp_TaxTotal[:(decIndex + 3)]
+            if (int(temp_TaxTotal[(decIndex+3)]) > 5 ):
+                fTaxTotal = str(float(fTaxTotal) + 0.01)
+                decIndex = fTaxTotal.find('.')
+                temp_digitsAfterDecimalPoint = len(fTaxTotal) - (decIndex + 1)
+                if (temp_digitsAfterDecimalPoint == 1):
+                    # round-up changed the digit infront of the one being edited => must add a '0' to the end
+                    fTaxTotal = fTaxTotal + "0"
+        elif digitsAfterDecimalPoint == 1:
+            fTaxTotal = temp_TaxTotal + "0"
+        elif digitsAfterDecimalPoint == -1:
+            fTaxTotal = temp_TaxTotal + ".00"
+
+        #print("MAIL_DEBUG: temp_taxTotal=" + fTaxTotal)
+        # if for some reason it still isn't cut off
+        decIndex = fTaxTotal.find('.')
+        if ((len(str(fTaxTotal)) - decIndex) != 2):
+            fTaxTotal = fTaxTotal[:(decIndex+3)]
+
+        #print("MAIL_DEBUG2: temp_taxTotal=" + fTaxTotal)
+
+        # newline code idea from "cyang" @: https://stackoverflow.com/a/10356432
+        body = "From " + myOrg + "%0D%0A%0D%0A%0D%0A" \
+            + "ORDER " + templist0[1] + "%0D%0A%0D%0A" \
+            + products + "%0D%0A" \
+            + "Subtotal: $" + subtotal + "%0D%0A" \
+            + "Tax (" + tax + "%): $" + fTaxTotal + "%0D%0A" \
+            + "Total Amount Owed: $" + total
+
+        body = body.replace(' ', '%20')         # replace whitespace with url encoded whitespace
+        body = body.replace('\n', '%0D%0A')     # same for newlines
+        print(body)
+        #browser_controller = webbrowser.get("google-chrome")
+        webbrowser.open('mailto:?to=' + recipient + '&subject=' + subject + '&body=' + body, new=1)
 
 
