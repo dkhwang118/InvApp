@@ -193,7 +193,7 @@ class Ui_MainWindow_mainView(object):
         self.ux_pButton_addProduct.setText(_translate("main_view", "Add New Product"))
         self.ux_pButton_editProduct.setText(_translate("main_view", "Search/Edit Product Info."))
         self.ux_pButton_newInvoice.setText(_translate("main_view", "Create New Invoice"))
-        self.ux_pButton_sendInvoice.setText(_translate("main_view", "Send Invoice(s)"))
+        self.ux_pButton_sendInvoice.setText(_translate("main_view", "Create and Send Invoice"))
         self.ux_pButton_searchInvoice.setText(_translate("main_view", "Search Invoices"))
         self.ux_pButton_summaryView.setText(_translate("main_view", "Summary View"))
         self.ux_pButton_searchView.setText(_translate("main_view", "Search and View"))
