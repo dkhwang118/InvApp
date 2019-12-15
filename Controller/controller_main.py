@@ -209,7 +209,7 @@ class MainController(QObject):
         self._model.addNewProduct(name, description, fPriceInCents)
 
     ####################################################################################################################
-    #   New Invoice page pyqtSlots
+    #   New Invoice Create and Send page pyqtSlots
     ####################################################################################################################
 
     @pyqtSlot(QModelIndex)
@@ -293,6 +293,10 @@ class MainController(QObject):
         templist2 = self._model.getAllOrderItemData_byOrderId(orderId)
         #print("CONT_DEBUG: templist2=" + str(templist2))
 
+        # add invoice to invoices db table
+        #self._model.addToDB_newInvoice()
+
+
         # code/idea for generic mailto: template credit goes to "Fabio" @: https://stackoverflow.com/a/39269802
         myOrg = "MyVeryOwnBusiness"
         recipient = templist1[4]
@@ -337,11 +341,13 @@ class MainController(QObject):
             + products + "%0D%0A" \
             + "Subtotal: $" + subtotal + "%0D%0A" \
             + "Tax (" + tax + "%): $" + fTaxTotal + "%0D%0A" \
-            + "Total Amount Owed: $" + total
+            + "Total Amount Owed: $" + total + "\n\n\n"
 
         body = body.replace(' ', '%20')         # replace whitespace with url encoded whitespace
         body = body.replace('\n', '%0D%0A')     # same for newlines
         #browser_controller = webbrowser.get("google-chrome")
         webbrowser.open('mailto:?to=' + recipient + '&subject=' + subject + '&body=' + body, new=1)
+
+
 
 

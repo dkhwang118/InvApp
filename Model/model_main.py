@@ -568,14 +568,28 @@ class Model(QObject):
                                     WHERE OrderId = ?)
                                 ) AS prods
                             WHERE prods.OrderId = ?;""", (int(orderId),int(orderId)))
-
-
             orderItemsList = db_cur.fetchall()
             return orderItemsList
         except:
             ex = sys.exc_info()[0] # exception info
             print(ex)
             return []
+
+    def addToDB_newInvoice_singleOrder(self, clientId, orderId, numOrders = 0, subTotal = 0):
+        try:
+            db_cur = self._db_connection.cursor()
+            sql_tableInsert_Invoices = """INSERT INTO Invoices(ClientId, NumOrders, SubTotal) values (?,?,?)"""
+            sql_tableInsert_InvoiceOrder = """INSERT INTO InvoiceOrders(InvoiceId, OrderId) values (?,?)"""
+            db_cur.execute(sql_tableInsert_Invoices, (int(clientId), int(numOrders), int(subTotal)))
+            self._db_connection.commit()
+            db_cur.execute(sql_tableInsert_InvoiceOrder, (int(clientId), int(numOrders), int(subTotal)))
+            self._db_connection.commit()
+            #text = "Product \"" + name + "\" Successfully Added to Database!"
+            #self.show_message_box.emit(("Add New Product Success!", text))
+        except sqlcipher.IntegrityError as e:
+            #print(str(e))
+            self.show_message_box.emit(("Create/Send Invoice Failed!", str(e)))
+
 
     ########################################
     #   pageInit Calls
