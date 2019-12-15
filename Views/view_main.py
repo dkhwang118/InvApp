@@ -127,6 +127,8 @@ class MainView(QMainWindow):
             self._ui.ux_lineEdit_newInvoiceCandS_taxApplied.text(),
             self._ui.ux_lineEdit_newInvoiceCandS_orderTotal.text()
         ))
+        self._ui.ux_pButton_newInvoiceCandS_showAllOrders.clicked.connect(self._main_controller.on_newInvoiceCandS_showAllOrders_clicked)
+        self._ui.ux_pButton_newInvoiceCandS_ShowUnsentOrders.clicked.connect(self._main_controller.on_newInvoiceCandS_showAllUnsentOrders_clicked)
 
         # hide widgets which are invisible on start (e.g. newOrders pButton)
         self.hide_secondLvlMenu_widgets()

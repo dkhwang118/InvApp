@@ -575,20 +575,46 @@ class Model(QObject):
             print(ex)
             return []
 
-    def addToDB_newInvoice_singleOrder(self, clientId, orderId, numOrders = 0, subTotal = 0):
+    def addToDB_newInvoice_singleOrder(self, invoiceNum, clientId, orderId, numOrders = 1):
         try:
             db_cur = self._db_connection.cursor()
-            sql_tableInsert_Invoices = """INSERT INTO Invoices(ClientId, NumOrders, SubTotal) values (?,?,?)"""
+            sql_tableInsert_Invoices = """INSERT INTO Invoices(InvoiceNum, ClientId, NumOrders, InvoiceSent) values (?,?,?,?)"""
             sql_tableInsert_InvoiceOrder = """INSERT INTO InvoiceOrders(InvoiceId, OrderId) values (?,?)"""
-            db_cur.execute(sql_tableInsert_Invoices, (int(clientId), int(numOrders), int(subTotal)))
+
+            # insert into invoices to generate invoice id
+            db_cur.execute(sql_tableInsert_Invoices, (str(invoiceNum), int(clientId), int(numOrders), 1))
             self._db_connection.commit()
-            db_cur.execute(sql_tableInsert_InvoiceOrder, (int(clientId), int(numOrders), int(subTotal)))
+
+            # search for invoice id that matches invoiceNum
+            db_cur.execute("""SELECT Id
+                            FROM Invoices
+                            WHERE InvoiceNum = ?;""", (str(invoiceNum),))
+            invoiceId = db_cur.fetchone()
+            #print(invoiceId)
+
+            db_cur.execute(sql_tableInsert_InvoiceOrder, (int(invoiceId[0]), int(orderId)))
             self._db_connection.commit()
             #text = "Product \"" + name + "\" Successfully Added to Database!"
             #self.show_message_box.emit(("Add New Product Success!", text))
         except sqlcipher.IntegrityError as e:
             #print(str(e))
             self.show_message_box.emit(("Create/Send Invoice Failed!", str(e)))
+
+    def getAllUnsentInvoiceOrders(self):
+        try:
+            db_cur = self._db_connection.cursor()
+            db_cur.execute("""SELECT *
+                            FROM Orders
+                            WHERE FullOrderNumber NOT IN (         
+                                SELECT InvoiceNum 
+                                FROM Invoices
+                                WHERE InvoiceSent = 1);""")
+            orderList = db_cur.fetchall()
+            return orderList
+        except:
+            ex = sys.exc_info()[0] # exception info
+            print(ex)
+            return []
 
 
     ########################################
@@ -597,13 +623,25 @@ class Model(QObject):
 
     def pageInit_newInvoiceCandS(self):
         self._model_listView_newInvoiceCandS_orderList.clear()
-        for orderRow in self.getAllOrders():
+        for orderRow in self.getAllUnsentInvoiceOrders():
             self._model_listView_newInvoiceCandS_orderList.appendRow(QStandardItem(orderRow[2]))
         self.updated_orderList.emit(self._model_listView_newInvoiceCandS_orderList)
 
     ########################################
     #   pageUpdate Calls
     ########################################
+
+    def pageUpdate_newInvoiceCandS_allOrdersInList(self):
+        self._model_listView_newInvoiceCandS_orderList.clear()
+        for orderRow in self.getAllOrders():
+            self._model_listView_newInvoiceCandS_orderList.appendRow(QStandardItem(orderRow[2]))
+        self.updated_orderList.emit(self._model_listView_newInvoiceCandS_orderList)
+
+    def pageUpdate_newInvoiceCandS_allUnsentOrdersInList(self):
+        self._model_listView_newInvoiceCandS_orderList.clear()
+        for orderRow in self.getAllUnsentInvoiceOrders():
+            self._model_listView_newInvoiceCandS_orderList.appendRow(QStandardItem(orderRow[2]))
+        self.updated_orderList.emit(self._model_listView_newInvoiceCandS_orderList)
 
     def convert_itemPrice(self, priceInCents):
         priceLen = len(str(priceInCents))

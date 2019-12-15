@@ -216,6 +216,14 @@ class MainController(QObject):
     def on_newInvoiceCandS_orderSearchListDoubleClick(self, item):
         self._model.pageUpdate_newInvoiceCandS_orderInfo(item)
 
+    @pyqtSlot()
+    def on_newInvoiceCandS_showAllOrders_clicked(self):
+        self._model.pageUpdate_newInvoiceCandS_allOrdersInList()
+
+    @pyqtSlot()
+    def on_newInvoiceCandS_showAllUnsentOrders_clicked(self):
+        self._model.pageUpdate_newInvoiceCandS_allUnsentOrdersInList()
+
     @pyqtSlot(str, str)
     def on_newInvoiceCandS_taxValueChanged(self, taxValue, subTotal):
         if (taxValue == ""):
@@ -294,8 +302,10 @@ class MainController(QObject):
         #print("CONT_DEBUG: templist2=" + str(templist2))
 
         # add invoice to invoices db table
-        #self._model.addToDB_newInvoice()
+        self._model.addToDB_newInvoice_singleOrder(templist0[1], templist0[0], orderId)
 
+        # reset GUI values
+        self._model.pageInit_newInvoiceCandS()
 
         # code/idea for generic mailto: template credit goes to "Fabio" @: https://stackoverflow.com/a/39269802
         myOrg = "MyVeryOwnBusiness"

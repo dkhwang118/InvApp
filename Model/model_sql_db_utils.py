@@ -79,9 +79,10 @@ def firstTimeCreate(db_pass, db_path=DEFAULT_PATH):
 
     sql_createTable_Invoices = """CREATE TABLE IF NOT EXISTS Invoices (
                                         Id INTEGER PRIMARY KEY,
+                                        InvoiceNum TEXT UNIQUE NOT NULL,
                                         ClientId INTEGER NOT NULL,
                                         NumOrders INTEGER NOT NULL,
-                                        SubTotal INTEGER NOT NULL,
+                                        InvoiceSent INTEGER NOT NULL,
                                         FOREIGN KEY (ClientId) REFERENCES Clients (Id));"""
 
     sql_createTable_InvoiceOrders = """CREATE TABLE IF NOT EXISTS InvoiceOrders (
