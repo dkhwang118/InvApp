@@ -359,15 +359,25 @@ class MainView(QMainWindow):
         for listItem in values:
             (pId, name, description, price, date) = listItem[0]
             num = listItem[1]
-            self._ui.ux_tableWidget_orderProducts.setItem(row, 0, QTableWidgetItem(name))
+
+            # disable single cells code retrieved from: https://stackoverflow.com/a/7756615
+            nameItem = QTableWidgetItem(name)
+            nameItem.setFlags(QtCore.Qt.ItemIsEnabled)
+            self._ui.ux_tableWidget_orderProducts.setItem(row, 0, nameItem)
+
             priceLen = len(str(price))
             fPrice = str(price)[:(priceLen - 2)] + "," + str(price)[(priceLen-2):]
             totalPrice = price * num
             totalPriceLen = len(str(totalPrice))
             fTotalPrice = str(totalPrice)[:(totalPriceLen - 2)] + "," + str(totalPrice)[(totalPriceLen-2):]
-            self._ui.ux_tableWidget_orderProducts.setItem(row, 2, QTableWidgetItem(fPrice))
+
+            priceItem = QTableWidgetItem(fPrice)
+            priceItem.setFlags(QtCore.Qt.ItemIsEnabled)
+            self._ui.ux_tableWidget_orderProducts.setItem(row, 2, priceItem)
             self._ui.ux_tableWidget_orderProducts.setItem(row, 1, QTableWidgetItem(str(num)))
-            self._ui.ux_tableWidget_orderProducts.setItem(row, 3, QTableWidgetItem(fTotalPrice))
+            totalPriceItem = QTableWidgetItem(fTotalPrice)
+            totalPriceItem.setFlags(QtCore.Qt.ItemIsEnabled)
+            self._ui.ux_tableWidget_orderProducts.setItem(row, 3, totalPriceItem)
             row += 1
 
     @pyqtSlot(str)

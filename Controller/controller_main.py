@@ -131,7 +131,7 @@ class MainController(QObject):
                     + "\n  Client Name: " + self._model.currentClientList[clientIndex_inCurCliList][0] \
                     + "\n  Delivery Date: " + DeliveryDate \
                     + "\n  Products In Order: \n" + products \
-                    + "\n  Order Sub-Total: " + forderTotal
+                    + "\n  Order Sub-Total: " + forderTotal + "\n\n"
 
         reviewOrder_msgBox = QMessageBox.question(self._mainView, "Review and Complete the Order", msgText, QMessageBox.Yes, QMessageBox.No)
         if reviewOrder_msgBox == QMessageBox.Yes:
@@ -285,15 +285,14 @@ class MainController(QObject):
 
     pyqtSlot(str, str, str, str)
     def send_invoiceData_toBrowser(self, orderNum, subtotal, tax, total):
+        #
         orderId = self._model.getOrderId_byOrderNum(orderNum)
 
         # get all order info from orderId
-        # print("got order id " + orderId.text() + ", now make model display order values")
         templist0 = self._model.getOrderData_byFullOrderNum(orderNum)
         #print("CONT_DEBUG: templist0=" + str(templist0))
 
         # get client info from orderId
-        # print(str(self.getClientInfo_byId(templist0[0])))
         templist1 = self._model.getClientInfo_byId(templist0[0])
         #print("CONT_DEBUG: templist1=" + str(templist1))
 
