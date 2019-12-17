@@ -500,13 +500,15 @@ class MainView(QMainWindow):
 
     @pyqtSlot(str, str, str, str, str, str, int)
     def on_newInvoiceCandS_showOrderData(self, name, ad1, ad2, ph, em, orderNum, orderSubTotal):
+        # set order and client information using new data
         self._ui.ux_lineEdit_newInvoiceCandS_cNameOut.setText(name)
         self._ui.ux_lineEdit_newInvoiceCandS_address1Out.setText(ad1)
         self._ui.ux_lineEdit_newInvoiceCandS_address2Out.setText(ad2)
         self._ui.ux_lineEdit_newInvoiceCandS_cPhoneOut.setText(ph)
         self._ui.ux_lineEdit_newInvoiceCandS_cEmailOut.setText(em)
         self._ui.ux_lineEdit_newInvoiceCandS_orderNumber.setText(orderNum)
-        # set orders
+
+        # show order items from updated model values
         self._ui.ui_listView_newInvoiceCandS_orderItems.show()
 
         # calc and format orderSubTotal

@@ -648,14 +648,14 @@ class Model(QObject):
         return str(priceInCents)[:(priceLen - 2)] + "," + str(priceInCents)[(priceLen - 2):]
 
     def pageUpdate_newInvoiceCandS_orderInfo(self, item):
-        # get the full order number from the ListView's QModelIndex object
-        orderNum = self.model_listView_newInvoiceCandS_orderList.item(item.row())
+        # get the full order number QItem from the ListView's QModelIndex object
+        orderNumItem = self.model_listView_newInvoiceCandS_orderList.item(item.row())
 
         # get the orderId from the full order number
-        orderId = self.getOrderId_byOrderNum(orderNum.text())
+        orderId = self.getOrderId_byOrderNum(orderNumItem.text())
 
         # get all order info from orderId
-        templist0 = self.getOrderData_byFullOrderNum(orderNum.text())
+        templist0 = self.getOrderData_byFullOrderNum(orderNumItem.text())
 
         # get client info from clientId
         templist1 = self.getClientInfo_byId(templist0[0])
@@ -663,14 +663,14 @@ class Model(QObject):
         # get product info and format info for display
         templist2 = self.getAllOrderItemData_byOrderId(orderId)
 
-        # clear items and append new items from order data to model
+        # clear items in OrderProducts model and append new items from order data to model
         self.model_listView_newInvoiceCandS_orderItems.clear()
         for (pId, pName, priceInCents, numInOrder) in templist2:
             itemPrice = self.convert_itemPrice(priceInCents)
             itemTotalPrice = self.convert_itemPrice(priceInCents * numInOrder)
             self.model_listView_newInvoiceCandS_orderItems.appendRow(QStandardItem("" + pName + ": " + itemPrice + " x " + str(numInOrder) + " = " + itemTotalPrice))
 
-        # send data to model to emit updates
+        # emit signal to GUI to update lineEdit texts with order and client data
         self.updated_orderData.emit(templist1[0],
                                 templist1[1],
                                 templist1[2],
