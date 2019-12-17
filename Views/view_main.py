@@ -289,10 +289,15 @@ class MainView(QMainWindow):
             self.hide_secondLvlMenu_widgets()
         elif value == 1:  # Orders button clicked
             self.Set_Tier1Buttons_noArrows()
-            self._ui.ux_pButton_orders.setText("Orders \u27a4")
-            self.hide_secondLvlMenu_widgets()
-            self._ui.ux_pButton_newOrder.show()
-            self._ui.ux_pButton_searchEditOrders.show()
+            if (self._ui.ux_pButton_newOrder.isHidden()):
+                self._ui.ux_pButton_orders.setText("Orders \u27a4")
+                #self.hide_secondLvlMenu_widgets()
+                self._ui.ux_pButton_newOrder.show()
+                self._ui.ux_pButton_searchEditOrders.show()
+            else:
+                self._ui.ux_pButton_orders.setText("Orders")
+                self._ui.ux_pButton_newOrder.setHidden(True)
+                self._ui.ux_pButton_searchEditOrders.setHidden(True)
         elif value == 2:
             self.Set_Tier1Buttons_noArrows()
             self._ui.ux_pButton_clients.setText("Clients \u27a4")
@@ -322,6 +327,27 @@ class MainView(QMainWindow):
             self.Set_Tier1Buttons_noArrows()
             self._ui.ux_pButton_settings.setText("Settings")
             self.hide_secondLvlMenu_widgets()
+        # get current GUI window
+        currentMainView = self._model.currentView
+        if (currentMainView == 1):
+            self._ui.ux_pButton_orders.setText("Orders \u27a4")
+            self._ui.ux_pButton_newOrder.show()
+            self._ui.ux_pButton_searchEditOrders.show()
+        elif (currentMainView == 3) or (currentMainView == 4):
+            self._ui.ux_pButton_clients.setText("Clients \u27a4")
+            self._ui.ux_pButton_newClient.show()
+            self._ui.ux_pButton_editClient.show()
+        elif (currentMainView == 5):
+            self._ui.ux_pButton_products.setText("Products \u27a4")
+            self._ui.ux_pButton_addProduct.show()
+            self._ui.ux_pButton_editProduct.show()
+        elif (currentMainView == 8):
+            self._ui.ux_pButton_invoicing.setText("Invoicing \u27a4")
+            self._ui.ux_pButton_newInvoice.show()
+            self._ui.ux_pButton_searchInvoice.show()
+            self._ui.ux_pButton_sendInvoice.show()
+
+
 
     def hide_secondLvlMenu_widgets(self):
         self._ui.ux_pButton_newOrder.setHidden(1)
