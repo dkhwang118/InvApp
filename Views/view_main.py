@@ -195,6 +195,7 @@ class MainView(QMainWindow):
         if value == 0: self._ui.stackedLayoutWidget.setCurrentWidget(self._ui.widget_welcomeLayout)
         elif value == 1:    # set newOrders page and init fields with relevant data
             self._ui.ux_pButton_newOrder.setText("New Order \u27a4")
+            self._ui.ux_pButton_orders.setText("Orders \u27a4")
             self._ui.stackedLayoutWidget.setCurrentWidget(self._ui.widget_newOrderLayout)
             self._ui.ux_lineEdit_orderNumber.setText(self._model.getNextOrderNum())
             self._ui.ux_lineEdit_deliveryDate.setText(self._model.currentDate)
@@ -206,9 +207,11 @@ class MainView(QMainWindow):
             #     self._ui.ux_tableWidget_curProducts.set
 
         elif value == 3:
+            self._ui.ux_pButton_clients.setText("Clients \u27a4")
             self._ui.ux_pButton_newClient.setText("Add New Client \u27a4")
             self._ui.stackedLayoutWidget.setCurrentWidget(self._ui.widget_newClientLayout)
         elif value == 4:
+            self._ui.ux_pButton_clients.setText("Clients \u27a4")
             self._ui.ux_pButton_editClient.setText("Search/Edit Client Info. \u27a4")
             clients = self._model.getAllClients()
             self._ui.model_listView_searchEditClients_nameSearchList.clear()
@@ -221,9 +224,11 @@ class MainView(QMainWindow):
             self._ui.ux_pButton_searchEditClients_finalizeInfo.setDisabled(True)
             self._ui.stackedLayoutWidget.setCurrentWidget(self._ui.widget_searchEditClientsLayout)
         elif value == 5:
+            self._ui.ux_pButton_products.setText("Products \u27a4")
             self._ui.ux_pButton_addProduct.setText("Add New Product \u27a4")
             self._ui.stackedLayoutWidget.setCurrentWidget(self._ui.widget_newProductLayout)
         elif value == 7:
+            self._ui.ux_pButton_invoicing.setText("Invoicing \u27a4")
             self._ui.ux_pButton_newInvoice.setText("Create New Invoice \u27a4")
             clients = self._model.getAllClients()
             self._ui.model_listView_newInvoice_nameSearchList.clear()
@@ -235,6 +240,7 @@ class MainView(QMainWindow):
                 self._ui.model_listView_newInvoice_nameSearchList.appendRow(item)
             self._ui.stackedLayoutWidget.setCurrentWidget(self._ui.widget_newInvoiceLayout)
         elif value == 8:
+            self._ui.ux_pButton_invoicing.setText("Invoicing \u27a4")
             self._ui.ux_pButton_sendInvoice.setText("Create and Send Invoice \u27a4")
             self._ui.stackedLayoutWidget.setCurrentWidget(self._ui.widget_newInvoiceCandSLayout)
 
@@ -290,8 +296,8 @@ class MainView(QMainWindow):
         elif value == 1:  # Orders button clicked
             self.Set_Tier1Buttons_noArrows()
             if (self._ui.ux_pButton_newOrder.isHidden()):
-                self._ui.ux_pButton_orders.setText("Orders \u27a4")
-                #self.hide_secondLvlMenu_widgets()
+                self._ui.ux_pButton_orders.setText("Orders \u2bc8")
+                self.hide_secondLvlMenu_widgets()
                 self._ui.ux_pButton_newOrder.show()
                 self._ui.ux_pButton_searchEditOrders.show()
             else:
@@ -300,26 +306,26 @@ class MainView(QMainWindow):
                 self._ui.ux_pButton_searchEditOrders.setHidden(True)
         elif value == 2:
             self.Set_Tier1Buttons_noArrows()
-            self._ui.ux_pButton_clients.setText("Clients \u27a4")
+            self._ui.ux_pButton_clients.setText("Clients \u2bc8")
             self.hide_secondLvlMenu_widgets()
             self._ui.ux_pButton_newClient.show()
             self._ui.ux_pButton_editClient.show()
         elif value == 3:
             self.Set_Tier1Buttons_noArrows()
-            self._ui.ux_pButton_products.setText("Products \u27a4")
+            self._ui.ux_pButton_products.setText("Products \u2bc8")
             self.hide_secondLvlMenu_widgets()
             self._ui.ux_pButton_addProduct.show()
             self._ui.ux_pButton_editProduct.show()
         elif value == 4:
             self.Set_Tier1Buttons_noArrows()
-            self._ui.ux_pButton_invoicing.setText("Invoicing \u27a4")
+            self._ui.ux_pButton_invoicing.setText("Invoicing \u2bc8")
             self.hide_secondLvlMenu_widgets()
             self._ui.ux_pButton_newInvoice.show()
             self._ui.ux_pButton_searchInvoice.show()
             self._ui.ux_pButton_sendInvoice.show()
         elif value == 5:
             self.Set_Tier1Buttons_noArrows()
-            self._ui.ux_pButton_statistics.setText("Statistics \u27a4")
+            self._ui.ux_pButton_statistics.setText("Statistics \u2bc8")
             self.hide_secondLvlMenu_widgets()
             self._ui.ux_pButton_searchView.show()
             self._ui.ux_pButton_summaryView.show()
@@ -331,8 +337,9 @@ class MainView(QMainWindow):
         currentMainView = self._model.currentView
         if (currentMainView == 1):
             self._ui.ux_pButton_orders.setText("Orders \u27a4")
+            self._ui.ux_pButton_newOrder.setText("New Order \u27a4")
             self._ui.ux_pButton_newOrder.show()
-            self._ui.ux_pButton_searchEditOrders.show()
+            #self._ui.ux_pButton_searchEditOrders.show()
         elif (currentMainView == 3) or (currentMainView == 4):
             self._ui.ux_pButton_clients.setText("Clients \u27a4")
             self._ui.ux_pButton_newClient.show()

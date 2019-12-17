@@ -109,7 +109,7 @@ def firstTimeCreate(db_pass, db_path=DEFAULT_PATH):
     return db_conn, db_cur
 
 def db_newClient_test(db_conn, db_cur):
-    db_cur = db_conn.cursor()    # create cursor object from db connection
+    # db_cur = db_conn.cursor()    # create cursor object from db connection
 
     # execute insert into newly created table
 
