@@ -156,7 +156,7 @@ class MainView(QMainWindow):
 
         self._model.updated_orderData.connect(self.on_newInvoiceCandS_showOrderData)
 
-        #self.hide_secondLvlMenu_widgets()
+        self.hide_secondLvlMenu_widgets()
 
         # set a default value
         #self._main_controller.change_amount(42)
@@ -291,8 +291,20 @@ class MainView(QMainWindow):
     # signal received from model after one of the leftmost buttons is clicked
     @pyqtSlot(int)
     def on_tier1_buttonClick(self, value):
-        return
-
+        if value == 1:
+            if (self._ui.ux_pButton_newOrder.isHidden()):
+                self._ui.ux_pButton_newOrder.setHidden(0)
+                self._ui.ux_pButton_searchEditOrders.setHidden(0)
+            else:
+                self._ui.ux_pButton_newOrder.setHidden(1)
+                self._ui.ux_pButton_searchEditOrders.setHidden(1)
+        elif value == 2:
+            if self._ui.ux_pButton_addClient.isHidden():
+                self._ui.ux_pButton_addClient.setHidden(0)
+                self._ui.ux_pButton_searchEditClients.setHidden(0)
+            else:
+                self._ui.ux_pButton_addClient.setHidden(1)
+                self._ui.ux_pButton_searchEditClients.setHidden(1)
 
 
     def hide_secondLvlMenu_widgets(self):

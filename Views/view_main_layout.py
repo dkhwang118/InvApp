@@ -44,7 +44,7 @@ class Ui_MainWindow_mainView(object):
 
         # init QWidget holding the left-most vertical layout
         self.ui_widget_menuButtons = QtWidgets.QWidget(self.centralwidget)
-        self.ui_widget_menuButtons.setGeometry(QtCore.QRect(0, 0, 140, 720))
+        self.ui_widget_menuButtons.setGeometry(QtCore.QRect(1, 0, 160, 719))
         self.ui_widget_menuButtons.setObjectName("ui_widget_menuButtons")
 
         # init menu buttons
