@@ -13,7 +13,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import QStandardItem, QStandardItemModel
-from PyQt5.QtWidgets import QAbstractItemView
+from PyQt5.QtWidgets import QAbstractItemView, QSizePolicy
 
 
 
@@ -80,9 +80,9 @@ class Ui_MainWindow_mainView(object):
         self.ux_pButton_Products.setObjectName("ux_pButton_Products")
         self.ui_gridLayout_menuButtons.addWidget(self.ux_pButton_Products, 7, 0, 1, 3)
 
-        spacerItem = QtWidgets.QSpacerItem(10, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        spacerItem = QtWidgets.QSpacerItem(10, 0, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
         self.ui_gridLayout_menuButtons.addItem(spacerItem, 1, 0, 3, 1)
-        spacerItem1 = QtWidgets.QSpacerItem(10, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        spacerItem1 = QtWidgets.QSpacerItem(10, 0, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
         self.ui_gridLayout_menuButtons.addItem(spacerItem1, 1, 2, 2, 1)
 
         self.ux_pButton_sendInvoice = QtWidgets.QPushButton(self.ui_widget_menuButtons)
@@ -220,22 +220,22 @@ class Ui_MainWindow_mainView(object):
         self.ux_pButton_searchAndView.setObjectName("ux_pButton_searchAndView")
         self.ui_gridLayout_menuButtons.addWidget(self.ux_pButton_searchAndView, 17, 1, 1, 1)
 
-        spacerItem2 = QtWidgets.QSpacerItem(10, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
-        self.ui_gridLayout_menuButtons.addItem(spacerItem2, 5, 2, 2, 1)
-        spacerItem3 = QtWidgets.QSpacerItem(10, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
-        self.ui_gridLayout_menuButtons.addItem(spacerItem3, 5, 0, 2, 1)
-        spacerItem4 = QtWidgets.QSpacerItem(10, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
-        self.ui_gridLayout_menuButtons.addItem(spacerItem4, 8, 2, 2, 1)
-        spacerItem5 = QtWidgets.QSpacerItem(10, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
-        self.ui_gridLayout_menuButtons.addItem(spacerItem5, 8, 0, 2, 1)
-        spacerItem6 = QtWidgets.QSpacerItem(10, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
-        self.ui_gridLayout_menuButtons.addItem(spacerItem6, 11, 0, 4, 1)
-        spacerItem7 = QtWidgets.QSpacerItem(10, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
-        self.ui_gridLayout_menuButtons.addItem(spacerItem7, 11, 2, 4, 1)
-        spacerItem8 = QtWidgets.QSpacerItem(10, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
-        self.ui_gridLayout_menuButtons.addItem(spacerItem8, 16, 2, 2, 1)
-        spacerItem9 = QtWidgets.QSpacerItem(10, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
-        self.ui_gridLayout_menuButtons.addItem(spacerItem9, 16, 0, 2, 1)
+        spacerItem2_client = QtWidgets.QSpacerItem(10, 0, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.ui_gridLayout_menuButtons.addItem(spacerItem2_client, 5, 2, 2, 1)
+        spacerItem3_client = QtWidgets.QSpacerItem(10, 0, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.ui_gridLayout_menuButtons.addItem(spacerItem3_client, 5, 0, 2, 1)
+        spacerItem4_products = QtWidgets.QSpacerItem(10, 0, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.ui_gridLayout_menuButtons.addItem(spacerItem4_products, 8, 2, 2, 1)
+        spacerItem5_products = QtWidgets.QSpacerItem(10, 0, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.ui_gridLayout_menuButtons.addItem(spacerItem5_products, 8, 0, 2, 1)
+        spacerItem6_invoicing = QtWidgets.QSpacerItem(10, 0, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.ui_gridLayout_menuButtons.addItem(spacerItem6_invoicing, 11, 0, 4, 1)
+        spacerItem7_invoicing = QtWidgets.QSpacerItem(10, 0, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.ui_gridLayout_menuButtons.addItem(spacerItem7_invoicing, 11, 2, 4, 1)
+        spacerItem8_stats = QtWidgets.QSpacerItem(10, 0, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.ui_gridLayout_menuButtons.addItem(spacerItem8_stats, 16, 2, 2, 1)
+        spacerItem9_stats = QtWidgets.QSpacerItem(10, 0, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.ui_gridLayout_menuButtons.addItem(spacerItem9_stats, 16, 0, 2, 1)
 
 
         # # init left-most vertical layout (holds left buttons)
