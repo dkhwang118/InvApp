@@ -53,6 +53,11 @@ class MainView(QMainWindow):
         self._ui.ux_pButton_newInvoice.clicked.connect(lambda: self._main_controller.change_mainView(7))
         self._ui.ux_pButton_sendInvoice.clicked.connect(lambda: self._main_controller.change_mainView(8))
 
+
+
+
+
+
         ################################
         #  newOrder Page connections
         ################################
@@ -72,7 +77,7 @@ class MainView(QMainWindow):
         ################################
         #  addClient Page connections
         ################################
-        self._ui.ux_pButton_addClient.clicked.connect(lambda: self._main_controller.cntrl_addNewClient(
+        self._ui.ux_pButton_newClient_addClient.clicked.connect(lambda: self._main_controller.cntrl_addNewClient(
                                                                          self._ui.ux_lineEdit_newClientName.text(),
                                                                          self._ui.ux_lineEdit_addressLine1.text(),
                                                                          self._ui.ux_lineEdit_addressLine2.text(),
@@ -195,11 +200,11 @@ class MainView(QMainWindow):
         if value == 0: self._ui.stackedLayoutWidget.setCurrentWidget(self._ui.widget_welcomeLayout)
         elif value == 1:    # set newOrders page and init fields with relevant data
             self._ui.ux_pButton_newOrder.setText("New Order \u27a4")
-            self._ui.ux_pButton_orders.setText("Orders \u27a4")
+            #self._ui.ux_pButton_orders.setText("Orders \u27a4")
             self._ui.stackedLayoutWidget.setCurrentWidget(self._ui.widget_newOrderLayout)
             self._ui.ux_lineEdit_orderNumber.setText(self._model.getNextOrderNum())
             self._ui.ux_lineEdit_deliveryDate.setText(self._model.currentDate)
-            # self._ui.ux_comboBox_clientName.clear()
+            self._ui.ux_comboBox_clientName.clear()
             # for (x, y) in self._model.currentClientList:
             #     self._ui.ux_comboBox_clientName.addItem(x)
             # self._ui.ux_lineEdit_deliveryDate.setText(self._model.currentDate)
@@ -207,12 +212,12 @@ class MainView(QMainWindow):
             #     self._ui.ux_tableWidget_curProducts.set
 
         elif value == 3:
-            self._ui.ux_pButton_clients.setText("Clients \u27a4")
-            self._ui.ux_pButton_newClient.setText("Add New Client \u27a4")
+            self._ui.ux_pButton_Clients.setText("Clients \u27a4")
+            self._ui.ux_pButton_addClient.setText("Add New Client \u27a4")
             self._ui.stackedLayoutWidget.setCurrentWidget(self._ui.widget_newClientLayout)
         elif value == 4:
-            self._ui.ux_pButton_clients.setText("Clients \u27a4")
-            self._ui.ux_pButton_editClient.setText("Search/Edit Client Info. \u27a4")
+            self._ui.ux_pButton_Clients.setText("Clients \u27a4")
+            self._ui.ux_pButton_searchEditClients.setText("Search/Edit Client Info. \u27a4")
             clients = self._model.getAllClients()
             self._ui.model_listView_searchEditClients_nameSearchList.clear()
             self._ui.model_listView_searchEditClients_NameIdList.clear()
@@ -224,8 +229,8 @@ class MainView(QMainWindow):
             self._ui.ux_pButton_searchEditClients_finalizeInfo.setDisabled(True)
             self._ui.stackedLayoutWidget.setCurrentWidget(self._ui.widget_searchEditClientsLayout)
         elif value == 5:
-            self._ui.ux_pButton_products.setText("Products \u27a4")
-            self._ui.ux_pButton_addProduct.setText("Add New Product \u27a4")
+            self._ui.ux_pButton_addProduct.setText("Products \u27a4")
+            self._ui.ux_pButton_searchEditProducts.setText("Add New Product \u27a4")
             self._ui.stackedLayoutWidget.setCurrentWidget(self._ui.widget_newProductLayout)
         elif value == 7:
             self._ui.ux_pButton_invoicing.setText("Invoicing \u27a4")
@@ -289,6 +294,7 @@ class MainView(QMainWindow):
     #     self._ui.ux_pButton_settings.setText("Settings")
 
     # signal received from model after one of the leftmost buttons is clicked
+    # changes the available option buttons visible underneath the button clicked
     @pyqtSlot(int)
     def on_tier1_buttonClick(self, value):
         if value == 1:
@@ -305,6 +311,13 @@ class MainView(QMainWindow):
             else:
                 self._ui.ux_pButton_addClient.setHidden(1)
                 self._ui.ux_pButton_searchEditClients.setHidden(1)
+        elif value == 3:
+            if self._ui.ux_pButton_addProduct.isHidden():
+                self._ui.ux_pButton_addProduct.setHidden(0)
+                self._ui.ux_pButton_searchEditProducts.setHidden(0)
+            else:
+                self._ui.ux_pButton_addProduct.setHidden(1)
+                self._ui.ux_pButton_searchEditProducts.setHidden(1)
 
 
     def hide_secondLvlMenu_widgets(self):

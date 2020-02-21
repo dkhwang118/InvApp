@@ -44,6 +44,7 @@ class MainController(QObject):
         #if self._model.currentTier2Buttons == value:
         #    self._model.currentTier2Buttons = 0
         #else:
+
         self._model.currentTier2Buttons = value
 
     @pyqtSlot()
@@ -52,14 +53,23 @@ class MainController(QObject):
 
     @pyqtSlot(int)
     def change_mainView(self, value):
-        self._model.currentView = value
+        # called when user clicks on a button that changes the main page within the app
+        # value == page number trying to be changed to
+
+        # handle specific model changes depending on page being wished to switch to
         if value == 1:  # if new view is newOrders => tell model to get relevant data
-            self._model.currentClientList = self._model.getAllClients()
-            self._model.productsNotInCurrentOrder = self._model.getAllProducts()
-            self._model.productsInCurrentOrder = []
+            self._model.pageInit_newOrder()
+
         elif value == 8:
             #print("DEBUG: orders = " + str(self._model.getAllOrders()))
             self._model.pageInit_newInvoiceCandS()
+
+        # change model's currentView property to reflect page being changed to ==> also sends signal to View to change pages
+        self._model.currentView = value
+
+
+
+
 
     @pyqtSlot(str)
     def buttonClick_passwordLogin(self, value):

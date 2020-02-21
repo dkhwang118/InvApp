@@ -53,6 +53,33 @@ class Ui_MainWindow_mainView(object):
         self.ui_gridLayout_menuButtons.setSpacing(0)
         self.ui_gridLayout_menuButtons.setObjectName("ui_gridLayout_menuButtons")
 
+        self.ux_pButton_Orders = QtWidgets.QPushButton(self.ui_widget_menuButtons)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.ux_pButton_Orders.sizePolicy().hasHeightForWidth())
+        self.ux_pButton_Orders.setSizePolicy(sizePolicy)
+        self.ux_pButton_Orders.setObjectName("ux_pButton_Orders")
+        self.ui_gridLayout_menuButtons.addWidget(self.ux_pButton_Orders, 0, 0, 1, 3)
+
+        self.ux_pButton_newOrder = QtWidgets.QPushButton(self.ui_widget_menuButtons)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.ux_pButton_newOrder.sizePolicy().hasHeightForWidth())
+        self.ux_pButton_newOrder.setSizePolicy(sizePolicy)
+        self.ux_pButton_newOrder.setObjectName("ux_pButton_newOrder")
+        self.ui_gridLayout_menuButtons.addWidget(self.ux_pButton_newOrder, 1, 1, 1, 1)
+
+        self.ux_pButton_searchEditOrders = QtWidgets.QPushButton(self.ui_widget_menuButtons)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.ux_pButton_searchEditOrders.sizePolicy().hasHeightForWidth())
+        self.ux_pButton_searchEditOrders.setSizePolicy(sizePolicy)
+        self.ux_pButton_searchEditOrders.setObjectName("ux_pButton_searchEditOrders")
+        self.ui_gridLayout_menuButtons.addWidget(self.ux_pButton_searchEditOrders, 2, 1, 1, 1)
+
         self.ux_pButton_sendMultInvoices = QtWidgets.QPushButton(self.ui_widget_menuButtons)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -94,14 +121,7 @@ class Ui_MainWindow_mainView(object):
         self.ux_pButton_sendInvoice.setObjectName("ux_pButton_sendInvoice")
         self.ui_gridLayout_menuButtons.addWidget(self.ux_pButton_sendInvoice, 13, 1, 1, 1)
 
-        self.ux_pButton_newOrder = QtWidgets.QPushButton(self.ui_widget_menuButtons)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.ux_pButton_newOrder.sizePolicy().hasHeightForWidth())
-        self.ux_pButton_newOrder.setSizePolicy(sizePolicy)
-        self.ux_pButton_newOrder.setObjectName("ux_pButton_newOrder")
-        self.ui_gridLayout_menuButtons.addWidget(self.ux_pButton_newOrder, 1, 1, 1, 1)
+
 
         self.ux_pButton_Clients = QtWidgets.QPushButton(self.ui_widget_menuButtons)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
@@ -130,23 +150,9 @@ class Ui_MainWindow_mainView(object):
         self.ux_pButton_searchEditClients.setObjectName("ux_pButton_searchEditClients")
         self.ui_gridLayout_menuButtons.addWidget(self.ux_pButton_searchEditClients, 6, 1, 1, 1)
 
-        self.ux_pButton_searchEditOrders = QtWidgets.QPushButton(self.ui_widget_menuButtons)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.ux_pButton_searchEditOrders.sizePolicy().hasHeightForWidth())
-        self.ux_pButton_searchEditOrders.setSizePolicy(sizePolicy)
-        self.ux_pButton_searchEditOrders.setObjectName("ux_pButton_searchEditOrders")
-        self.ui_gridLayout_menuButtons.addWidget(self.ux_pButton_searchEditOrders, 2, 1, 1, 1)
 
-        self.ux_pButton_Orders = QtWidgets.QPushButton(self.ui_widget_menuButtons)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.ux_pButton_Orders.sizePolicy().hasHeightForWidth())
-        self.ux_pButton_Orders.setSizePolicy(sizePolicy)
-        self.ux_pButton_Orders.setObjectName("ux_pButton_Orders")
-        self.ui_gridLayout_menuButtons.addWidget(self.ux_pButton_Orders, 0, 0, 1, 3)
+
+
 
         self.ux_pButton_searchEditInvoices = QtWidgets.QPushButton(self.ui_widget_menuButtons)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed)

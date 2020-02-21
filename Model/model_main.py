@@ -58,6 +58,25 @@ class Model(QObject):
     updated_orderData = pyqtSignal(str, str, str, str, str, str, int)
     updated_orderTotal = pyqtSignal(str)
 
+    # define dictionary to hold tier1 and tier2 button statuses
+    model_tier1_menuButtonsDepressed = {1: False,
+                                        2: False,
+                                        3: False,
+                                        4: False,
+                                        5: False,
+                                        6: False,
+                                        7: False,
+                                        8: False}
+
+    model_tier2_menuButtonsDepressed = {1: False,
+                                        2: False,
+                                        3: False,
+                                        4: False,
+                                        5: False,
+                                        6: False,
+                                        7: False,
+                                        8: False}
+
 
     ####################################################################################################################
     #   MainWindow properties
@@ -272,6 +291,24 @@ class Model(QObject):
         self.model_listView_newInvoiceCandS_orderItems = QStandardItemModel()
 
         self.newOrder_productAmtDict = {}
+
+    #######################################################################
+    #
+    #   Methods to call from controller to update the current page status
+    #
+    #######################################################################
+
+    def model_changeTier1MenuButtons(self, value):
+        if self.model_tier1_MenuButtonsDepressed.get(value):
+            self.model_tier1_MenuButtonsDepressed[value] = False
+        else:
+            self.model_tier1_MenuButtonsDepressed[value] = True
+
+    def model_changeTier2MenuButtons(self, value):
+        if self.model_tier2_MenuButtonsDepressed.get(value):
+            self.model_tier2_MenuButtonsDepressed[value] = False
+        else:
+            self.model_tier2_MenuButtonsDepressed[value] = True
 
     #######################################################################
     #
@@ -626,6 +663,11 @@ class Model(QObject):
         for orderRow in self.getAllUnsentInvoiceOrders():
             self._model_listView_newInvoiceCandS_orderList.appendRow(QStandardItem(orderRow[2]))
         self.updated_orderList.emit(self._model_listView_newInvoiceCandS_orderList)
+
+    def pageInit_newOrder(self):
+        self.currentClientList = self.getAllClients()
+        self.productsNotInCurrentOrder = self.getAllProducts()
+        self.productsInCurrentOrder = []
 
     ########################################
     #   pageUpdate Calls
