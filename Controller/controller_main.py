@@ -208,7 +208,7 @@ class MainController(QObject):
         # elif (value > 10) & (value < 12):
         #     #t1_mButtons[5] = 3
 
-        t1_mButtons[oldView] = 1
+        t2_mButtons[oldView] = 1
 
         t2_mButtons[value] = 3
 

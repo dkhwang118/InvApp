@@ -288,6 +288,8 @@ class Model(QObject):
         # 0 == default/hidden; 1 == visible; 2 = Special State/Currently on page within button's scope
         self._model_tier2_menuButtonState = {1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0, 11: 0, 12: 0}
 
+        # dictionary of lists containing 
+
 
         self._message_box_values = ("", "")
         self._last_db_return_value = -1

@@ -195,12 +195,10 @@ class MainView(QMainWindow):
         #self.Set_Tier2Buttons_noArrows()
         if value == 0: self._ui.stackedLayoutWidget.setCurrentWidget(self._ui.widget_welcomeLayout)
         elif value == 1:    # set newOrders page and init fields with relevant data
-            self._ui.ux_pButton_newOrder.setText("New Order \u27a4")
-            #self._ui.ux_pButton_orders.setText("Orders \u27a4")
-            self._ui.stackedLayoutWidget.setCurrentWidget(self._ui.widget_newOrderLayout)
             self._ui.ux_lineEdit_orderNumber.setText(self._model.getNextOrderNum())
             self._ui.ux_lineEdit_deliveryDate.setText(self._model.currentDate)
             self._ui.ux_comboBox_clientName.clear()
+            self._ui.stackedLayoutWidget.setCurrentWidget(self._ui.widget_newOrderLayout)
             # for (x, y) in self._model.currentClientList:
             #     self._ui.ux_comboBox_clientName.addItem(x)
             # self._ui.ux_lineEdit_deliveryDate.setText(self._model.currentDate)
@@ -245,7 +243,7 @@ class MainView(QMainWindow):
             self._ui.ux_pButton_sendInvoice.setText("Create and Send Invoice \u27a4")
             self._ui.stackedLayoutWidget.setCurrentWidget(self._ui.widget_newInvoiceCandSLayout)
 
-    ############################################################
+    #############################################################
     #   Buttons - Handling state changes
     #############################################################
 
@@ -254,11 +252,13 @@ class MainView(QMainWindow):
         # go through each Tier2 Button and change its appearance/visibility depending on data sent from model
         print("VIEW_DEBUG:" + str(value))
         if value[1] == 1:
+            self._ui.ux_pButton_newOrder.setText("Create A New Order")
             self._ui.ux_pButton_newOrder.setHidden(0)
         elif value[1] == 0:
+            self._ui.ux_pButton_newOrder.setText("Create A New Order")
             self._ui.ux_pButton_newOrder.setHidden(1)
         elif value[1] == 3: # "Page Selected" state
-            self._ui.ux_pButton_newOrder.setText("New Order \u27a4")
+            self._ui.ux_pButton_newOrder.setText("Create A New Order \u27a4")
 
 
         if value[2] == 1:
