@@ -137,7 +137,7 @@ class MainView(QMainWindow):
         # listen for model event signals
         #self._model.amount_changed.connect(self.on_amount_changed)
         self._model.mainView_changed.connect(self.on_mainView_changed)
-        self._model.tier1MenuButtons_StateChange.connect(self.on_Tier1MenuButtons_StateChange)
+        self._model.tier2MenuButtons_StateChange.connect(self.on_Tier2MenuButtons_StateChange)
         self._model.show_message_box.connect(self.on_show_message_box)
         self._model.call_success.connect(self.on_call_returnValue_received)
         self._model.searchEditClients_searchClientNames_newValues.connect(self.on_searchEditClients_newValues)
@@ -245,46 +245,68 @@ class MainView(QMainWindow):
             self._ui.ux_pButton_sendInvoice.setText("Create and Send Invoice \u27a4")
             self._ui.stackedLayoutWidget.setCurrentWidget(self._ui.widget_newInvoiceCandSLayout)
 
-    # signal received after a Tier1 Menu Button has been clicked
     @pyqtSlot(dict)
-    def on_Tier1MenuButtons_StateChange(self, value):
+    def on_Tier2MenuButtons_StateChange(self, value):
+        # go through each Tier2 Button and change its appearance/visibility depending on data sent from model
+        print("VIEW_DEBUG:" + str(value))
         if value[1] == 1:
             self._ui.ux_pButton_newOrder.setHidden(0)
-            self._ui.ux_pButton_searchEditOrders.setHidden(0)
-        else:
+        elif value[1] == 0:
             self._ui.ux_pButton_newOrder.setHidden(1)
-            self._ui.ux_pButton_searchEditOrders.setHidden(1)
 
         if value[2] == 1:
-            self._ui.ux_pButton_addClient.setHidden(0)
-            self._ui.ux_pButton_searchEditClients.setHidden(0)
-        else:
-            self._ui.ux_pButton_addClient.setHidden(1)
-            self._ui.ux_pButton_searchEditClients.setHidden(1)
+            self._ui.ux_pButton_searchEditOrders.setHidden(0)
+        elif value[2] == 0:
+            self._ui.ux_pButton_searchEditOrders.setHidden(1)
 
         if value[3] == 1:
-            self._ui.ux_pButton_addProduct.setHidden(0)
-            self._ui.ux_pButton_searchEditProducts.setHidden(0)
-        else:
-            self._ui.ux_pButton_addProduct.setHidden(1)
-            self._ui.ux_pButton_searchEditProducts.setHidden(1)
+            self._ui.ux_pButton_addClient.setHidden(0)
+        elif value[3] == 0:
+            self._ui.ux_pButton_addClient.setHidden(1)
 
         if value[4] == 1:
-            self._ui.ux_pButton_newInvoice.setHidden(0)
-            self._ui.ux_pButton_searchEditInvoices.setHidden(0)
-            self._ui.ux_pButton_sendInvoice.setHidden(0)
-            self._ui.ux_pButton_sendMultInvoices.setHidden(0)
-        else:
-            self._ui.ux_pButton_newInvoice.setHidden(1)
-            self._ui.ux_pButton_searchEditInvoices.setHidden(1)
-            self._ui.ux_pButton_sendInvoice.setHidden(1)
-            self._ui.ux_pButton_sendMultInvoices.setHidden(1)
+            self._ui.ux_pButton_searchEditClients.setHidden(0)
+        elif value[4] == 0:
+            self._ui.ux_pButton_searchEditClients.setHidden(1)
 
         if value[5] == 1:
+            self._ui.ux_pButton_addProduct.setHidden(0)
+        elif value[5] == 0:
+            self._ui.ux_pButton_addProduct.setHidden(1)
+
+        if value[6] == 1:
+            self._ui.ux_pButton_searchEditProducts.setHidden(0)
+        elif value[6] == 0:
+            self._ui.ux_pButton_searchEditProducts.setHidden(1)
+
+        if value[7] == 1:
+            self._ui.ux_pButton_newInvoice.setHidden(0)
+        elif value[7] == 0:
+            self._ui.ux_pButton_newInvoice.setHidden(1)
+
+        if value[8] == 1:
+            self._ui.ux_pButton_searchEditInvoices.setHidden(0)
+        elif value[8] == 0:
+            self._ui.ux_pButton_searchEditInvoices.setHidden(1)
+
+        if value[9] == 1:
+            self._ui.ux_pButton_sendInvoice.setHidden(0)
+        elif value[9] == 0:
+            self._ui.ux_pButton_sendInvoice.setHidden(1)
+
+        if value[10] == 1:
+            self._ui.ux_pButton_sendMultInvoices.setHidden(0)
+        elif value[10] == 0:
+            self._ui.ux_pButton_sendMultInvoices.setHidden(1)
+
+        if value[11] == 1:
             self._ui.ux_pButton_summaryView.setHidden(0)
-            self._ui.ux_pButton_searchAndView.setHidden(0)
-        else:
+        elif value[11] == 0:
             self._ui.ux_pButton_summaryView.setHidden(1)
+
+        if value[12] == 1:
+            self._ui.ux_pButton_searchAndView.setHidden(0)
+        elif value[12] == 0:
             self._ui.ux_pButton_searchAndView.setHidden(1)
 
 

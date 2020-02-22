@@ -50,17 +50,67 @@ class MainController(QObject):
         # get current state of Tier1 buttons from model
         temp_Tier1ButtonStates = self._model.model_tier1_menuButtonState
 
+        # 0 == default/not clicked; 1 == clicked; 2 = not clicked w/ child page open; 3 = clicked w/ child page open
         if temp_Tier1ButtonStates[value] == 0:
             temp_Tier1ButtonStates[value] = 1
         elif temp_Tier1ButtonStates[value] == 1:
             temp_Tier1ButtonStates[value] = 0
+        elif temp_Tier1ButtonStates[value] == 2:
+            temp_Tier1ButtonStates[value] = 3
+        elif temp_Tier1ButtonStates[value] == 3:
+            temp_Tier1ButtonStates[value] = 2
 
+        temp_Tier1ButtonState_value = temp_Tier1ButtonStates[value]
         print(temp_Tier1ButtonStates)
 
         # update new button state in model, which triggers a signal for view to update
         self._model.model_tier1_menuButtonState = temp_Tier1ButtonStates
 
+        # update Tier2 Button State Model
+        temp_Tier2ButtonStates = self._model.model_tier2_menuButtonState
 
+        if value == 1: # dealing with only Orders buttons
+            if temp_Tier1ButtonState_value == 1:
+                temp_Tier2ButtonStates[1] = 1;
+                temp_Tier2ButtonStates[2] = 1;
+            elif temp_Tier1ButtonState_value == 0:
+                temp_Tier2ButtonStates[1] = 0;
+                temp_Tier2ButtonStates[2] = 0;
+        elif value == 2:
+            if temp_Tier1ButtonState_value == 1:
+                temp_Tier2ButtonStates[3] = 1;
+                temp_Tier2ButtonStates[4] = 1;
+            elif temp_Tier1ButtonState_value == 0:
+                temp_Tier2ButtonStates[3] = 0;
+                temp_Tier2ButtonStates[4] = 0;
+        elif value == 3: # dealing with only Products buttons
+            if temp_Tier1ButtonState_value == 1:
+                temp_Tier2ButtonStates[5] = 1;
+                temp_Tier2ButtonStates[6] = 1;
+            elif temp_Tier1ButtonState_value == 0:
+                temp_Tier2ButtonStates[5] = 0;
+                temp_Tier2ButtonStates[6] = 0;
+        elif value == 4: # Invoicing
+            if temp_Tier1ButtonState_value == 1:
+                temp_Tier2ButtonStates[7] = 1;
+                temp_Tier2ButtonStates[8] = 1;
+                temp_Tier2ButtonStates[9] = 1;
+                temp_Tier2ButtonStates[10] = 1;
+            elif temp_Tier1ButtonState_value == 0:
+                temp_Tier2ButtonStates[7] = 0;
+                temp_Tier2ButtonStates[8] = 0;
+                temp_Tier2ButtonStates[9] = 0;
+                temp_Tier2ButtonStates[10] = 0;
+        elif value == 5: # Statistics
+            if temp_Tier1ButtonState_value == 1:
+                temp_Tier2ButtonStates[11] = 1;
+                temp_Tier2ButtonStates[12] = 1;
+            elif temp_Tier1ButtonState_value == 0:
+                temp_Tier2ButtonStates[11] = 0;
+                temp_Tier2ButtonStates[12] = 0;
+
+        print(temp_Tier2ButtonStates)
+        self._model.model_tier2_menuButtonState = temp_Tier2ButtonStates
 
 
     @pyqtSlot()
