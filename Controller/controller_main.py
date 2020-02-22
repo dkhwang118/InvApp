@@ -45,7 +45,23 @@ class MainController(QObject):
         #    self._model.currentTier2Buttons = 0
         #else:
 
-        self._model.currentTier2Buttons = value
+        #self._model.currentTier2Buttons = value
+
+        # get current state of Tier1 buttons from model
+        temp_Tier1ButtonStates = self._model.model_tier1_menuButtonState
+
+        if temp_Tier1ButtonStates[value] == 0:
+            temp_Tier1ButtonStates[value] = 1
+        elif temp_Tier1ButtonStates[value] == 1:
+            temp_Tier1ButtonStates[value] = 0
+
+        print(temp_Tier1ButtonStates)
+
+        # update new button state in model, which triggers a signal for view to update
+        self._model.model_tier1_menuButtonState = temp_Tier1ButtonStates
+
+
+
 
     @pyqtSlot()
     def buttonClick_passDialog(self):

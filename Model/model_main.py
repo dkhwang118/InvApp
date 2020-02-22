@@ -25,6 +25,9 @@ class Model(QObject):
     mainView_changed = pyqtSignal(int)
     currentTier2Buttons_changed = pyqtSignal(int)
 
+    tier1MenuButtons_StateChange = pyqtSignal(dict)
+    tier2MenuButtons_StateChange = pyqtSignal(dict)
+
     # signal to tell view to show a QMessageBox with given string values (title, text)
     show_message_box = pyqtSignal(tuple)
 
@@ -59,23 +62,7 @@ class Model(QObject):
     updated_orderTotal = pyqtSignal(str)
 
     # define dictionary to hold tier1 and tier2 button statuses
-    model_tier1_menuButtonsDepressed = {1: False,
-                                        2: False,
-                                        3: False,
-                                        4: False,
-                                        5: False,
-                                        6: False,
-                                        7: False,
-                                        8: False}
-
-    model_tier2_menuButtonsDepressed = {1: False,
-                                        2: False,
-                                        3: False,
-                                        4: False,
-                                        5: False,
-                                        6: False,
-                                        7: False,
-                                        8: False}
+    # 0 == hidden/NotPressed; 1 == Pressed; 2 == Special Status/On Current Page that button directs to
 
 
     ####################################################################################################################
@@ -90,6 +77,24 @@ class Model(QObject):
     def currentView(self, value):
         self._currentView = value
         self.mainView_changed.emit(value)
+
+    @property
+    def model_tier2_menuButtonState(self):
+        return self._model_tier2_menuButtonState
+
+    @model_tier2_menuButtonState.setter
+    def model_tier2_menuButtonState(self, value):
+        self._model_tier2_menuButtonState = value
+        self.tier2MenuButtons_StateChange.emit(value)
+
+    @property
+    def model_tier1_menuButtonState(self):
+        return self._model_tier1_menuButtonState
+
+    @model_tier1_menuButtonState.setter
+    def model_tier1_menuButtonState(self, value):
+        self._model_tier1_menuButtonState = value
+        self.tier1MenuButtons_StateChange.emit(value)
 
     @property
     def currentTier2Buttons(self):
@@ -266,6 +271,16 @@ class Model(QObject):
         # set current visibility of Tier2 buttons
         self._currentTier2Buttons = 0
 
+        # dictionary holding the current state of the tier1 Menu Buttons
+        # 0 == default; 1 == depressed; 2 = Special State/Currently on page within button's scope
+        self._model_tier1_menuButtonState = {1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0}
+
+        # dictionary holding the current state of the tier2 Menu Buttons
+        # 0 == default/hidden; 1 == visible; 2 = Special State/Currently on page within button's scope
+        self._model_tier2_menuButtonState = {1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0,
+                                        9: 0, 10: 0, 11: 0, 12: 0}
+
+
         self._message_box_values = ("", "")
         self._last_db_return_value = -1
 
@@ -298,17 +313,8 @@ class Model(QObject):
     #
     #######################################################################
 
-    def model_changeTier1MenuButtons(self, value):
-        if self.model_tier1_MenuButtonsDepressed.get(value):
-            self.model_tier1_MenuButtonsDepressed[value] = False
-        else:
-            self.model_tier1_MenuButtonsDepressed[value] = True
 
-    def model_changeTier2MenuButtons(self, value):
-        if self.model_tier2_MenuButtonsDepressed.get(value):
-            self.model_tier2_MenuButtonsDepressed[value] = False
-        else:
-            self.model_tier2_MenuButtonsDepressed[value] = True
+
 
     #######################################################################
     #
