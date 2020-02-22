@@ -79,6 +79,14 @@ class Model(QObject):
         self.mainView_changed.emit(value)
 
     @property
+    def currentView_state(self):
+        return self._currentView_state
+
+    @currentView_state.setter
+    def currentView_state(self, value):
+        self._currentView_state = value
+
+    @property
     def model_tier2_menuButtonState(self):
         return self._model_tier2_menuButtonState
 
@@ -267,6 +275,7 @@ class Model(QObject):
 
         # set current view for main window
         self._currentView = 0
+        self._currentView_state = 0
 
         # set current visibility of Tier2 buttons
         self._currentTier2Buttons = 0

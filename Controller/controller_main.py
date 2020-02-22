@@ -38,14 +38,10 @@ class MainController(QObject):
     ######################################################
     #   MainWindow functions and pyqtSlots
     ######################################################
+
     # pyqtSlot and function to handle tier1 (leftmost) button clicks
     @pyqtSlot(int)
     def buttonClick_tier1(self, value):
-        #if self._model.currentTier2Buttons == value:
-        #    self._model.currentTier2Buttons = 0
-        #else:
-
-        #self._model.currentTier2Buttons = value
 
         # get current state of Tier1 buttons from model
         temp_Tier1ButtonStates = self._model.model_tier1_menuButtonState
@@ -60,8 +56,8 @@ class MainController(QObject):
         elif temp_Tier1ButtonStates[value] == 3:
             temp_Tier1ButtonStates[value] = 2
 
+        # save current button state value for calculations on Tier 2 buttons below
         temp_Tier1ButtonState_value = temp_Tier1ButtonStates[value]
-        print(temp_Tier1ButtonStates)
 
         # update new button state in model, which triggers a signal for view to update
         self._model.model_tier1_menuButtonState = temp_Tier1ButtonStates
@@ -70,47 +66,106 @@ class MainController(QObject):
         temp_Tier2ButtonStates = self._model.model_tier2_menuButtonState
 
         if value == 1: # dealing with only Orders buttons
-            if temp_Tier1ButtonState_value == 1:
-                temp_Tier2ButtonStates[1] = 1;
-                temp_Tier2ButtonStates[2] = 1;
-            elif temp_Tier1ButtonState_value == 0:
-                temp_Tier2ButtonStates[1] = 0;
-                temp_Tier2ButtonStates[2] = 0;
+            if temp_Tier1ButtonState_value == 1:    # attempting to expand button options underneath
+                if temp_Tier2ButtonStates[1] == 0:      # if child button is in a hidden state
+                    temp_Tier2ButtonStates[1] = 1;          # button not hidden
+                if temp_Tier2ButtonStates[2] == 0:
+                    temp_Tier2ButtonStates[2] = 1;
+            elif temp_Tier1ButtonState_value == 0:  # attempting to retract all child buttons
+                if temp_Tier2ButtonStates[1] == 1:       # if child button is in a simple notHidden state
+                    temp_Tier2ButtonStates[1] = 0           # child button is hidden
+                if temp_Tier2ButtonStates[2] == 1:
+                    temp_Tier2ButtonStates[2] = 0;
+            elif temp_Tier1ButtonState_value == 3:    # attempting to collapse w/ child page being viewed
+                if temp_Tier2ButtonStates[1] < 3:
+                    if temp_Tier2ButtonStates[1] == 0:
+                        temp_Tier2ButtonStates[1] = 1
+                    elif temp_Tier2ButtonStates[1] == 1:
+                        temp_Tier2ButtonStates[1] = 0
+                if temp_Tier2ButtonStates[2] < 3:
+                    if temp_Tier2ButtonStates[2] == 0:
+                        temp_Tier2ButtonStates[2] = 1
+                    elif temp_Tier2ButtonStates[2] == 1:
+                        temp_Tier2ButtonStates[2] = 0
         elif value == 2:
             if temp_Tier1ButtonState_value == 1:
-                temp_Tier2ButtonStates[3] = 1;
-                temp_Tier2ButtonStates[4] = 1;
-            elif temp_Tier1ButtonState_value == 0:
-                temp_Tier2ButtonStates[3] = 0;
-                temp_Tier2ButtonStates[4] = 0;
+                if temp_Tier2ButtonStates[3] == 0:  # if child button is in a hidden state
+                    temp_Tier2ButtonStates[3] = 1;  # button not hidden
+                if temp_Tier2ButtonStates[4] == 0:
+                    temp_Tier2ButtonStates[4] = 1;
+            elif temp_Tier1ButtonState_value == 0:  # attempting to retract all child buttons
+                if temp_Tier2ButtonStates[3] == 1:  # if child button is in a simple notHidden state
+                    temp_Tier2ButtonStates[3] = 0  # child button is hidden
+                if temp_Tier2ButtonStates[4] == 1:
+                    temp_Tier2ButtonStates[4] = 0;
+            elif temp_Tier1ButtonState_value == 3:    # attempting to collapse w/ child page being viewed
+                if temp_Tier2ButtonStates[3] < 3:
+                    if temp_Tier2ButtonStates[3] == 0:
+                        temp_Tier2ButtonStates[3] = 1
+                    elif temp_Tier2ButtonStates[3] == 1:
+                        temp_Tier2ButtonStates[3] = 0
+                if temp_Tier2ButtonStates[4] < 3:
+                    if temp_Tier2ButtonStates[4] == 0:
+                        temp_Tier2ButtonStates[4] = 1
+                    elif temp_Tier2ButtonStates[4] == 1:
+                        temp_Tier2ButtonStates[4] = 0
         elif value == 3: # dealing with only Products buttons
             if temp_Tier1ButtonState_value == 1:
-                temp_Tier2ButtonStates[5] = 1;
-                temp_Tier2ButtonStates[6] = 1;
-            elif temp_Tier1ButtonState_value == 0:
-                temp_Tier2ButtonStates[5] = 0;
-                temp_Tier2ButtonStates[6] = 0;
+                if temp_Tier2ButtonStates[5] == 0:  # if child button is in a hidden state
+                    temp_Tier2ButtonStates[5] = 1  # button not hidden
+                if temp_Tier2ButtonStates[6] == 0:
+                    temp_Tier2ButtonStates[6] = 1
+            elif temp_Tier1ButtonState_value == 0:  # attempting to retract all child buttons
+                if temp_Tier2ButtonStates[5] == 1:  # if child button is in a simple notHidden state
+                    temp_Tier2ButtonStates[5] = 0  # child button is hidden
+                if temp_Tier2ButtonStates[6] == 1:
+                    temp_Tier2ButtonStates[6] = 0
+            elif temp_Tier1ButtonState_value == 3:    # attempting to collapse w/ child page being viewed
+                if temp_Tier2ButtonStates[5] < 3:
+                    if temp_Tier2ButtonStates[5] == 0:
+                        temp_Tier2ButtonStates[5] = 1
+                    elif temp_Tier2ButtonStates[5] == 1:
+                        temp_Tier2ButtonStates[5] = 0
+                if temp_Tier2ButtonStates[6] < 3:
+                    if temp_Tier2ButtonStates[6] == 0:
+                        temp_Tier2ButtonStates[6] = 1
+                    elif temp_Tier2ButtonStates[6] == 1:
+                        temp_Tier2ButtonStates[6] = 0
         elif value == 4: # Invoicing
             if temp_Tier1ButtonState_value == 1:
-                temp_Tier2ButtonStates[7] = 1;
-                temp_Tier2ButtonStates[8] = 1;
-                temp_Tier2ButtonStates[9] = 1;
-                temp_Tier2ButtonStates[10] = 1;
-            elif temp_Tier1ButtonState_value == 0:
-                temp_Tier2ButtonStates[7] = 0;
-                temp_Tier2ButtonStates[8] = 0;
-                temp_Tier2ButtonStates[9] = 0;
-                temp_Tier2ButtonStates[10] = 0;
+                if temp_Tier2ButtonStates[7] == 0:  # if child button is in a hidden state
+                    temp_Tier2ButtonStates[7] = 1;  # button not hidden
+                if temp_Tier2ButtonStates[8] == 0:
+                    temp_Tier2ButtonStates[8] = 1;
+                if temp_Tier2ButtonStates[9] == 0:  # if child button is in a hidden state
+                    temp_Tier2ButtonStates[9] = 1;  # button not hidden
+                if temp_Tier2ButtonStates[10] == 0:
+                    temp_Tier2ButtonStates[10] = 1;
+            elif temp_Tier1ButtonState_value == 0:  # attempting to retract all child buttons
+                if temp_Tier2ButtonStates[7] == 1:  # if child button is in a simple notHidden state
+                    temp_Tier2ButtonStates[7] = 0  # child button is hidden
+                if temp_Tier2ButtonStates[8] == 1:
+                    temp_Tier2ButtonStates[8] = 0;
+                if temp_Tier2ButtonStates[9] == 1:  # if child button is in a simple notHidden state
+                    temp_Tier2ButtonStates[9] = 0  # child button is hidden
+                if temp_Tier2ButtonStates[10] == 1:
+                    temp_Tier2ButtonStates[10] = 0;
         elif value == 5: # Statistics
             if temp_Tier1ButtonState_value == 1:
-                temp_Tier2ButtonStates[11] = 1;
-                temp_Tier2ButtonStates[12] = 1;
-            elif temp_Tier1ButtonState_value == 0:
-                temp_Tier2ButtonStates[11] = 0;
-                temp_Tier2ButtonStates[12] = 0;
+                if temp_Tier2ButtonStates[11] == 0:  # if child button is in a hidden state
+                    temp_Tier2ButtonStates[11] = 1;  # button not hidden
+                if temp_Tier2ButtonStates[12] == 0:
+                    temp_Tier2ButtonStates[12] = 1;
+            elif temp_Tier1ButtonState_value == 0:  # attempting to retract all child buttons
+                if temp_Tier2ButtonStates[11] == 1:  # if child button is in a simple notHidden state
+                    temp_Tier2ButtonStates[11] = 0  # child button is hidden
+                if temp_Tier2ButtonStates[12] == 1:
+                    temp_Tier2ButtonStates[12] = 0;
 
-        print(temp_Tier2ButtonStates)
+        # update model with new button state. Model then detects change and emits signal to view to update
         self._model.model_tier2_menuButtonState = temp_Tier2ButtonStates
+
+        return
 
 
     @pyqtSlot()
@@ -122,19 +177,49 @@ class MainController(QObject):
         # called when user clicks on a button that changes the main page within the app
         # value == page number trying to be changed to
 
-        # handle specific model changes depending on page being wished to switch to
-        if value == 1:  # if new view is newOrders => tell model to get relevant data
-            self._model.pageInit_newOrder()
+        ######################################################
+        #   Prepare model for page change
+        ######################################################
 
-        elif value == 8:
-            #print("DEBUG: orders = " + str(self._model.getAllOrders()))
-            self._model.pageInit_newInvoiceCandS()
+        # record new state in model properties
+        oldView = self._model.currentView
+
+        #######################
+        # use new mainView value to change Tier1/2 MenuButtons
+
+        # get MenuButton states
+        t1_mButtons = self._model.model_tier1_menuButtonState
+        t2_mButtons = self._model.model_tier2_menuButtonState
+
+        # use value to change specific button states
+        if (value > 0) & (value < 3):
+            #t1_mButtons[1] = 3 # 3 == elevated button state == child button has executed a view change
+            if value == 1:
+                self._model.pageInit_newOrder() # get model ready for view change to new page
+        # elif (value > 2) & (value < 5):
+        #     #t1_mButtons[2] = 3
+        # elif (value > 4) & (value < 7):
+        #     #t1_mButtons[3] = 3
+        elif (value > 6) & (value < 11):
+            #t1_mButtons[4] = 3
+            if value == 8:
+                # print("DEBUG: orders = " + str(self._model.getAllOrders()))
+                self._model.pageInit_newInvoiceCandS()
+        # elif (value > 10) & (value < 12):
+        #     #t1_mButtons[5] = 3
+
+        t1_mButtons[oldView] = 1
+
+        t2_mButtons[value] = 3
+
+        # send updated MenuButton States to model
+        self._model.model_tier1_menuButtonState = t1_mButtons
+        self._model.model_tier2_menuButtonState = t2_mButtons
 
         # change model's currentView property to reflect page being changed to ==> also sends signal to View to change pages
         self._model.currentView = value
 
-
-
+        return
 
 
     @pyqtSlot(str)

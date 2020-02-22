@@ -229,7 +229,7 @@ class MainView(QMainWindow):
             self._ui.ux_pButton_searchEditProducts.setText("Add New Product \u27a4")
             self._ui.stackedLayoutWidget.setCurrentWidget(self._ui.widget_newProductLayout)
         elif value == 7:
-            self._ui.ux_pButton_invoicing.setText("Invoicing \u27a4")
+            self._ui.ux_pButton_Invoicing.setText("Invoicing \u27a4")
             self._ui.ux_pButton_newInvoice.setText("Create New Invoice \u27a4")
             clients = self._model.getAllClients()
             self._ui.model_listView_newInvoice_nameSearchList.clear()
@@ -241,9 +241,13 @@ class MainView(QMainWindow):
                 self._ui.model_listView_newInvoice_nameSearchList.appendRow(item)
             self._ui.stackedLayoutWidget.setCurrentWidget(self._ui.widget_newInvoiceLayout)
         elif value == 8:
-            self._ui.ux_pButton_invoicing.setText("Invoicing \u27a4")
+            self._ui.ux_pButton_Invoicing.setText("Invoicing \u27a4")
             self._ui.ux_pButton_sendInvoice.setText("Create and Send Invoice \u27a4")
             self._ui.stackedLayoutWidget.setCurrentWidget(self._ui.widget_newInvoiceCandSLayout)
+
+    ############################################################
+    #   Buttons - Handling state changes
+    #############################################################
 
     @pyqtSlot(dict)
     def on_Tier2MenuButtons_StateChange(self, value):
@@ -253,6 +257,9 @@ class MainView(QMainWindow):
             self._ui.ux_pButton_newOrder.setHidden(0)
         elif value[1] == 0:
             self._ui.ux_pButton_newOrder.setHidden(1)
+        elif value[1] == 3: # "Page Selected" state
+            self._ui.ux_pButton_newOrder.setText("New Order \u27a4")
+
 
         if value[2] == 1:
             self._ui.ux_pButton_searchEditOrders.setHidden(0)
