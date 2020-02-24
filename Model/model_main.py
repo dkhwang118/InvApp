@@ -12,6 +12,7 @@
 from PyQt5.QtCore import QObject, pyqtSignal
 from PyQt5.QtGui import QStandardItemModel, QStandardItem
 from Model.model_sql_db_utils import *
+import sqlite3 as sql
 
 
 class Model(QObject):
@@ -343,6 +344,16 @@ class Model(QObject):
         # check to see if password was correct (if app is connected to db) and return boolean result
         return db_connectionCheck(self._db_connection)
 
+    def db_connection_init_noPass(self):
+        # start db connection based on if initial application launch or re-login
+        if self._firstTimeStartup:
+            self._db_connection, self._db_cursor = firstTimeCreate_noPass()
+        else:
+            self._db_connection, self._db_cursor = create_connection_noPass()
+
+        # check to see if password was correct (if app is connected to db) and return boolean result
+        return db_connectionCheck(self._db_connection)
+
     def getCurrentDate(self):
         fullDate = str(datetime.now())
         date = fullDate.split()
@@ -411,7 +422,7 @@ class Model(QObject):
             #self.searchEditClients_searchClientNames_newValues     code would be here to emit signal to refresh client names in listview
             self.show_message_box.emit(("Edit Client Information Success!", text))
             self.searchEditClients_editModeChanged.emit(0)
-        except sqlcipher.IntegrityError as e:
+        except sql.IntegrityError as e:
             #print(e)
             e_split = str(e).split()
             if e_split[0] == 'UNIQUE':
@@ -451,7 +462,7 @@ class Model(QObject):
             self.addNewOrderSuccess_newOrderNum.emit(self.getNextOrderNum())
             #text = "Product \"" + name + "\" Successfully Added to Database!"
             #self.show_message_box.emit(("Add New Product Success!", text))
-        except sqlcipher.IntegrityError as e:
+        except sql.IntegrityError as e:
             #print(e)
             msg = str(e)
             e_split = str(e).split()

@@ -95,6 +95,7 @@ class Ui_StartPage(object):
         self.ux_pButton_login.setAutoDefault(True)
         ui_StartPage.setCentralWidget(self.centralwidget)
 
+
         self.retranslateUi(ui_StartPage)
 
         # set widget according to firstTimeStartup param

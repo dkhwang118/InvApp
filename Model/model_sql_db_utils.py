@@ -10,14 +10,15 @@
 
 import os
 import sys
-from pysqlcipher3 import dbapi2 as sqlcipher
+#from pysqlcipher3 import dbapi2 as sqlcipher
 from datetime import datetime
+import sqlite3 as sql
 
 
 ## 7 lines below this comment are from "Adam McQuistan" (link at page header)
 # create a default path to connect to and create (if necessary) a database
 # called 'database.sqlite3' in the same directory as this script
-DEFAULT_PATH = os.path.join(os.path.dirname(__file__), 'InvApp.database_encrypt')
+DEFAULT_PATH = os.path.join(os.path.dirname(__file__), 'InvApp.database')
 
 
 # function to return whether the database file for application use has been created or not
@@ -27,15 +28,19 @@ def db_isPresent(db_path=DEFAULT_PATH):
 
 # creates the db connection and returns the connection and cursor
 def create_connection(db_pass, db_path=DEFAULT_PATH):
-    db_conn = sqlcipher.connect(db_path)
+    db_conn = sql.connect(db_path)
     db_cur = db_conn.cursor()
     db_cur.execute("PRAGMA key='" + db_pass + "'")
     return db_conn, db_cur
 
+def create_connection_noPass(db_path=DEFAULT_PATH):
+    db_conn = sql.connect(db_path)
+    db_cur = db_conn.cursor()
+    return db_conn, db_cur
 
 # creates the database file and initializes it with the default table parameters
 def firstTimeCreate(db_pass, db_path=DEFAULT_PATH):
-    db_conn = sqlcipher.connect(db_path)   # connect to db @ db_path location
+    db_conn = sql.connect(db_path)   # connect to db @ db_path location
     db_cur = db_conn.cursor()            # init cursor object to execute SQL statements
 
     # create strings to define tables
@@ -94,6 +99,80 @@ def firstTimeCreate(db_pass, db_path=DEFAULT_PATH):
 
     # execute the creation of a table
     db_cur.execute("PRAGMA key='" + db_pass + "'")
+    db_cur.execute(sql_createTable_Clients)
+    db_conn.commit()
+    db_cur.execute(sql_createTable_Products)
+    db_conn.commit()
+    db_cur.execute(sql_createTable_Orders)
+    db_conn.commit()
+    db_cur.execute(sql_createTable_OrderItems)
+    db_conn.commit()
+    db_cur.execute(sql_createTable_Invoices)
+    db_conn.commit()
+    db_cur.execute(sql_createTable_InvoiceOrders)
+    db_conn.commit()
+    return db_conn, db_cur
+
+def firstTimeCreate_noPass(db_path=DEFAULT_PATH):
+
+    db_conn = sql.connect(db_path)   # connect to db @ db_path location
+    db_cur = db_conn.cursor()            # init cursor object to execute SQL statements
+
+    # create strings to define tables
+    sql_createTable_Clients = """CREATE TABLE IF NOT EXISTS Clients (
+                                    Id integer PRIMARY KEY,
+                                    Name TEXT UNIQUE NOT NULL,
+                                    Address_line1 nvarchar(128) NOT NULL,
+                                    Address_line2 nvarchar(128) NOT NULL,
+                                    Phone nvarchar(24),
+                                    Email nvarchar(128),
+                                    DateAdded timestamp);"""
+
+    sql_createTable_Products = """CREATE TABLE IF NOT EXISTS Products (
+                                    Id integer PRIMARY KEY,
+                                    Name TEXT UNIQUE NOT NULL,
+                                    Description TEXT,
+                                    PriceInCents INT NOT NULL,
+                                    DateAdded timestamp);"""
+
+    sql_createTable_Orders = """CREATE TABLE IF NOT EXISTS Orders (
+                                    Id INTEGER PRIMARY KEY,
+                                    ClientId INTEGER NOT NULL,
+                                    FullOrderNumber TEXT UNIQUE NOT NULL,        
+                                    OrderYear INTEGER NOT NULL,
+                                    OrderMonth INTEGER NOT NULL,
+                                    OrderNumber INTEGER NOT NULL,
+                                    DeliveryDate TEXT,
+                                    SubTotal INTEGER NOT NULL,
+                                    OrderPaid INTEGER NOT NULL,
+                                    OrderPaidDate TEXT,
+                                    CreatedDate timestamp,
+                                    FOREIGN KEY (ClientId) REFERENCES Clients (Id));"""
+
+    sql_createTable_OrderItems = """CREATE TABLE IF NOT EXISTS OrderItems (
+                                    ProductId INTEGER NOT NULL,
+                                    OrderId INTEGER NOT NULL,
+                                    NumInOrder INTEGER NOT NULL,
+                                    PRIMARY KEY (ProductID, OrderId),
+                                    FOREIGN KEY (ProductId) REFERENCES Products (Id),
+                                    FOREIGN KEY (OrderId) REFERENCES Orders (Id));"""
+
+    sql_createTable_Invoices = """CREATE TABLE IF NOT EXISTS Invoices (
+                                        Id INTEGER PRIMARY KEY,
+                                        InvoiceNum TEXT UNIQUE NOT NULL,
+                                        ClientId INTEGER NOT NULL,
+                                        NumOrders INTEGER NOT NULL,
+                                        InvoiceSent INTEGER NOT NULL,
+                                        FOREIGN KEY (ClientId) REFERENCES Clients (Id));"""
+
+    sql_createTable_InvoiceOrders = """CREATE TABLE IF NOT EXISTS InvoiceOrders (
+                                        InvoiceId INTEGER NOT NULL,
+                                        OrderId INTEGER NOT NULL,
+                                        PRIMARY KEY (InvoiceId, OrderId),
+                                        FOREIGN KEY (InvoiceId) REFERENCES Invoices (Id),
+                                        FOREIGN KEY (OrderId) REFERENCES Orders (Id));"""
+
+    # execute the creation of a table
     db_cur.execute(sql_createTable_Clients)
     db_conn.commit()
     db_cur.execute(sql_createTable_Products)

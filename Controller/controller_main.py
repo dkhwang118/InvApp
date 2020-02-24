@@ -222,6 +222,14 @@ class MainController(QObject):
         return
 
 
+
+    @pyqtSlot()
+    def buttonClick_StartPage_Login(self):
+        connected = self._model.db_connection_init_noPass()
+
+        self._startupView.hide()
+        self._mainView.show()
+
     @pyqtSlot(str)
     def buttonClick_passwordLogin(self, value):
         # code to tell controller to attempt db connection with given password value
