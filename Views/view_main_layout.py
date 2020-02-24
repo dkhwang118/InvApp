@@ -12,8 +12,15 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtGui import QStandardItem, QStandardItemModel
+from PyQt5.QtGui import QStandardItem, QStandardItemModel, QFont
 from PyQt5.QtWidgets import QAbstractItemView, QSizePolicy
+
+########################
+#   Global Definitions
+########################
+
+GLOBAL_TextPixelSize: int = 12
+
 
 
 
@@ -30,13 +37,34 @@ class Ui_MainWindow_mainView(object):
 
         # init main window
         main_view.setObjectName("main_view")
-        main_view.resize(1200, 800)
+        main_view.resize(1280, 800)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(main_view.sizePolicy().hasHeightForWidth())
         main_view.setSizePolicy(sizePolicy)
         main_view.setFixedSize(main_view.size())
+
+        ###########
+        # set Text Policies
+
+        QFont_T1MB = QFont() # MenuButton Text
+        QFont_T1MB.setPointSize(18)
+
+        QFont_T2MB = QFont()
+        QFont_T2MB.setPointSize(14)
+
+        ###
+        #   Set Button Size Variables
+        ##################################
+
+        T1MB_pixelHeight = 55
+        T1MB_pixelWidth = 140
+        T2MB_pixelHeight = 30
+        T2MB_pixelWidth = 100
+
+        Tier1MenuButtons_buttonSize = QtCore.QSize(T1MB_pixelWidth, T1MB_pixelHeight)
+        Tier2MenuButtons_buttonSize = QtCore.QSize(T2MB_pixelWidth, T2MB_pixelHeight)
 
         # init top-level QWidget in main window
         self.centralwidget = QtWidgets.QWidget(main_view)
@@ -48,7 +76,7 @@ class Ui_MainWindow_mainView(object):
 
         # init QWidget holding the left-most vertical layout
         self.ui_widget_menuButtons = QtWidgets.QWidget(self.centralwidget)
-        self.ui_widget_menuButtons.setGeometry(QtCore.QRect(1, 0, 160, 719))
+        self.ui_widget_menuButtons.setGeometry(QtCore.QRect(1, 0, 200, 719))
         self.ui_widget_menuButtons.setObjectName("ui_widget_menuButtons")
 
         # init menu buttons
@@ -63,7 +91,8 @@ class Ui_MainWindow_mainView(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.ux_pButton_Orders.sizePolicy().hasHeightForWidth())
         self.ux_pButton_Orders.setSizePolicy(sizePolicy)
-        self.ux_pButton_Orders.setMinimumSize(QtCore.QSize(100, 100))
+        self.ux_pButton_Orders.setMinimumSize(Tier1MenuButtons_buttonSize)
+        self.ux_pButton_Orders.setFont(QFont_T1MB)
         self.ux_pButton_Orders.setObjectName("ux_pButton_Orders")
         self.ui_gridLayout_menuButtons.addWidget(self.ux_pButton_Orders, 0, 0, 1, 3)
 
@@ -73,6 +102,7 @@ class Ui_MainWindow_mainView(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.ux_pButton_newOrder.sizePolicy().hasHeightForWidth())
         self.ux_pButton_newOrder.setSizePolicy(sizePolicy)
+        self.ux_pButton_newOrder.setMinimumSize(Tier2MenuButtons_buttonSize)
         self.ux_pButton_newOrder.setObjectName("ux_pButton_newOrder")
         self.ui_gridLayout_menuButtons.addWidget(self.ux_pButton_newOrder, 1, 1, 1, 1)
 
@@ -82,6 +112,7 @@ class Ui_MainWindow_mainView(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.ux_pButton_searchEditOrders.sizePolicy().hasHeightForWidth())
         self.ux_pButton_searchEditOrders.setSizePolicy(sizePolicy)
+        self.ux_pButton_searchEditOrders.setMinimumSize(Tier2MenuButtons_buttonSize)
         self.ux_pButton_searchEditOrders.setObjectName("ux_pButton_searchEditOrders")
         self.ui_gridLayout_menuButtons.addWidget(self.ux_pButton_searchEditOrders, 2, 1, 1, 1)
 
@@ -92,6 +123,8 @@ class Ui_MainWindow_mainView(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.ux_pButton_Clients.sizePolicy().hasHeightForWidth())
         self.ux_pButton_Clients.setSizePolicy(sizePolicy)
+        self.ux_pButton_Clients.setMinimumSize(Tier1MenuButtons_buttonSize)
+        self.ux_pButton_Clients.setFont(QFont_T1MB)
         self.ux_pButton_Clients.setObjectName("ux_pButton_Clients")
         self.ui_gridLayout_menuButtons.addWidget(self.ux_pButton_Clients, 4, 0, 1, 3)
 
@@ -101,6 +134,7 @@ class Ui_MainWindow_mainView(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.ux_pButton_addClient.sizePolicy().hasHeightForWidth())
         self.ux_pButton_addClient.setSizePolicy(sizePolicy)
+        self.ux_pButton_addClient.setMinimumSize(Tier2MenuButtons_buttonSize)
         self.ux_pButton_addClient.setObjectName("ux_pButton_addClient")
         self.ui_gridLayout_menuButtons.addWidget(self.ux_pButton_addClient, 5, 1, 1, 1)
 
@@ -110,6 +144,7 @@ class Ui_MainWindow_mainView(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.ux_pButton_searchEditClients.sizePolicy().hasHeightForWidth())
         self.ux_pButton_searchEditClients.setSizePolicy(sizePolicy)
+        self.ux_pButton_searchEditClients.setMinimumSize(Tier2MenuButtons_buttonSize)
         self.ux_pButton_searchEditClients.setObjectName("ux_pButton_searchEditClients")
         self.ui_gridLayout_menuButtons.addWidget(self.ux_pButton_searchEditClients, 6, 1, 1, 1)
 
@@ -120,6 +155,8 @@ class Ui_MainWindow_mainView(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.ux_pButton_Products.sizePolicy().hasHeightForWidth())
         self.ux_pButton_Products.setSizePolicy(sizePolicy)
+        self.ux_pButton_Products.setMinimumSize(Tier1MenuButtons_buttonSize)
+        self.ux_pButton_Products.setFont(QFont_T1MB)
         self.ux_pButton_Products.setObjectName("ux_pButton_Products")
         self.ui_gridLayout_menuButtons.addWidget(self.ux_pButton_Products, 7, 0, 1, 3)
 
@@ -129,6 +166,7 @@ class Ui_MainWindow_mainView(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.ux_pButton_addProduct.sizePolicy().hasHeightForWidth())
         self.ux_pButton_addProduct.setSizePolicy(sizePolicy)
+        self.ux_pButton_addProduct.setMinimumSize(Tier2MenuButtons_buttonSize)
         self.ux_pButton_addProduct.setObjectName("ux_pButton_addProduct")
         self.ui_gridLayout_menuButtons.addWidget(self.ux_pButton_addProduct, 8, 1, 1, 1)
 
@@ -138,6 +176,7 @@ class Ui_MainWindow_mainView(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.ux_pButton_searchEditProducts.sizePolicy().hasHeightForWidth())
         self.ux_pButton_searchEditProducts.setSizePolicy(sizePolicy)
+        self.ux_pButton_searchEditProducts.setMinimumSize(Tier2MenuButtons_buttonSize)
         self.ux_pButton_searchEditProducts.setObjectName("ux_pButton_searchEditProducts")
         self.ui_gridLayout_menuButtons.addWidget(self.ux_pButton_searchEditProducts, 9, 1, 1, 1)
 
@@ -148,6 +187,8 @@ class Ui_MainWindow_mainView(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.ux_pButton_Invoicing.sizePolicy().hasHeightForWidth())
         self.ux_pButton_Invoicing.setSizePolicy(sizePolicy)
+        self.ux_pButton_Invoicing.setMinimumSize(Tier1MenuButtons_buttonSize)
+        self.ux_pButton_Invoicing.setFont(QFont_T1MB)
         self.ux_pButton_Invoicing.setObjectName("ux_pButton_Invoicing")
         self.ui_gridLayout_menuButtons.addWidget(self.ux_pButton_Invoicing, 10, 0, 1, 3)
 
@@ -157,6 +198,7 @@ class Ui_MainWindow_mainView(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.ux_pButton_newInvoice.sizePolicy().hasHeightForWidth())
         self.ux_pButton_newInvoice.setSizePolicy(sizePolicy)
+        self.ux_pButton_newInvoice.setMinimumSize(Tier2MenuButtons_buttonSize)
         self.ux_pButton_newInvoice.setObjectName("ux_pButton_newInvoice")
         self.ui_gridLayout_menuButtons.addWidget(self.ux_pButton_newInvoice, 11, 1, 1, 1)
 
@@ -166,6 +208,7 @@ class Ui_MainWindow_mainView(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.ux_pButton_searchEditInvoices.sizePolicy().hasHeightForWidth())
         self.ux_pButton_searchEditInvoices.setSizePolicy(sizePolicy)
+        self.ux_pButton_searchEditInvoices.setMinimumSize(Tier2MenuButtons_buttonSize)
         self.ux_pButton_searchEditInvoices.setObjectName("ux_pButton_searchEditInvoices")
         self.ui_gridLayout_menuButtons.addWidget(self.ux_pButton_searchEditInvoices, 12, 1, 1, 1)
 
@@ -175,6 +218,7 @@ class Ui_MainWindow_mainView(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.ux_pButton_sendInvoice.sizePolicy().hasHeightForWidth())
         self.ux_pButton_sendInvoice.setSizePolicy(sizePolicy)
+        self.ux_pButton_sendInvoice.setMinimumSize(Tier2MenuButtons_buttonSize)
         self.ux_pButton_sendInvoice.setObjectName("ux_pButton_sendInvoice")
         self.ui_gridLayout_menuButtons.addWidget(self.ux_pButton_sendInvoice, 13, 1, 1, 1)
 
@@ -184,6 +228,7 @@ class Ui_MainWindow_mainView(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.ux_pButton_sendMultInvoices.sizePolicy().hasHeightForWidth())
         self.ux_pButton_sendMultInvoices.setSizePolicy(sizePolicy)
+        self.ux_pButton_sendMultInvoices.setMinimumSize(Tier2MenuButtons_buttonSize)
         self.ux_pButton_sendMultInvoices.setObjectName("ux_pButton_sendMultInvoices")
         self.ui_gridLayout_menuButtons.addWidget(self.ux_pButton_sendMultInvoices, 14, 1, 1, 1)
 
@@ -194,6 +239,8 @@ class Ui_MainWindow_mainView(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.ux_pButton_Statistics.sizePolicy().hasHeightForWidth())
         self.ux_pButton_Statistics.setSizePolicy(sizePolicy)
+        self.ux_pButton_Statistics.setMinimumSize(Tier1MenuButtons_buttonSize)
+        self.ux_pButton_Statistics.setFont(QFont_T1MB)
         self.ux_pButton_Statistics.setObjectName("ux_pButton_Statistics")
         self.ui_gridLayout_menuButtons.addWidget(self.ux_pButton_Statistics, 15, 0, 1, 3)
 
@@ -203,6 +250,7 @@ class Ui_MainWindow_mainView(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.ux_pButton_summaryView.sizePolicy().hasHeightForWidth())
         self.ux_pButton_summaryView.setSizePolicy(sizePolicy)
+        self.ux_pButton_summaryView.setMinimumSize(Tier2MenuButtons_buttonSize)
         self.ux_pButton_summaryView.setObjectName("ux_pButton_summaryView")
         self.ui_gridLayout_menuButtons.addWidget(self.ux_pButton_summaryView, 16, 1, 1, 1)
 
@@ -212,6 +260,7 @@ class Ui_MainWindow_mainView(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.ux_pButton_searchAndView.sizePolicy().hasHeightForWidth())
         self.ux_pButton_searchAndView.setSizePolicy(sizePolicy)
+        self.ux_pButton_searchAndView.setMinimumSize(Tier2MenuButtons_buttonSize)
         self.ux_pButton_searchAndView.setObjectName("ux_pButton_searchAndView")
         self.ui_gridLayout_menuButtons.addWidget(self.ux_pButton_searchAndView, 17, 1, 1, 1)
 
@@ -222,67 +271,96 @@ class Ui_MainWindow_mainView(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.ux_pButton_Settings.sizePolicy().hasHeightForWidth())
         self.ux_pButton_Settings.setSizePolicy(sizePolicy)
+        self.ux_pButton_Settings.setMinimumSize(Tier1MenuButtons_buttonSize)
+        self.ux_pButton_Settings.setFont(QFont_T1MB)
         self.ux_pButton_Settings.setObjectName("ux_pButton_Settings")
         self.ui_gridLayout_menuButtons.addWidget(self.ux_pButton_Settings, 18, 0, 1, 3)
 
 
 
-        spacerItem = QtWidgets.QSpacerItem(10, 0, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        spacerItem = QtWidgets.QSpacerItem(20, 0, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
         self.ui_gridLayout_menuButtons.addItem(spacerItem, 1, 0, 3, 1)
-        spacerItem1 = QtWidgets.QSpacerItem(10, 0, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        spacerItem1 = QtWidgets.QSpacerItem(20, 0, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
         self.ui_gridLayout_menuButtons.addItem(spacerItem1, 1, 2, 2, 1)
 
-        spacerItem2_client = QtWidgets.QSpacerItem(10, 0, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        spacerItem2_client = QtWidgets.QSpacerItem(20, 0, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
         self.ui_gridLayout_menuButtons.addItem(spacerItem2_client, 5, 2, 2, 1)
-        spacerItem3_client = QtWidgets.QSpacerItem(10, 0, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        spacerItem3_client = QtWidgets.QSpacerItem(20, 0, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
         self.ui_gridLayout_menuButtons.addItem(spacerItem3_client, 5, 0, 2, 1)
-        spacerItem4_products = QtWidgets.QSpacerItem(10, 0, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        spacerItem4_products = QtWidgets.QSpacerItem(20, 0, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
         self.ui_gridLayout_menuButtons.addItem(spacerItem4_products, 8, 2, 2, 1)
-        spacerItem5_products = QtWidgets.QSpacerItem(10, 0, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        spacerItem5_products = QtWidgets.QSpacerItem(20, 0, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
         self.ui_gridLayout_menuButtons.addItem(spacerItem5_products, 8, 0, 2, 1)
-        spacerItem6_invoicing = QtWidgets.QSpacerItem(10, 0, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        spacerItem6_invoicing = QtWidgets.QSpacerItem(20, 0, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
         self.ui_gridLayout_menuButtons.addItem(spacerItem6_invoicing, 11, 0, 4, 1)
-        spacerItem7_invoicing = QtWidgets.QSpacerItem(10, 0, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        spacerItem7_invoicing = QtWidgets.QSpacerItem(20, 0, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
         self.ui_gridLayout_menuButtons.addItem(spacerItem7_invoicing, 11, 2, 4, 1)
-        spacerItem8_stats = QtWidgets.QSpacerItem(10, 0, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        spacerItem8_stats = QtWidgets.QSpacerItem(20, 0, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
         self.ui_gridLayout_menuButtons.addItem(spacerItem8_stats, 16, 2, 2, 1)
-        spacerItem9_stats = QtWidgets.QSpacerItem(10, 0, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        spacerItem9_stats = QtWidgets.QSpacerItem(20, 0, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
         self.ui_gridLayout_menuButtons.addItem(spacerItem9_stats, 16, 0, 2, 1)
 
         ####################################################
         #   Spacer that pushes-up all the buttons on the left
         spacer_MenuButtonsBottomSpacer = QtWidgets.QSpacerItem(10, 0, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
-        self.ui_gridLayout_menuButtons.addItem(spacer_MenuButtonsBottomSpacer, 19, 0, 0, 0)
+        self.ui_gridLayout_menuButtons.addItem(spacer_MenuButtonsBottomSpacer, 19, 1, 1, 1)
+
+
 
         ###################################################
         #   Init Top-Level Bar for Roadmap Navigation
         ###################################################
 
         self.ui_widget_topBar = QtWidgets.QWidget(self.centralwidget)
-        self.ui_widget_topBar.setGeometry(QtCore.QRect(200, 10, 800, 60))
+        self.ui_widget_topBar.setGeometry(QtCore.QRect(280, 0, 700, T1MB_pixelHeight))
         self.ui_widget_topBar.setObjectName("ui_widget_topBar")
 
         # init layout for menubuttons
         self.ui_gridLayout_topBar = QtWidgets.QGridLayout(self.ui_widget_topBar)
         self.ui_gridLayout_topBar.setContentsMargins(0, 0, 0, 0)
         self.ui_gridLayout_topBar.setSpacing(0)
+        self.ui_gridLayout_topBar.setHorizontalSpacing(0)
         self.ui_gridLayout_topBar.setObjectName("ui_gridLayout_topBar")
 
-        # Top-Level button (text to be replaced as necessary for changing menus
-        self.ux_pButton_TopBar_TopLevelButton = QtWidgets.QPushButton(self.ui_widget_topBar)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Expanding)
+        # Top-Level button (text to be replaced as necessary for changing menus)
+        self.ux_pButton_TopBar_Button1 = QtWidgets.QPushButton(self.ui_widget_topBar)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.ux_pButton_TopBar_TopLevelButton.sizePolicy().hasHeightForWidth())
-        self.ux_pButton_TopBar_TopLevelButton.setSizePolicy(sizePolicy)
-        self.ux_pButton_TopBar_TopLevelButton.setObjectName("ux_pButton_TopBar_TopLevelButton")
-        self.ui_gridLayout_topBar.addWidget(self.ux_pButton_TopBar_TopLevelButton, 0, 0, 1, 3)
+        sizePolicy.setHeightForWidth(self.ux_pButton_TopBar_Button1.sizePolicy().hasHeightForWidth())
+        self.ux_pButton_TopBar_Button1.setSizePolicy(sizePolicy)
+        self.ux_pButton_TopBar_Button1.setMinimumSize(Tier1MenuButtons_buttonSize)
+        self.ux_pButton_TopBar_Button1.setFont(QFont_T1MB)
+        self.ux_pButton_TopBar_Button1.setObjectName("ux_pButton_TopBar_Button1")
+        self.ui_gridLayout_topBar.addWidget(self.ux_pButton_TopBar_Button1, 0, 0, 1, 3)
+
+        # 2nd Tier button on the Top Level Bar
+        self.ux_pButton_TopBar_Button2 = QtWidgets.QPushButton(self.ui_widget_topBar)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.ux_pButton_TopBar_Button2.sizePolicy().hasHeightForWidth())
+        self.ux_pButton_TopBar_Button2.setSizePolicy(sizePolicy)
+        self.ux_pButton_TopBar_Button2.setMinimumSize(Tier2MenuButtons_buttonSize)
+        self.ux_pButton_TopBar_Button2.setFont(QFont_T2MB)
+        self.ux_pButton_TopBar_Button2.setObjectName("ux_pButton_TopBar_Button2")
+        self.ui_gridLayout_topBar.addWidget(self.ux_pButton_TopBar_Button2, 0, 1, 1, 3)
+        self.ux_pButton_TopBar_Button2.setHidden(1) # set button to hidden as default
+
+        # Spacer to push buttons to the left side of the grid
+        spacer_TopLevelNavigation_menuSpacer = QtWidgets.QSpacerItem(20, 0, QtWidgets.QSizePolicy.Expanding,
+                                                               QtWidgets.QSizePolicy.Expanding)
+        self.ui_gridLayout_topBar.addItem(spacer_TopLevelNavigation_menuSpacer, 0, 2, 1, 3)
 
 
+
+        ###################################################################################
         # init stacked layout widget; this is the top-level widget that holds the various
         #                               pages that change with button clicks
+        ####################################################################################
+
         self.stackedLayoutWidget = QtWidgets.QStackedWidget(self.centralwidget)
-        self.stackedLayoutWidget.setGeometry(QtCore.QRect(200, 70, 971, 681))
+        self.stackedLayoutWidget.setGeometry(QtCore.QRect(280, 80, 971, 681))
         self.stackedLayoutWidget.setObjectName("stackedLayoutWidget")
 
         # init all layout widgets to be displayed in the stackedLayoutWidget box
@@ -325,7 +403,8 @@ class Ui_MainWindow_mainView(object):
         self.ux_pButton_addProduct.setText(_translate("main_view", "Add A New Product"))
         self.ux_pButton_summaryView.setText(_translate("main_view", "Summary View"))
         self.ux_pButton_searchAndView.setText(_translate("main_view", "Search and View"))
-        self.ux_pButton_TopBar_TopLevelButton.setText(_translate("main_view", "Welcome"))
+        self.ux_pButton_TopBar_Button1.setText(_translate("main_view", "Welcome"))
+        self.ux_pButton_TopBar_Button2.setText(_translate("main_view", "2nd Page"))
         # self.ux_pButton_orders.setText(_translate("main_view", "Orders"))
         # self.ux_pButton_clients.setText(_translate("main_view", "Clients"))
         # self.ux_pButton_products.setText(_translate("main_view", "Products"))

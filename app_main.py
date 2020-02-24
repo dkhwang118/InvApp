@@ -34,7 +34,7 @@ args = []
 app = QApplication(args)
 
 appFont = app.font()
-appFont.setPixelSize(12)
+appFont.setPixelSize(14)
 app.setFont(appFont)
 
 # set Qt app style to 'Fusion'
