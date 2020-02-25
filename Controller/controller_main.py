@@ -19,6 +19,7 @@ class MainController(QObject):
     _mainView = None        # placeholder for the MainView window
     _startupView = None     # placeholder for the StartupView window
     _incorrectPass = None
+    _searchSelect_clientByName = None
 
     def __init__(self, model):
         super().__init__()
@@ -34,6 +35,9 @@ class MainController(QObject):
 
     def define_passDialog(self, qObj):
         self._incorrectPass = qObj
+
+    def define_searchClients(self, qObj):
+        self._searchSelect_clientByName = qObj
 
     ######################################################
     #   MainWindow functions and pyqtSlots
@@ -228,6 +232,7 @@ class MainController(QObject):
         connected = self._model.db_connection_init_noPass()
 
         self._startupView.hide()
+        self._searchSelect_clientByName.show()
         self._mainView.show()
 
     @pyqtSlot(str)

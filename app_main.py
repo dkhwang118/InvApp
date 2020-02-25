@@ -18,6 +18,7 @@ from Model.model_sql_db_utils import *
 from Views.view_incorrectPassDialog import IncorrectPassDialog
 from PyQt5.QtGui import QFont
 from PyQt5 import QtWidgets, QtCore
+from Views.view_SearchSelect_ClientByName import view_SearchSelect_ClientByName
 
 ############################################
 #   Qt Initialization
@@ -51,10 +52,13 @@ class AppMain(QApplication):
         self.main_view = MainView(self.model, self.main_controller)
         self.startup_view = StartupView(self.model, self.main_controller)
         self.pass_dialog = IncorrectPassDialog(self.main_controller)
+        self.searchSelect_clientByName = view_SearchSelect_ClientByName(self.model, self.main_controller)
+
 
         self.main_controller.define_startupView(self.startup_view)
         self.main_controller.define_mainView(self.main_view)
         self.main_controller.define_passDialog(self.pass_dialog)
+        self.main_controller.define_searchClients(self.searchSelect_clientByName)
 
         # show initial startup ui
         self.startup_view.show()
