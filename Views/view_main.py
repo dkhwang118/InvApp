@@ -61,8 +61,10 @@ class MainView(QMainWindow):
                                                                             self._ui.ux_tableWidget_curProducts.currentRow()))
         self._ui.ux_pButton_compOrder.clicked.connect(lambda: self._main_controller.removeProd_fromNewOrder(self._ui.ux_tableWidget_orderProducts.currentRow()))
         self._ui.ux_pButton_revAndComp.clicked.connect(lambda: self._main_controller.newOrder_reviewOrder(self._ui.ux_lineEdit_orderNumber.text(),
-                                                                                                          self._ui.ux_comboBox_clientName.currentIndex(),
+                                                                                                          self._ui.ux_pButton_selectClientName.currentIndex(),
                                                                                                           self._ui.ux_lineEdit_deliveryDate.text()))
+
+        self._ui.ux_pButton_selectClientName.clicked.connect(lambda: self._main_controller.buttonClick_selectClientName(1))
 
         self._ui.ux_tableWidget_orderProducts.itemDoubleClicked.connect(lambda: self._main_controller.currentItemChanged(self._ui.ux_tableWidget_orderProducts.selectedIndexes()))
         self._ui.ux_tableWidget_orderProducts.cellChanged.connect(lambda: self._main_controller.productAmountChangedInList(self._ui.ux_tableWidget_orderProducts.item(self._model.prodsInOrdrList_selectedIndices[0],
@@ -197,7 +199,7 @@ class MainView(QMainWindow):
         elif value == 1:    # set newOrders page and init fields with relevant data
             self._ui.ux_lineEdit_orderNumber.setText(self._model.getNextOrderNum())
             self._ui.ux_lineEdit_deliveryDate.setText(self._model.currentDate)
-            self._ui.ux_comboBox_clientName.clear()
+            #self._ui.ux_pButton_selectClientName.clear()
             self._ui.stackedLayoutWidget.setCurrentWidget(self._ui.widget_newOrderLayout)
             # for (x, y) in self._model.currentClientList:
             #     self._ui.ux_comboBox_clientName.addItem(x)
@@ -343,10 +345,10 @@ class MainView(QMainWindow):
     @pyqtSlot(list)
     def on_updatedClientList_NameId(self, nameList):
         if self._model.currentView == 1:   # if current view is newOrder page
-            self._ui.ux_comboBox_clientName.clear()
+            self._ui.ux_pButton_selectClientName.clear()
             #print(nameList)
             for (x, y) in nameList:
-                self._ui.ux_comboBox_clientName.addItem(x)
+                self._ui.ux_pButton_selectClientName.addItem(x)
         return
 
     ####################################################################################################################

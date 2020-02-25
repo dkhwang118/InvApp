@@ -45,7 +45,7 @@ class UI_SearchSelect_ClientbyName(object):
         self.ui_ListView_searchNamesPopup_nameSearchList.setObjectName("ui_ListView_searchEditClients_nameSearchList")
         self.ui_gridLayout_searchNamesPopup.addWidget(self.ui_ListView_searchNamesPopup_nameSearchList, 5, 1, 9, 1)
 
-        
+
 
         # header for GridLayout
         self.ui_label_searchEditClients_header = QtWidgets.QLabel(self.widget_layout_searchNamesPopup)

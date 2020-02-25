@@ -63,6 +63,14 @@ class Model(QObject):
     updated_orderData = pyqtSignal(str, str, str, str, str, str, int)
     updated_orderTotal = pyqtSignal(str)
 
+    ###############################
+    #   new signal system
+    ###############################
+
+    update_ClientId_All = pyqtSignal(list)
+    update_popUp_nameSearch = pyqtSignal(QStandardItemModel)
+
+
     # define dictionary to hold tier1 and tier2 button statuses
     # 0 == hidden/NotPressed; 1 == Pressed; 2 == Special Status/On Current Page that button directs to
 
@@ -70,15 +78,43 @@ class Model(QObject):
     # Global Vars and Properties
     #############################
     @property
+    def updateCalls_specialListUpdates(self):
+        return self._updateCalls_specialListUpdates
+
+    @updateCalls_specialListUpdates.setter
+    def updateCalls_specialListUpdates(self, value):
+        self._updateCalls_specialListUpdates = value
+
+    @property
     def List_ClientId_All(self):
         return self._List_ClientId_All
 
     @List_ClientId_All.setter
     def List_ClientId_All(self, values):
+        # 1. Set List
         self._List_ClientId_All = values
-        self.updated_ClientId_All.emit(values)
+
+        # 2.1 Is the call from a special list?
+        if self._updateCalls_specialListUpdates > 0:    # if > 0 ==> an update call changed it
+            if self._updateCalls_specialListUpdates == 1:   # if called by NameSearch window
+
+                # update values and emit new ones
+                print("MODEL_DEBUG: " + str(values))
+                qSIM_nameList = QStandardItemModel()
+                for (x, y) in values:
+                    qSIM_nameList.appendRow(QStandardItem(x))
+
+
+                self.update_popUp_nameSearch.emit(qSIM_nameList)       # emit values
+                self._updateCalls_specialListUpdates = 0    # reset special update value
+
 
     def update_List_ClientId_All(self):
+        # 1. Method called to initiate an All Clients list update
+        self.List_ClientId_All = self.getAllClients()
+
+    def selectUpdate_List_ClientId_All(self, value):
+        # 1. Method called to initiate an All Clients list update
         self.List_ClientId_All = self.getAllClients()
 
 
@@ -294,6 +330,7 @@ class Model(QObject):
         # set current view for main window
         self._currentView = 0
         self._currentView_state = 0
+        self._updateCalls_specialListUpdates = 0
 
         # set current visibility of Tier2 buttons
         self._currentTier2Buttons = 0
@@ -342,7 +379,29 @@ class Model(QObject):
     #
     #######################################################################
 
+    def emit_List_ClientId_All(self, values):
+        if self._updateCalls_specialListUpdates > 0:  # if > 0 ==> an update call changed it
+            if self._updateCalls_specialListUpdates == 1:  # if called by NameSearch window
+                self.update_popUp_nameSearch.emit(values)  # emit values
+                self._updateCalls_specialListUpdates = 0  # reset special update value
 
+    ########################################
+    #   pageInit Calls
+    ########################################
+
+    def pageInit_newInvoiceCandS(self):
+        self._model_listView_newInvoiceCandS_orderList.clear()
+        for orderRow in self.getAllUnsentInvoiceOrders():
+            self._model_listView_newInvoiceCandS_orderList.appendRow(QStandardItem(orderRow[2]))
+        self.updated_orderList.emit(self._model_listView_newInvoiceCandS_orderList)
+
+    def pageInit_newOrder(self):
+        self.currentClientList = self.getAllClients()
+        self.productsNotInCurrentOrder = self.getAllProducts()
+        self.productsInCurrentOrder = []
+
+    # def pageInit_searchClientNames_popUp(self):
+    #     self._u
 
 
     #######################################################################
@@ -699,20 +758,7 @@ class Model(QObject):
             return []
 
 
-    ########################################
-    #   pageInit Calls
-    ########################################
 
-    def pageInit_newInvoiceCandS(self):
-        self._model_listView_newInvoiceCandS_orderList.clear()
-        for orderRow in self.getAllUnsentInvoiceOrders():
-            self._model_listView_newInvoiceCandS_orderList.appendRow(QStandardItem(orderRow[2]))
-        self.updated_orderList.emit(self._model_listView_newInvoiceCandS_orderList)
-
-    def pageInit_newOrder(self):
-        self.currentClientList = self.getAllClients()
-        self.productsNotInCurrentOrder = self.getAllProducts()
-        self.productsInCurrentOrder = []
 
     ########################################
     #   pageUpdate Calls

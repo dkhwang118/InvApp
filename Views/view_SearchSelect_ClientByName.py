@@ -10,7 +10,7 @@ from PyQt5 import QtCore
 from PyQt5.QtWidgets import QMainWindow
 from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtWidgets import QTableWidgetItem
-from PyQt5.QtCore import pyqtSlot, Qt
+from PyQt5.QtCore import pyqtSlot, Qt, QObject
 from PyQt5.QtGui import QStandardItemModel, QStandardItem
 from Views.QtLayouts.view_SearchSelect_ClientByName_Layout import UI_SearchSelect_ClientbyName
 
@@ -41,7 +41,7 @@ class view_SearchSelect_ClientByName(QMainWindow):
 
 
         # set the ListView as an update connection
-        self._model.updated_ClientId_All.connect(self.viewUpdate_ClientList_AllClients)
+        self._model.update_popUp_nameSearch.connect(self.viewUpdate_ClientList_AllClients)
 
         ##################################################################
         #   1. Window Opens and Displays all Names in DB to search from
@@ -63,12 +63,11 @@ class view_SearchSelect_ClientByName(QMainWindow):
         ##################################################################
 
 
-    @pyqtSlot(list)
+    @pyqtSlot(QStandardItemModel)
     def viewUpdate_ClientList_AllClients(self, nameList):
-        self._ui.ui_ListView_searchNamesPopup_nameSearchList.
+        self._ui.ui_ListView_searchNamesPopup_nameSearchList.setModel(nameList)
         print(nameList)
-        for (x, y) in nameList:
-            self._ui.ui_ListView_searchNamesPopup_nameSearchList.
+
         return
         ##################################################################
         #
