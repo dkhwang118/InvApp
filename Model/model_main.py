@@ -44,6 +44,7 @@ class Model(QObject):
 
     # signals for newOrder page
     # signal for updated client list (Name, Id)
+    updated_ClientId_All = pyqtSignal(list)
     updatedClientList_NameId = pyqtSignal(list)
     updated_ProdNotInOrderList = pyqtSignal(list)
     updated_ProdInOrderList = pyqtSignal(list)
@@ -64,6 +65,21 @@ class Model(QObject):
 
     # define dictionary to hold tier1 and tier2 button statuses
     # 0 == hidden/NotPressed; 1 == Pressed; 2 == Special Status/On Current Page that button directs to
+
+    #############################
+    # Global Vars and Properties
+    #############################
+    @property
+    def List_ClientId_All(self):
+        return self._List_ClientId_All
+
+    @List_ClientId_All.setter
+    def List_ClientId_All(self, values):
+        self._List_ClientId_All = values
+        self.updated_ClientId_All.emit(values)
+
+    def update_List_ClientId_All(self):
+        self.List_ClientId_All = self.getAllClients()
 
 
     ####################################################################################################################
@@ -172,6 +188,7 @@ class Model(QObject):
     def currentClientList(self, values):
         self._currentClientList = values
         self.updatedClientList_NameId.emit(values)
+
 
     @property
     def currentDate(self):
@@ -304,6 +321,7 @@ class Model(QObject):
         self._nextOrderNumber = "0000001"
         self._currentClientList = []
         self._currentDate = self.getCurrentDate()
+        self._List_ClientId_All = []
 
         # newOrder page properties
         self._productsNotInCurrentOrder = []

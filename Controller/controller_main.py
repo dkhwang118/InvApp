@@ -40,6 +40,14 @@ class MainController(QObject):
         self._searchSelect_clientByName = qObj
 
     ######################################################
+    #   General Update PyqtSlots
+    ######################################################
+    @pyqtSlot()
+    def updateCall_ClientId_All(self):
+        # method called from view to populate the current client list held
+        self._model.update_List_ClientId_All()
+
+    ######################################################
     #   MainWindow functions and pyqtSlots
     ######################################################
 
@@ -49,8 +57,8 @@ class MainController(QObject):
         connected = self._model.db_connection_init_noPass() # initialize the database connection
 
         self._startupView.hide()            # close the startupView
-
-        #self._searchSelect_clientByName.show()
+        self._model.update_List_ClientId_All()
+        self._searchSelect_clientByName.show()
 
         self._mainView.show()               # show the main user window
 

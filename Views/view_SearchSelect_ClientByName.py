@@ -39,9 +39,14 @@ class view_SearchSelect_ClientByName(QMainWindow):
         self.setWindowModality(Qt.ApplicationModal)
 
 
+
+        # set the ListView as an update connection
+        self._model.updated_ClientId_All.connect(self.viewUpdate_ClientList_AllClients)
+
         ##################################################################
         #   1. Window Opens and Displays all Names in DB to search from
         ##################################################################
+        # 1.1 Get all clients from DB and show in ui_ListView_searchNamesPopup_nameSearchList
 
 
 
@@ -57,9 +62,16 @@ class view_SearchSelect_ClientByName(QMainWindow):
         #
         ##################################################################
 
+
+    @pyqtSlot(list)
+    def viewUpdate_ClientList_AllClients(self, nameList):
+        self._ui.ui_ListView_searchNamesPopup_nameSearchList.
+        print(nameList)
+        for (x, y) in nameList:
+            self._ui.ui_ListView_searchNamesPopup_nameSearchList.
+        return
         ##################################################################
         #
         ##################################################################
 
 
-    def

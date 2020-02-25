@@ -38,12 +38,14 @@ class UI_SearchSelect_ClientbyName(object):
         ################################
 
         # ListView for current names on search list
-        self.ui_ListView_searchEditClients_nameSearchList = QtWidgets.QListView(self.widget_layout_searchNamesPopup)
-        self.ui_ListView_searchEditClients_nameSearchList.setMinimumSize(QtCore.QSize(360,0))
+        self.ui_ListView_searchNamesPopup_nameSearchList = QtWidgets.QListView(self.widget_layout_searchNamesPopup)
+        self.ui_ListView_searchNamesPopup_nameSearchList.setMinimumSize(QtCore.QSize(360,0))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Expanding)
-        self.ui_ListView_searchEditClients_nameSearchList.setSizePolicy(sizePolicy)
-        self.ui_ListView_searchEditClients_nameSearchList.setObjectName("ui_ListView_searchEditClients_nameSearchList")
-        self.ui_gridLayout_searchNamesPopup.addWidget(self.ui_ListView_searchEditClients_nameSearchList, 5, 1, 9, 1)
+        self.ui_ListView_searchNamesPopup_nameSearchList.setSizePolicy(sizePolicy)
+        self.ui_ListView_searchNamesPopup_nameSearchList.setObjectName("ui_ListView_searchEditClients_nameSearchList")
+        self.ui_gridLayout_searchNamesPopup.addWidget(self.ui_ListView_searchNamesPopup_nameSearchList, 5, 1, 9, 1)
+
+        
 
         # header for GridLayout
         self.ui_label_searchEditClients_header = QtWidgets.QLabel(self.widget_layout_searchNamesPopup)
