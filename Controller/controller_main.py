@@ -43,6 +43,17 @@ class MainController(QObject):
     #   MainWindow functions and pyqtSlots
     ######################################################
 
+    @pyqtSlot()
+    def buttonClick_StartPage_Login(self):
+        # method executed after user clicks on pButton on splash screen
+        connected = self._model.db_connection_init_noPass() # initialize the database connection
+
+        self._startupView.hide()            # close the startupView
+
+        #self._searchSelect_clientByName.show()
+
+        self._mainView.show()               # show the main user window
+
     # pyqtSlot and function to handle tier1 (leftmost) button clicks
     @pyqtSlot(int)
     def buttonClick_tier1(self, value):
@@ -199,7 +210,7 @@ class MainController(QObject):
         if (value > 0) & (value < 3):
             #t1_mButtons[1] = 3 # 3 == elevated button state == child button has executed a view change
             if value == 1:
-                self._model.pageInit_newOrder() # get model ready for view change to new page
+                self._model.pageInit_newOrder()  # get model ready for view change to new page
         # elif (value > 2) & (value < 5):
         #     #t1_mButtons[2] = 3
         # elif (value > 4) & (value < 7):
@@ -227,13 +238,7 @@ class MainController(QObject):
 
 
 
-    @pyqtSlot()
-    def buttonClick_StartPage_Login(self):
-        connected = self._model.db_connection_init_noPass()
 
-        self._startupView.hide()
-        self._searchSelect_clientByName.show()
-        self._mainView.show()
 
     @pyqtSlot(str)
     def buttonClick_passwordLogin(self, value):

@@ -14,7 +14,20 @@ from PyQt5.QtCore import pyqtSlot, Qt
 from PyQt5.QtGui import QStandardItemModel, QStandardItem
 from Views.QtLayouts.view_SearchSelect_ClientByName_Layout import UI_SearchSelect_ClientbyName
 
+
 class view_SearchSelect_ClientByName(QMainWindow):
+
+    ####################
+    #   Global Vars
+    ####################
+    NameList_Full = []              # Full list of names
+    NameList = []                   # Currently listed names
+    NameOut = ""                    # Current Name Output
+    AddressOut1 = ""
+    AddressOut2 = ""
+    PhoneOut = ""
+    EmailOut = ""
+
     def __init__(self, model, main_controller):
         super().__init__()
 
@@ -26,3 +39,27 @@ class view_SearchSelect_ClientByName(QMainWindow):
         self.setWindowModality(Qt.ApplicationModal)
 
 
+        ##################################################################
+        #   1. Window Opens and Displays all Names in DB to search from
+        ##################################################################
+
+
+
+        ##################################################################
+        #   2a. User Double-Clicks a name in box
+        ##################################################################
+
+        ##################################################################
+        #   2b. User inputs text into search box
+        ##################################################################
+
+        ##################################################################
+        #
+        ##################################################################
+
+        ##################################################################
+        #
+        ##################################################################
+
+
+    def

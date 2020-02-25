@@ -438,7 +438,7 @@ class Model(QObject):
             self._db_connection.commit()
             text = "Product \"" + name + "\" Successfully Added to Database!"
             self.show_message_box.emit(("Add New Product Success!", text))
-        except sqlcipher.IntegrityError as e:
+        except sql.IntegrityError as e:
             print(str(e))
             e_split = str(e).split()
             if e_split[0] == 'UNIQUE':
