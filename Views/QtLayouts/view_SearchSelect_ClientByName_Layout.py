@@ -7,6 +7,8 @@
 ######################################################################################################################
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QAbstractItemView
+from PyQt5.QtCore import Qt
 
 class UI_SearchSelect_ClientbyName(object):
     def setupUi(self, ui_searchSelect_clientByName, model, main_controller):
@@ -39,6 +41,7 @@ class UI_SearchSelect_ClientbyName(object):
 
         # ListView for current names on search list
         self.ui_ListView_searchNamesPopup_nameSearchList = QtWidgets.QListView(self.widget_layout_searchNamesPopup)
+        self.ui_ListView_searchNamesPopup_nameSearchList.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.ui_ListView_searchNamesPopup_nameSearchList.setMinimumSize(QtCore.QSize(360,0))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Expanding)
         self.ui_ListView_searchNamesPopup_nameSearchList.setSizePolicy(sizePolicy)
@@ -154,24 +157,29 @@ class UI_SearchSelect_ClientbyName(object):
 
         # Left-Side data showing name, address, etc. when user clicks on a name in the ListView
         self.ui_label_searchClientsPopup_cNameOut = QtWidgets.QLabel(self.widget_layout_searchNamesPopup)
+        self.ui_label_searchClientsPopup_cNameOut.setAlignment(Qt.AlignCenter)
         self.ui_label_searchClientsPopup_cNameOut.setObjectName("ui_label_searchClientsPopup_cNameOut")
-        self.ui_gridLayout_searchNamesPopup.addWidget(self.ui_label_searchClientsPopup_cNameOut, 3, 4, 1, 3)
+        self.ui_gridLayout_searchNamesPopup.addWidget(self.ui_label_searchClientsPopup_cNameOut, 3, 3, 1, 3)
 
         self.ui_label_searchClientsPopup_address1Out = QtWidgets.QLabel(self.widget_layout_searchNamesPopup)
+        self.ui_label_searchClientsPopup_address1Out.setAlignment(Qt.AlignCenter)
         self.ui_label_searchClientsPopup_address1Out.setObjectName("ui_label_searchClientsPopup_address1Out")
-        self.ui_gridLayout_searchNamesPopup.addWidget(self.ui_label_searchClientsPopup_address1Out, 5, 4, 1, 3)
+        self.ui_gridLayout_searchNamesPopup.addWidget(self.ui_label_searchClientsPopup_address1Out, 5, 3, 1, 3)
 
         self.ui_label_searchClientsPopup_address2Out = QtWidgets.QLabel(self.widget_layout_searchNamesPopup)
+        self.ui_label_searchClientsPopup_address2Out.setAlignment(Qt.AlignCenter)
         self.ui_label_searchClientsPopup_address2Out.setObjectName("ux_lineEdit_searchEditClients_address2Out")
-        self.ui_gridLayout_searchNamesPopup.addWidget(self.ui_label_searchClientsPopup_address2Out, 7, 4, 1, 3)
+        self.ui_gridLayout_searchNamesPopup.addWidget(self.ui_label_searchClientsPopup_address2Out, 7, 3, 1, 3)
 
         self.ui_label_searchClientsPopup_cPhoneOut = QtWidgets.QLabel(self.widget_layout_searchNamesPopup)
+        self.ui_label_searchClientsPopup_cPhoneOut.setAlignment(Qt.AlignCenter)
         self.ui_label_searchClientsPopup_cPhoneOut.setObjectName("ui_label_searchClientsPopup_cPhoneOut")
-        self.ui_gridLayout_searchNamesPopup.addWidget(self.ui_label_searchClientsPopup_cPhoneOut, 9, 4, 1, 3)
+        self.ui_gridLayout_searchNamesPopup.addWidget(self.ui_label_searchClientsPopup_cPhoneOut, 9, 3, 1, 3)
 
         self.ui_label_searchClientsPopup_cEmailOut = QtWidgets.QLabel(self.widget_layout_searchNamesPopup)
+        self.ui_label_searchClientsPopup_cEmailOut.setAlignment(Qt.AlignCenter)
         self.ui_label_searchClientsPopup_cEmailOut.setObjectName("ui_label_searchClientsPopup_cEmailOut")
-        self.ui_gridLayout_searchNamesPopup.addWidget(self.ui_label_searchClientsPopup_cEmailOut, 11, 4, 1, 3)
+        self.ui_gridLayout_searchNamesPopup.addWidget(self.ui_label_searchClientsPopup_cEmailOut, 11, 3, 1, 3)
 
 
         # button user clicks to select currently selected Client

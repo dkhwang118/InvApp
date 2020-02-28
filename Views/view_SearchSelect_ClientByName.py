@@ -44,18 +44,27 @@ class view_SearchSelect_ClientByName(QMainWindow):
                                                                                     self._main_controller.viewSearchSelectClientPopup_searchTextChanged(
                                                                                         self._ui.ux_lineEdit_searchEditClients_clientNameSearch.text()))
 
+        # when the model updates the Client List based on user input, the signal is received and view is updated
         self._model.viewUpdate_searchSelectClientPopup_searchTextChanged.connect(self.viewUpdate_ClientList_searchTextChanged)
+
+        self._ui.ui_ListView_searchNamesPopup_nameSearchList.doubleClicked[QtCore.QModelIndex].connect(
+            self._main_controller.viewSearchSelectClientPopup_on_nameDoubleClick)
+
+        self._model.viewUpdate_searchSelectClientPopup_clientInfoChanged.connect(self.on_searchSelectClients_updateClientInfo)
+        self._ui.ux_pButton_searchClientsPopup_SelectClient.clicked.connect(self._main_controller.viewSearchSelectClientPopup_on_clientSelected)
 
         ##################################################################
         #   1. Window Opens and Displays all Names in DB to search from
         ##################################################################
         # 1.1 Get all clients from DB and show in ui_ListView_searchNamesPopup_nameSearchList
-        tempNameList = self._main_controller.controller_getAllClientNames()
         model_nameList = QStandardItemModel()
-        for (name, id) in tempNameList:
-            model_nameList.appendRow(QStandardItem(name))
+        for (name, id) in self._main_controller.controller_getAllClientNames():
+            item = QStandardItem(name)
+            item.setData(id)
+            model_nameList.appendRow(item)
 
         self._ui.ui_ListView_searchNamesPopup_nameSearchList.setModel(model_nameList)
+        self._model.List_searchSelectClientPopup_searchList = model_nameList
 
 
 
@@ -75,12 +84,20 @@ class view_SearchSelect_ClientByName(QMainWindow):
     @pyqtSlot(QStandardItemModel)
     def viewUpdate_ClientList_AllClients(self, nameList):
         self._ui.ui_ListView_searchNamesPopup_nameSearchList.setModel(nameList)
-        #print(nameList)
         return
 
     @pyqtSlot(QStandardItemModel)
     def viewUpdate_ClientList_searchTextChanged(self, values):
         self._ui.ui_ListView_searchNamesPopup_nameSearchList.setModel(values)
+
+    @pyqtSlot(tuple)
+    def on_searchSelectClients_updateClientInfo(self, tup):
+        # get data on item that was double-clicked
+        self._ui.ui_label_searchClientsPopup_cNameOut.setText(tup[0])
+        self._ui.ui_label_searchClientsPopup_address1Out.setText(tup[1])
+        self._ui.ui_label_searchClientsPopup_address2Out.setText(tup[2])
+        self._ui.ui_label_searchClientsPopup_cPhoneOut.setText(tup[3])
+        self._ui.ui_label_searchClientsPopup_cEmailOut.setText(tup[4])
 
         ##################################################################
         #

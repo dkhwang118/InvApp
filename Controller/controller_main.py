@@ -87,8 +87,25 @@ class MainController(QObject):
         #print("CNTRL_DEBUG: SearchText changed to: " + str(value))
         item_model = QStandardItemModel()
         for (name, id) in self._model.getAllClients_byPartialName(value):
-            item_model.appendRow(QStandardItem(name))
+            item = QStandardItem(name)
+            item.setData(id)
+            item_model.appendRow(item)
         self._model.List_searchSelectClientPopup_searchList = item_model
+
+    @pyqtSlot(QtCore.QModelIndex)
+    def viewSearchSelectClientPopup_on_nameDoubleClick(self, item):
+        # get data on item that was double-clicked
+        clientName = self._model.List_searchSelectClientPopup_searchList.item(item.row()).text()
+        clientId = self._model.List_searchSelectClientPopup_searchList.item(item.row()).data()
+
+        # update client info in model, to be updated in view)
+        self._model.List_searchSelectClientPopup_clientInfo = self._model.getClientInfo_byId(clientId)
+
+    @pyqtSlot()
+    def viewSearchSelectClientPopup_on_clientSelected(self):
+        # Client has been selected ==> close window and display client name properly
+        self.searchSelect_clientByName.hide()
+
 
     ######################################################
     #   MainWindow functions and pyqtSlots

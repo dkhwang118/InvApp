@@ -894,6 +894,8 @@ class Ui_MainWindow_mainView(object):
         self.ui_layout_searchEditClients.setSizeConstraint(QtWidgets.QLayout.SetDefaultConstraint)
         self.ui_layout_searchEditClients.setSpacing(6)
         self.ui_layout_searchEditClients.setObjectName("ui_layout_searchEditClients")
+
+        # ListView for client search
         self.ui_ListView_searchEditClients_nameSearchList = QtWidgets.QListView(self.widget_searchEditClientsLayout)
         self.ui_ListView_searchEditClients_nameSearchList.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.ui_ListView_searchEditClients_nameSearchList.setObjectName(

@@ -70,6 +70,7 @@ class Model(QObject):
     update_ClientId_All = pyqtSignal(list)
     update_popUp_nameSearch = pyqtSignal(QStandardItemModel)
     viewUpdate_searchSelectClientPopup_searchTextChanged = pyqtSignal(QStandardItemModel)
+    viewUpdate_searchSelectClientPopup_clientInfoChanged = pyqtSignal(tuple)
 
 
     # define dictionary to hold tier1 and tier2 button statuses
@@ -133,7 +134,14 @@ class Model(QObject):
         self._List_searchSelectClientPopup_searchList = values
         self.viewUpdate_searchSelectClientPopup_searchTextChanged.emit(values)
 
+    @property
+    def List_searchSelectClientPopup_clientInfo(self):
+        return self._List_searchSelectClientPopup_clientInfo
 
+    @List_searchSelectClientPopup_clientInfo.setter
+    def List_searchSelectClientPopup_clientInfo(self, values):
+        self._List_searchSelectClientPopup_clientInfo = values
+        self.viewUpdate_searchSelectClientPopup_clientInfoChanged.emit(values)
 
     ###################################################################################################################
     #   MainWindow properties
@@ -377,6 +385,7 @@ class Model(QObject):
         self._currentDate = self.getCurrentDate()
         self._List_ClientId_All = []
         self._List_searchSelectClientPopup_searchList = []
+        self._List_searchSelectClientPopup_clientInfo = None
 
         # newOrder page properties
         self._productsNotInCurrentOrder = []
