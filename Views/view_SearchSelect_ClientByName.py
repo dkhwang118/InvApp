@@ -67,8 +67,9 @@ class view_SearchSelect_ClientByName(QMainWindow):
     def viewUpdate_ClientList_AllClients(self, nameList):
         self._ui.ui_ListView_searchNamesPopup_nameSearchList.setModel(nameList)
         print(nameList)
-
         return
+
+
         ##################################################################
         #
         ##################################################################

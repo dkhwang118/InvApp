@@ -6,7 +6,7 @@
 #
 #
 ############################################################################
-from PyQt5 import QtCore
+from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QObject, pyqtSlot, QModelIndex
 from PyQt5.QtGui import QStandardItem
 from PyQt5.QtWidgets import QMessageBox, QTableWidgetItem
@@ -65,6 +65,17 @@ class MainController(QObject):
 
         # close window
 
+    ######################################################
+    #   SearchSelect Client Window Popup
+    ######################################################
+
+    @pyqtSlot()
+    def openView_selectClient(self):
+        # method to open the searchSelect_clientByName window
+
+        self._searchSelect_clientByName.ui_ListView_searchNamesPopup_nameSearchList.
+
+        self._searchSelect_clientByName.show()
 
 
 

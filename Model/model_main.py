@@ -117,10 +117,16 @@ class Model(QObject):
         # 1. Method called to initiate an All Clients list update
         self.List_ClientId_All = self.getAllClients()
 
+    ###################################################################################################################
+    #   SearchSelect_ClientName View Properties
+    ###################################################################################################################
 
-    ####################################################################################################################
+
+
+
+    ###################################################################################################################
     #   MainWindow properties
-    ####################################################################################################################
+    ###################################################################################################################
 
     @property
     def currentView(self):
@@ -471,6 +477,11 @@ class Model(QObject):
         db_cur.execute("SELECT * FROM Clients WHERE Id=?;", (str(id),))
         return db_cur.fetchone()[1:]
 
+    def getClientInfo_byName(self, name):
+        db_cur = self._db_connection.cursor()
+        db_cur.execute("SELECT * FROM Clients WHERE Id=?;", (str(name),))
+        return db_cur.fetchone()[1:]
+
     def getClientInfo_byId_searchEditClients(self, id):
         db_cur = self._db_connection.cursor()
         db_cur.execute("SELECT * FROM Clients WHERE Id=?;", (str(id),))
@@ -737,7 +748,7 @@ class Model(QObject):
             self._db_connection.commit()
             #text = "Product \"" + name + "\" Successfully Added to Database!"
             #self.show_message_box.emit(("Add New Product Success!", text))
-        except sqlcipher.IntegrityError as e:
+        except sql.IntegrityError as e:
             #print(str(e))
             self.show_message_box.emit(("Create/Send Invoice Failed!", str(e)))
 
