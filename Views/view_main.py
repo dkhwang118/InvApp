@@ -64,7 +64,7 @@ class MainView(QMainWindow):
                                                                                                           self._ui.ux_pButton_selectClientName.currentIndex(),
                                                                                                           self._ui.ux_lineEdit_deliveryDate.text()))
 
-        self._ui.ux_pButton_selectClientName.clicked.connect(lambda: self._main_controller.buttonClick_selectClientName(1))
+        self._ui.ux_pButton_selectClientName.clicked.connect(self._main_controller.openView_selectClient)
 
         self._ui.ux_tableWidget_orderProducts.itemDoubleClicked.connect(lambda: self._main_controller.currentItemChanged(self._ui.ux_tableWidget_orderProducts.selectedIndexes()))
         self._ui.ux_tableWidget_orderProducts.cellChanged.connect(lambda: self._main_controller.productAmountChangedInList(self._ui.ux_tableWidget_orderProducts.item(self._model.prodsInOrdrList_selectedIndices[0],

@@ -69,6 +69,7 @@ class Model(QObject):
 
     update_ClientId_All = pyqtSignal(list)
     update_popUp_nameSearch = pyqtSignal(QStandardItemModel)
+    viewUpdate_searchSelectClientPopup_searchTextChanged = pyqtSignal(QStandardItemModel)
 
 
     # define dictionary to hold tier1 and tier2 button statuses
@@ -109,6 +110,8 @@ class Model(QObject):
                 self._updateCalls_specialListUpdates = 0    # reset special update value
 
 
+
+
     def update_List_ClientId_All(self):
         # 1. Method called to initiate an All Clients list update
         self.List_ClientId_All = self.getAllClients()
@@ -121,6 +124,14 @@ class Model(QObject):
     #   SearchSelect_ClientName View Properties
     ###################################################################################################################
 
+    @property
+    def List_searchSelectClientPopup_searchList(self):
+        return self._List_searchSelectClientPopup_searchList
+
+    @List_searchSelectClientPopup_searchList.setter
+    def List_searchSelectClientPopup_searchList(self, values):
+        self._List_searchSelectClientPopup_searchList = values
+        self.viewUpdate_searchSelectClientPopup_searchTextChanged.emit(values)
 
 
 
@@ -365,6 +376,7 @@ class Model(QObject):
         self._currentClientList = []
         self._currentDate = self.getCurrentDate()
         self._List_ClientId_All = []
+        self._List_searchSelectClientPopup_searchList = []
 
         # newOrder page properties
         self._productsNotInCurrentOrder = []
@@ -416,6 +428,10 @@ class Model(QObject):
     #
     #######################################################################
 
+    #######################################################################
+    #   DB Init
+    #######################################################################
+
     # function to try given password
     def db_connection_init(self, db_pass):
         # start db connection based on if initial application launch or re-login
@@ -447,6 +463,10 @@ class Model(QObject):
         day = date_split[2]
         return fullYear + "-" + month + "-" + day
 
+    #######################################################################
+    #   GetClient Functions
+    #######################################################################
+
     ### function to add new clients to db
     def db_addNewClient(self, name, address1, address2, phone, email):
         return_val, title, text = addNewClient(self._db_connection, self._db_cursor, name, address1, address2, phone, email)
@@ -472,6 +492,13 @@ class Model(QObject):
         elif (self._currentView == 7):
             self.updated_newInvoice_clientList.emit(db_cur.fetchall())
 
+    def getAllClients_byPartialName(self, name):
+        db_cur = self._db_connection.cursor()
+        formattedName = name + "%"
+        db_cur.execute("SELECT Name, Id FROM Clients WHERE Name LIKE ?;", (formattedName,))
+        return db_cur.fetchall()
+
+
     def getClientInfo_byId(self, id):
         db_cur = self._db_connection.cursor()
         db_cur.execute("SELECT * FROM Clients WHERE Id=?;", (str(id),))
@@ -479,7 +506,7 @@ class Model(QObject):
 
     def getClientInfo_byName(self, name):
         db_cur = self._db_connection.cursor()
-        db_cur.execute("SELECT * FROM Clients WHERE Id=?;", (str(name),))
+        db_cur.execute("SELECT * FROM Clients WHERE Name=?;", (str(name),))
         return db_cur.fetchone()[1:]
 
     def getClientInfo_byId_searchEditClients(self, id):
@@ -517,6 +544,10 @@ class Model(QObject):
                 if e_split[3] == 'Clients.Name':
                     msg = "Client Name Already Exists! Please use a UNIQUE name for each client!"
             self.show_message_box.emit(("Edit Client Information Failed!", msg))
+
+    #######################################################################
+    #   Product Functions
+    #######################################################################
 
     def addNewProduct(self, name, description, priceInCents):
         try:

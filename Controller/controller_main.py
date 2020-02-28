@@ -8,10 +8,11 @@
 ############################################################################
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QObject, pyqtSlot, QModelIndex
-from PyQt5.QtGui import QStandardItem
+from PyQt5.QtGui import QStandardItem, QStandardItemModel
 from PyQt5.QtWidgets import QMessageBox, QTableWidgetItem
 import webbrowser
 import urllib
+from Views.view_SearchSelect_ClientByName import view_SearchSelect_ClientByName
 
 
 class MainController(QObject):
@@ -19,7 +20,7 @@ class MainController(QObject):
     _mainView = None        # placeholder for the MainView window
     _startupView = None     # placeholder for the StartupView window
     _incorrectPass = None
-    _searchSelect_clientByName = None
+    #_searchSelect_clientByName = None
 
     def __init__(self, model):
         super().__init__()
@@ -36,8 +37,8 @@ class MainController(QObject):
     def define_passDialog(self, qObj):
         self._incorrectPass = qObj
 
-    def define_searchClients(self, qObj):
-        self._searchSelect_clientByName = qObj
+    # def define_searchClients(self, qObj):
+    #     self._searchSelect_clientByName = qObj
 
     ######################################################
     #   General Update PyqtSlots
@@ -58,7 +59,7 @@ class MainController(QObject):
         self._model.selectUpdate_List_ClientId_All(value)
 
         # show selectClientName window
-        self._searchSelect_clientByName.show()
+        #self._searchSelect_clientByName.show()
 
         # get name from selection
 
@@ -73,11 +74,21 @@ class MainController(QObject):
     def openView_selectClient(self):
         # method to open the searchSelect_clientByName window
 
-        self._searchSelect_clientByName.ui_ListView_searchNamesPopup_nameSearchList.
+        # instance the SearchSelectClientName popup
+        self.searchSelect_clientByName = view_SearchSelect_ClientByName(self._model, self)
+        self.searchSelect_clientByName.show()
 
-        self._searchSelect_clientByName.show()
+    @pyqtSlot(list)
+    def controller_getAllClientNames(self):
+        return self._model.getAllClients()
 
-
+    @pyqtSlot(str)
+    def viewSearchSelectClientPopup_searchTextChanged(self, value):
+        #print("CNTRL_DEBUG: SearchText changed to: " + str(value))
+        item_model = QStandardItemModel()
+        for (name, id) in self._model.getAllClients_byPartialName(value):
+            item_model.appendRow(QStandardItem(name))
+        self._model.List_searchSelectClientPopup_searchList = item_model
 
     ######################################################
     #   MainWindow functions and pyqtSlots

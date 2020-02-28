@@ -39,14 +39,23 @@ class view_SearchSelect_ClientByName(QMainWindow):
         self.setWindowModality(Qt.ApplicationModal)
 
 
+        # set the user input text in the LineEdit connection
+        self._ui.ux_lineEdit_searchEditClients_clientNameSearch.textChanged.connect(lambda:
+                                                                                    self._main_controller.viewSearchSelectClientPopup_searchTextChanged(
+                                                                                        self._ui.ux_lineEdit_searchEditClients_clientNameSearch.text()))
 
-        # set the ListView as an update connection
-        self._model.update_popUp_nameSearch.connect(self.viewUpdate_ClientList_AllClients)
+        self._model.viewUpdate_searchSelectClientPopup_searchTextChanged.connect(self.viewUpdate_ClientList_searchTextChanged)
 
         ##################################################################
         #   1. Window Opens and Displays all Names in DB to search from
         ##################################################################
         # 1.1 Get all clients from DB and show in ui_ListView_searchNamesPopup_nameSearchList
+        tempNameList = self._main_controller.controller_getAllClientNames()
+        model_nameList = QStandardItemModel()
+        for (name, id) in tempNameList:
+            model_nameList.appendRow(QStandardItem(name))
+
+        self._ui.ui_ListView_searchNamesPopup_nameSearchList.setModel(model_nameList)
 
 
 
@@ -66,9 +75,12 @@ class view_SearchSelect_ClientByName(QMainWindow):
     @pyqtSlot(QStandardItemModel)
     def viewUpdate_ClientList_AllClients(self, nameList):
         self._ui.ui_ListView_searchNamesPopup_nameSearchList.setModel(nameList)
-        print(nameList)
+        #print(nameList)
         return
 
+    @pyqtSlot(QStandardItemModel)
+    def viewUpdate_ClientList_searchTextChanged(self, values):
+        self._ui.ui_ListView_searchNamesPopup_nameSearchList.setModel(values)
 
         ##################################################################
         #
