@@ -53,19 +53,6 @@ class MainController(QObject):
         self._model.updateCalls_specialListUpdates = value
         self._model.selectUpdate_List_ClientId_All()
 
-    @pyqtSlot(int)
-    def buttonClick_selectClientName(self, value):
-        self._model.updateCalls_specialListUpdates = value
-        self._model.selectUpdate_List_ClientId_All(value)
-
-        # show selectClientName window
-        #self._searchSelect_clientByName.show()
-
-        # get name from selection
-
-
-        # close window
-
     ######################################################
     #   SearchSelect Client Window Popup
     ######################################################
@@ -105,7 +92,6 @@ class MainController(QObject):
     def viewSearchSelectClientPopup_on_clientSelected(self):
         # Client has been selected ==> close window and display client name properly
         self.searchSelect_clientByName.hide()
-
 
     ######################################################
     #   MainWindow functions and pyqtSlots
